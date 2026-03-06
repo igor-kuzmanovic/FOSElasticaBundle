@@ -17,6 +17,8 @@ use FOS\ElasticaBundle\Transformer\ElasticaToModelTransformerInterface;
 
 /**
  * Allows pagination of \Elastica\Query.
+ *
+ * @extends RawPaginatorAdapter<object>
  */
 class TransformedPaginatorAdapter extends RawPaginatorAdapter
 {

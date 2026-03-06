@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace FOS\ElasticaBundle\Finder;
 
-use Elastica\Result;
 use FOS\ElasticaBundle\Paginator\PaginatorAdapterInterface;
 use Pagerfanta\PagerfantaInterface;
 
@@ -29,7 +28,7 @@ interface PaginatedRawFinderInterface extends RawFinderInterface
      * @param TQuery   $query
      * @param TOptions $options
      *
-     * @return PagerfantaInterface<Result>
+     * @return PagerfantaInterface<array<string, mixed>>
      */
     public function findRawPaginated(mixed $query, array $options = []): PagerfantaInterface;
 
@@ -38,6 +37,8 @@ interface PaginatedRawFinderInterface extends RawFinderInterface
      *
      * @param TQuery   $query
      * @param TOptions $options
+     *
+     * @return PaginatorAdapterInterface<array<string, mixed>>
      */
     public function createRawPaginatorAdapter(mixed $query, array $options = []): PaginatorAdapterInterface;
 }

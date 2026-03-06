@@ -41,6 +41,9 @@ class TransformedFinder implements PaginatedFinderInterface, PaginatedRawFinderI
         return $this->transformer->transform($results);
     }
 
+    /**
+     * @return list<\FOS\ElasticaBundle\HybridResult<object>>
+     */
     public function findHybrid(mixed $query, ?int $limit = null, array $options = []): array
     {
         $results = $this->search($query, $limit, $options);
@@ -53,6 +56,9 @@ class TransformedFinder implements PaginatedFinderInterface, PaginatedRawFinderI
         return $this->search($query, $limit, $options);
     }
 
+    /**
+     * @return Pagerfanta<object>
+     */
     public function findPaginated(mixed $query, array $options = []): Pagerfanta
     {
         $paginatorAdapter = $this->createPaginatorAdapter($query, $options);
@@ -60,6 +66,9 @@ class TransformedFinder implements PaginatedFinderInterface, PaginatedRawFinderI
         return new Pagerfanta(new FantaPaginatorAdapter($paginatorAdapter));
     }
 
+    /**
+     * @return Pagerfanta<\FOS\ElasticaBundle\HybridResult<object>>
+     */
     public function findHybridPaginated(mixed $query, array $options = []): Pagerfanta
     {
         $paginatorAdapter = $this->createHybridPaginatorAdapter($query, $options);
@@ -67,6 +76,9 @@ class TransformedFinder implements PaginatedFinderInterface, PaginatedRawFinderI
         return new Pagerfanta(new FantaPaginatorAdapter($paginatorAdapter));
     }
 
+    /**
+     * @return Pagerfanta<array<string, mixed>>
+     */
     public function findRawPaginated(mixed $query, array $options = []): Pagerfanta
     {
         $paginatorAdapter = $this->createRawPaginatorAdapter($query, $options);
@@ -96,6 +108,8 @@ class TransformedFinder implements PaginatedFinderInterface, PaginatedRawFinderI
 
     /**
      * @param array<string, mixed> $options
+     *
+     * @return RawPaginatorAdapter<array<string, mixed>>
      */
     public function createRawPaginatorAdapter(mixed $query, array $options = []): RawPaginatorAdapter
     {

@@ -146,8 +146,8 @@ class FOSElasticaExtension extends Extension
     /**
      * Loads the configured clients.
      *
-     * @param array            $clients   An array of clients configurations
-     * @param ContainerBuilder $container A ContainerBuilder instance
+     * @param array<string, array<string, mixed>> $clients   An array of clients configurations
+     * @param ContainerBuilder                    $container A ContainerBuilder instance
      */
     private function loadClients(array $clients, ContainerBuilder $container): void
     {
@@ -220,8 +220,8 @@ class FOSElasticaExtension extends Extension
     /**
      * Loads the configured indexes.
      *
-     * @param array            $indexes   An array of indexes configurations
-     * @param ContainerBuilder $container A ContainerBuilder instance
+     * @param array<string, array<string, mixed>> $indexes   An array of indexes configurations
+     * @param ContainerBuilder                    $container A ContainerBuilder instance
      *
      * @throws \InvalidArgumentException
      */
@@ -289,8 +289,8 @@ class FOSElasticaExtension extends Extension
     /**
      * Loads the configured indexes.
      *
-     * @param array            $indexTemplates An array of indexes configurations
-     * @param ContainerBuilder $container      A ContainerBuilder instance
+     * @param array<string, array<string, mixed>> $indexTemplates An array of indexes configurations
+     * @param ContainerBuilder                    $container      A ContainerBuilder instance
      *
      * @throws \InvalidArgumentException
      */
@@ -384,7 +384,10 @@ class FOSElasticaExtension extends Extension
         }
     }
 
-    private function buildCallback($indexCallback, string $indexName)
+    /**
+     * @return array{0: string|Reference, 1: string}|string|Reference
+     */
+    private function buildCallback(mixed $indexCallback, string $indexName)
     {
         if (\is_array($indexCallback)) {
             if (!isset($indexCallback[0])) {
@@ -410,8 +413,12 @@ class FOSElasticaExtension extends Extension
         throw new \InvalidArgumentException(\sprintf('Invalid indexable_callback for index "%s"', $indexName));
     }
 
-    private function transformServiceReference($classOrService)
+    private function transformServiceReference(string|Reference $classOrService): string|Reference
     {
+        if ($classOrService instanceof Reference) {
+            return $classOrService;
+        }
+
         return str_starts_with($classOrService, '@') ? new Reference(substr($classOrService, 1)) : $classOrService;
     }
 
@@ -668,6 +675,8 @@ class FOSElasticaExtension extends Extension
      * Map Elastica to Doctrine events for the current driver.
      *
      * @param array<string, mixed> $indexConfig
+     *
+     * @return list<string>
      */
     private function getDoctrineEvents(array $indexConfig): array
     {

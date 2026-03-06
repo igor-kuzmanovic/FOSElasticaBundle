@@ -37,6 +37,9 @@ abstract class AbstractElasticaToModelTransformer extends BaseTransformer
         'query_builder_method' => 'createQueryBuilder',
     ];
 
+    /**
+     * @param array<string, mixed> $options
+     */
     public function __construct(
         protected ManagerRegistry $registry,
         /**
@@ -44,8 +47,9 @@ abstract class AbstractElasticaToModelTransformer extends BaseTransformer
          *
          * @var class-string
          */
-        protected string $objectClass, array $options = [])
-    {
+        protected string $objectClass,
+        array $options = [],
+    ) {
         $this->options = array_merge($this->options, $options);
     }
 
@@ -146,7 +150,7 @@ abstract class AbstractElasticaToModelTransformer extends BaseTransformer
      * @param list<string> $identifierValues ids values
      * @param bool         $hydrate          whether or not to hydrate the objects, false returns arrays
      *
-     * @return array of objects or arrays
+     * @return list<object|array<string, mixed>>
      */
     abstract protected function findByIdentifiers(array $identifierValues, bool $hydrate): array;
 }

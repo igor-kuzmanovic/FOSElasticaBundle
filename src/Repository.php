@@ -79,7 +79,7 @@ class Repository
      * @param TQuery   $query
      * @param TOptions $options
      *
-     * @return PaginatorAdapterInterface<object>
+     * @return PaginatorAdapterInterface<HybridResult<object>>
      */
     public function createHybridPaginatorAdapter($query, array $options = []): PaginatorAdapterInterface
     {

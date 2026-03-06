@@ -29,7 +29,7 @@ interface PaginatedHybridFinderInterface extends HybridFinderInterface
      * @param TQuery   $query
      * @param TOptions $options
      *
-     * @return PagerfantaInterface<HybridResult>
+     * @return PagerfantaInterface<HybridResult<object>>
      */
     public function findHybridPaginated(mixed $query, array $options = []): PagerfantaInterface;
 
@@ -38,6 +38,8 @@ interface PaginatedHybridFinderInterface extends HybridFinderInterface
      *
      * @param TQuery   $query
      * @param TOptions $options
+     *
+     * @return PaginatorAdapterInterface<HybridResult<object>>
      */
     public function createHybridPaginatorAdapter(mixed $query, array $options = []): PaginatorAdapterInterface;
 }

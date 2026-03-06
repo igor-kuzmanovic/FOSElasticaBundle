@@ -27,7 +27,7 @@ interface HybridFinderInterface
      * @param TQuery   $query
      * @param TOptions $options
      *
-     * @return HybridResult[]
+     * @return list<HybridResult<object>>
      */
     public function findHybrid(mixed $query, ?int $limit = null, array $options = []): array;
 }

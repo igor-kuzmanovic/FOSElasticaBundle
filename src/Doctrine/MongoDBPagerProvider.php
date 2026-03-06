@@ -21,7 +21,8 @@ use Pagerfanta\Pagerfanta;
 final class MongoDBPagerProvider implements PagerProviderInterface
 {
     /**
-     * @param class-string $objectClass
+     * @param class-string         $objectClass
+     * @param array<string, mixed> $baseOptions
      */
     public function __construct(
         private readonly ManagerRegistry $doctrine,

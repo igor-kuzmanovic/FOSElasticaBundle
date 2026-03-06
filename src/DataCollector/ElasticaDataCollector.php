@@ -38,6 +38,9 @@ class ElasticaDataCollector extends DataCollector
         return $this->data['nb_queries'];
     }
 
+    /**
+     * @return array<int, array<string, mixed>>
+     */
     public function getQueries(): array
     {
         return $this->data['queries'];

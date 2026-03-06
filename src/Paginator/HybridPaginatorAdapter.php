@@ -13,10 +13,13 @@ namespace FOS\ElasticaBundle\Paginator;
 
 use Elastica\Query;
 use Elastica\SearchableInterface;
+use FOS\ElasticaBundle\HybridResult;
 use FOS\ElasticaBundle\Transformer\ElasticaToModelTransformerInterface;
 
 /**
  * Allows pagination of \Elastica\Query.
+ *
+ * @extends RawPaginatorAdapter<HybridResult<object>>
  */
 class HybridPaginatorAdapter extends RawPaginatorAdapter
 {

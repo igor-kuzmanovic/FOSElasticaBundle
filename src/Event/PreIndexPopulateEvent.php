@@ -13,7 +13,7 @@ namespace FOS\ElasticaBundle\Event;
 
 final class PreIndexPopulateEvent extends AbstractIndexPopulateEvent
 {
-    public function setOption(string $name, $value): self
+    public function setOption(string $name, mixed $value): self
     {
         $this->options[$name] = $value;
 

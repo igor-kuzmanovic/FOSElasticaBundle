@@ -17,6 +17,10 @@ use Elastica\SearchableInterface;
 
 /**
  * Allows pagination of Elastica\Query. Does not map results.
+ *
+ * @template T of mixed
+ *
+ * @implements PaginatorAdapterInterface<T>
  */
 class RawPaginatorAdapter implements PaginatorAdapterInterface
 {
@@ -50,6 +54,9 @@ class RawPaginatorAdapter implements PaginatorAdapterInterface
         private readonly array $options = [],
     ) {}
 
+    /**
+     * @return PartialResultsInterface<T>
+     */
     public function getResults(int $offset, int $itemCountPerPage): PartialResultsInterface
     {
         return new RawPartialResults($this->getElasticaResults($offset, $itemCountPerPage));

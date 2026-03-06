@@ -24,7 +24,10 @@ use FOS\ElasticaBundle\Repository;
  */
 class RepositoryManager implements RepositoryManagerInterface
 {
+    /** @var array<string, string> */
     protected array $entities = [];
+
+    /** @var array<string, Repository> */
     protected array $repositories = [];
 
     public function __construct(
@@ -37,7 +40,7 @@ class RepositoryManager implements RepositoryManagerInterface
         throw new \LogicException(__METHOD__.' should not be called. Call addIndex on the main repository manager');
     }
 
-    public function addEntity($entityName, $indexName): void
+    public function addEntity(string $entityName, string $indexName): void
     {
         $this->entities[$entityName] = $indexName;
     }

@@ -15,6 +15,9 @@ use Symfony\Component\DependencyInjection\ServiceLocator;
 
 class PersisterRegistry
 {
+    /**
+     * @param ServiceLocator<ObjectPersisterInterface> $persisters
+     */
     public function __construct(
         private readonly ServiceLocator $persisters,
     ) {}

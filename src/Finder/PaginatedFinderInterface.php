@@ -17,11 +17,10 @@ use Pagerfanta\Pagerfanta;
 
 /**
  * @phpstan-import-type TQuery from FinderInterface
- *
- * @method Pagerfanta<HybridResult> findHybridPaginated(TQuery $query)                                 Searches for query hybrid results.
- * @method HybridResult[]           findHybrid(TQuery $query, ?int $limit = null, array $options = [])
- *
  * @phpstan-import-type TOptions from FinderInterface
+ *
+ * @method Pagerfanta<HybridResult<object>> findHybridPaginated(TQuery $query, array<string, mixed> $options = [])            Searches for query hybrid results.
+ * @method list<HybridResult<object>>       findHybrid(TQuery $query, ?int $limit = null, array<string, mixed> $options = [])
  */
 interface PaginatedFinderInterface extends FinderInterface
 {
@@ -40,6 +39,8 @@ interface PaginatedFinderInterface extends FinderInterface
      *
      * @param TQuery   $query
      * @param TOptions $options
+     *
+     * @return PaginatorAdapterInterface<object>
      */
     public function createPaginatorAdapter(mixed $query, array $options = []): PaginatorAdapterInterface;
 
@@ -48,6 +49,8 @@ interface PaginatedFinderInterface extends FinderInterface
      *
      * @param TQuery   $query
      * @param TOptions $options
+     *
+     * @return PaginatorAdapterInterface<HybridResult<object>>
      */
     public function createHybridPaginatorAdapter(mixed $query, array $options = []): PaginatorAdapterInterface;
 
@@ -56,6 +59,8 @@ interface PaginatedFinderInterface extends FinderInterface
      *
      * @param TQuery   $query
      * @param TOptions $options
+     *
+     * @return PaginatorAdapterInterface<array<string, mixed>>
      */
     public function createRawPaginatorAdapter(mixed $query, array $options = []): PaginatorAdapterInterface;
 }

@@ -18,7 +18,7 @@ use FOS\ElasticaBundle\Transformer\ElasticaToModelTransformerInterface;
 /**
  * Partial transformed result set.
  *
- * @extends RawPartialResults<HybridResult>
+ * @extends RawPartialResults<HybridResult<object>>
  */
 class HybridPartialResults extends RawPartialResults
 {
@@ -30,7 +30,7 @@ class HybridPartialResults extends RawPartialResults
     }
 
     /**
-     * @return list<HybridResult>
+     * @return list<HybridResult<object>>
      */
     public function toArray(): array
     {

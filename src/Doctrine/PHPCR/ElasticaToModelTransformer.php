@@ -23,10 +23,10 @@ class ElasticaToModelTransformer extends AbstractElasticaToModelTransformer
     /**
      * Fetch objects for theses identifier values.
      *
-     * @param array $identifierValues ids values
-     * @param bool  $hydrate          whether or not to hydrate the objects, false returns arrays
+     * @param list<string> $identifierValues ids values
+     * @param bool         $hydrate          whether or not to hydrate the objects, false returns arrays
      *
-     * @return array of objects or arrays
+     * @return list<object|array<string, mixed>>
      */
     protected function findByIdentifiers(array $identifierValues, bool $hydrate): array
     {
