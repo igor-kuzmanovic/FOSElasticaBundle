@@ -19,15 +19,14 @@ use FOS\ElasticaBundle\Repository;
 /**
  * @author Richard Miller <info@limethinking.co.uk>
  *
- * Allows retrieval of basic or custom repository for mapped Doctrine
- * entities/documents
+ * Allows retrieval of basic or custom repository for mapped Doctrine entities/documents
  */
 class RepositoryManager implements RepositoryManagerInterface
 {
-    /** @var array<string, string> */
+    /** @var array<class-string<object>, string> */
     protected array $entities = [];
 
-    /** @var array<string, Repository> */
+    /** @var array<string, Repository<object, array<string, mixed>>> */
     protected array $repositories = [];
 
     public function __construct(
@@ -35,20 +34,30 @@ class RepositoryManager implements RepositoryManagerInterface
         private readonly RepositoryManagerInterface $repositoryManager,
     ) {}
 
+    /**
+     * @param FinderInterface<object> $finder
+     */
     public function addIndex(string $indexName, FinderInterface $finder, ?string $repositoryName = null): void
     {
         throw new \LogicException(__METHOD__.' should not be called. Call addIndex on the main repository manager');
     }
 
+    /**
+     * @param class-string<object> $entityName
+     */
     public function addEntity(string $entityName, string $indexName): void
     {
         $this->entities[$entityName] = $indexName;
     }
 
     /**
+     * Return repository for entity.
+     *
      * Returns custom repository if one specified otherwise returns a basic repository.
      *
-     * {@inheritdoc}
+     * @param class-string<object> $entityName
+     *
+     * @return Repository<object, array<string, mixed>>
      */
     public function getRepository(string $entityName): Repository
     {

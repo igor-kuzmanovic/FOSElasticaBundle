@@ -33,8 +33,8 @@ class DeleteCommand extends Command
     {
         $this
             ->setName('fos:elastica:delete')
-            ->addOption('index', null, InputOption::VALUE_OPTIONAL, 'Index that needs to be deleted')
             ->setDescription('Deleting an index')
+            ->addOption('index', null, InputOption::VALUE_OPTIONAL, 'Index that needs to be deleted')
         ;
     }
 

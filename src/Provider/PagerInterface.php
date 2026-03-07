@@ -11,6 +11,9 @@
 
 namespace FOS\ElasticaBundle\Provider;
 
+/**
+ * @template TObject of object
+ */
 interface PagerInterface
 {
     public function getNbResults(): int;
@@ -26,7 +29,7 @@ interface PagerInterface
     public function setMaxPerPage(int $perPage): void;
 
     /**
-     * @return array<object>|\Traversable<object>
+     * @return array<TObject>|\Traversable<TObject>
      */
     public function getCurrentPageResults(): array|\Traversable;
 }

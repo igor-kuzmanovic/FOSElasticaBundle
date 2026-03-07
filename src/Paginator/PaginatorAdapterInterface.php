@@ -12,7 +12,7 @@
 namespace FOS\ElasticaBundle\Paginator;
 
 /**
- * @template T of mixed
+ * @template TResult
  */
 interface PaginatorAdapterInterface
 {
@@ -29,7 +29,7 @@ interface PaginatorAdapterInterface
      * @param int $offset The offset
      * @param int $length The length
      *
-     * @return PartialResultsInterface<T>
+     * @return PartialResultsInterface<TResult>
      */
     public function getResults(int $offset, int $length): PartialResultsInterface;
 

@@ -16,7 +16,7 @@ use Symfony\Component\DependencyInjection\ServiceLocator;
 class PersisterRegistry
 {
     /**
-     * @param ServiceLocator<ObjectPersisterInterface> $persisters
+     * @param ServiceLocator<ObjectPersisterInterface<object>> $persisters
      */
     public function __construct(
         private readonly ServiceLocator $persisters,
@@ -24,6 +24,8 @@ class PersisterRegistry
 
     /**
      * Gets the persister for an index.
+     *
+     * @return ObjectPersisterInterface<object>
      *
      * @throws \InvalidArgumentException if no persister was registered for the index
      */

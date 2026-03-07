@@ -16,27 +16,39 @@ namespace FOS\ElasticaBundle\Persister;
  * Accepts domain model objects and converts them to elastica documents.
  *
  * @author Thibault Duplessis <thibault.duplessis@gmail.com>
+ *
+ * @template T of object
  */
 interface ObjectPersisterInterface
 {
     /**
      * Checks if this persister can handle the given object or not.
+     *
+     * @template TObject of object
+     *
+     * @param TObject $object
      */
     public function handlesObject(object $object): bool;
 
     /**
-     * Insert one object into the type
+     * Insert one object into the type.
      * The object will be transformed to an elastica document.
+     *
+     * @param T $object
      */
     public function insertOne(object $object): void;
 
     /**
      * Replaces one object in the type.
+     *
+     * @param T $object
      */
     public function replaceOne(object $object): void;
 
     /**
      * Deletes one object in the type.
+     *
+     * @param T $object
      */
     public function deleteOne(object $object): void;
 
@@ -48,21 +60,21 @@ interface ObjectPersisterInterface
     /**
      * Bulk inserts an array of objects in the type.
      *
-     * @param list<object> $objects array of domain model objects
+     * @param list<T> $objects array of domain model objects
      */
     public function insertMany(array $objects): void;
 
     /**
      * Bulk updates an array of objects in the type.
      *
-     * @param list<object> $objects array of domain model objects
+     * @param list<T> $objects array of domain model objects
      */
     public function replaceMany(array $objects): void;
 
     /**
      * Bulk deletes an array of objects in the type.
      *
-     * @param list<object> $objects array of domain model objects
+     * @param list<T> $objects array of domain model objects
      */
     public function deleteMany(array $objects): void;
 

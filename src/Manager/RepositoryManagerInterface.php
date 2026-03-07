@@ -17,8 +17,7 @@ use FOS\ElasticaBundle\Repository;
 /**
  * @author Richard Miller <info@limethinking.co.uk>
  *
- * Allows retrieval of basic or custom repository for mapped Doctrine
- * entities/documents
+ * Allows retrieval of basic or custom repository for mapped Doctrine entities/documents.
  */
 interface RepositoryManagerInterface
 {
@@ -26,15 +25,17 @@ interface RepositoryManagerInterface
      * Adds index name and its finder.
      * Custom repository class name can also be added.
      *
-     * @param ?class-string $repositoryName
+     * @param FinderInterface<object> $finder
+     * @param ?class-string           $repositoryName
      */
     public function addIndex(string $indexName, FinderInterface $finder, ?string $repositoryName = null): void;
 
     /**
      * Return repository for entity.
      *
-     * Returns custom repository if one specified otherwise
-     * returns a basic repository.
+     * Returns custom repository if one specified otherwise returns a basic repository.
+     *
+     * @return Repository<object, array<string, mixed>>
      */
     public function getRepository(string $indexName): Repository;
 

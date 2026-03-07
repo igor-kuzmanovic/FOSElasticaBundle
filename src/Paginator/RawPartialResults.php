@@ -12,44 +12,21 @@
 namespace FOS\ElasticaBundle\Paginator;
 
 use Elastica\Result;
-use Elastica\ResultSet;
 
 /**
  * Raw partial results transforms to a simple array.
  *
- * @template T of mixed
+ * @template TRaw of array<string, mixed>
  *
- * @implements PartialResultsInterface<T>
+ * @extends AbstractPartialResults<TRaw>
  */
-class RawPartialResults implements PartialResultsInterface
+class RawPartialResults extends AbstractPartialResults
 {
-    public function __construct(
-        protected ResultSet $resultSet,
-    ) {}
-
     /**
-     * @return list<T>
+     * @return list<TRaw>
      */
     public function toArray(): array
     {
         return array_map(static fn (Result $result): array => $result->getSource(), $this->resultSet->getResults());
-    }
-
-    public function getTotalHits(): int
-    {
-        return $this->resultSet->getTotalHits();
-    }
-
-    public function getAggregations(): array
-    {
-        return $this->resultSet->getAggregations();
-    }
-
-    /**
-     * @return array<string, mixed>
-     */
-    public function getSuggests(): array
-    {
-        return $this->resultSet->getSuggests();
     }
 }

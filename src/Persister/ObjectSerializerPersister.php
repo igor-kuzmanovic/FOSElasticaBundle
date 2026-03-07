@@ -22,6 +22,10 @@ use FOS\ElasticaBundle\Transformer\ModelToElasticaTransformerInterface;
  *
  * @author Lea Haensenberber <lea.haensenberger@gmail.com>
  *
+ * @template T of object
+ *
+ * @extends ObjectPersister<T>
+ *
  * @phpstan-type TSerializer = (callable(object):array<string, mixed>|string)
  */
 class ObjectSerializerPersister extends ObjectPersister
@@ -32,7 +36,10 @@ class ObjectSerializerPersister extends ObjectPersister
     protected mixed $serializer;
 
     /**
-     * @param TSerializer $serializer
+     * @param ModelToElasticaTransformerInterface<T> $transformer
+     * @param class-string<T>                        $objectClass
+     * @param TSerializer                            $serializer
+     * @param array<string, mixed>                   $options
      */
     public function __construct(Index $index, ModelToElasticaTransformerInterface $transformer, string $objectClass, mixed $serializer, array $options = [])
     {
@@ -42,8 +49,9 @@ class ObjectSerializerPersister extends ObjectPersister
     }
 
     /**
-     * Transforms an object to an elastica document
-     * with just the identifier set.
+     * Transforms an object to an elastica document with just the identifier set.
+     *
+     * @param T $object
      */
     public function transformToElasticaDocument(object $object): Document
     {

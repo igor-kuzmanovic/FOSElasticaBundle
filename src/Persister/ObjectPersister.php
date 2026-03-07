@@ -23,6 +23,10 @@ use Psr\Log\LoggerInterface;
  *
  * @author Thibault Duplessis <thibault.duplessis@gmail.com>
  *
+ * @template T of object
+ *
+ * @implements ObjectPersisterInterface<T>
+ *
  * @phpstan-type TOptions = array<string, mixed>
  *
  * @phpstan-import-type TFields from ModelToElasticaTransformerInterface
@@ -34,9 +38,10 @@ class ObjectPersister implements ObjectPersisterInterface
     protected ?LoggerInterface $logger = null;
 
     /**
-     * @param class-string $objectClass
-     * @param TFields      $fields
-     * @param TOptions     $options
+     * @param ModelToElasticaTransformerInterface<T> $transformer
+     * @param class-string<T>                        $objectClass
+     * @param TFields                                $fields
+     * @param TOptions                               $options
      */
     public function __construct(
         protected Index $index,
@@ -46,6 +51,11 @@ class ObjectPersister implements ObjectPersisterInterface
         private readonly array $options = [],
     ) {}
 
+    /**
+     * @template TObject of object
+     *
+     * @param TObject $object
+     */
     public function handlesObject(object $object): bool
     {
         return $object instanceof $this->objectClass;
@@ -56,16 +66,25 @@ class ObjectPersister implements ObjectPersisterInterface
         $this->logger = $logger;
     }
 
+    /**
+     * @param T $object
+     */
     public function insertOne(object $object): void
     {
         $this->insertMany([$object]);
     }
 
+    /**
+     * @param T $object
+     */
     public function replaceOne(object $object): void
     {
         $this->replaceMany([$object]);
     }
 
+    /**
+     * @param T $object
+     */
     public function deleteOne(object $object): void
     {
         $this->deleteMany([$object]);

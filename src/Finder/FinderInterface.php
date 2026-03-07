@@ -21,6 +21,8 @@ use Elastica\Suggest\AbstractSuggest;
  * @phpstan-type TQuery = Query|AbstractSuggest|AbstractQuery|Suggest|Collapse|array<string, mixed>|string
  * @phpstan-type TOptions = array<string, mixed>
  *
+ * @template TObject of object
+ *
  * @see Query::create() for TQuery description
  * @see \Elastica\Search::setOptionsAndQuery() for TOptions description
  */
@@ -33,7 +35,7 @@ interface FinderInterface
      * @param int|null $limit   How many results to get
      * @param TOptions $options
      *
-     * @return array<object> results
+     * @return array<TObject> results
      */
     public function find(mixed $query, ?int $limit = null, array $options = []): array;
 }

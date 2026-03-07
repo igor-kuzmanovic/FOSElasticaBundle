@@ -17,8 +17,7 @@ use Psr\Log\LoggerInterface;
 /**
  * Logger for the Elastica.
  *
- * The {@link logQuery()} method is configured as the logger callable in the
- * service container.
+ * The {@link logQuery()} method is configured as the logger callable in the service container.
  *
  * @author Gordon Franke <info@nevalon.de>
  */

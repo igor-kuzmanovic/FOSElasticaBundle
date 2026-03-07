@@ -17,21 +17,23 @@ use FOS\ElasticaBundle\Repository;
 /**
  * @author Richard Miller <info@limethinking.co.uk>
  *
- * Allows retrieval of basic or custom repository for mapped Doctrine
- * entities/documents
+ * Allows retrieval of basic or custom repository for mapped Doctrine entities/documents.
  */
 class RepositoryManager implements RepositoryManagerInterface
 {
     /**
-     * @var array<string, array{finder: FinderInterface, repositoryName: ?class-string}>
+     * @var array<string, array{finder: FinderInterface<object>, repositoryName: ?class-string}>
      */
     private array $indexes = [];
 
     /**
-     * @var array<string, Repository>
+     * @var array<string, Repository<object, array<string, mixed>>>
      */
     private array $repositories = [];
 
+    /**
+     * @param FinderInterface<object> $finder
+     */
     public function addIndex(string $indexName, FinderInterface $finder, ?string $repositoryName = null): void
     {
         $this->indexes[$indexName] = [
@@ -43,8 +45,9 @@ class RepositoryManager implements RepositoryManagerInterface
     /**
      * Return repository for entity.
      *
-     * Returns custom repository if one specified otherwise
-     * returns a basic repository.
+     * Returns custom repository if one specified otherwise returns a basic repository.
+     *
+     * @return Repository<object, array<string, mixed>>
      */
     public function getRepository(string $indexName): Repository
     {
@@ -75,12 +78,16 @@ class RepositoryManager implements RepositoryManagerInterface
         return $this->indexes[$indexName]['repositoryName'] ?? Repository::class;
     }
 
+    /**
+     * @return Repository<object, array<string, mixed>>
+     */
     private function createRepository(string $indexName): Repository
     {
         if (!class_exists($repositoryName = $this->getRepositoryName($indexName))) {
             throw new \RuntimeException(\sprintf('%s repository for index "%s" does not exist', $repositoryName, $indexName));
         }
 
+        /* @var Repository<object, array<string, mixed>> */
         return new $repositoryName($this->indexes[$indexName]['finder']);
     }
 }

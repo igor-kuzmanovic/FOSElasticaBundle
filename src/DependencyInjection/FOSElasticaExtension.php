@@ -387,7 +387,7 @@ class FOSElasticaExtension extends Extension
     /**
      * @return array{0: string|Reference, 1: string}|string|Reference
      */
-    private function buildCallback(mixed $indexCallback, string $indexName)
+    private function buildCallback(mixed $indexCallback, string $indexName): Reference|array|string
     {
         if (\is_array($indexCallback)) {
             if (!isset($indexCallback[0])) {

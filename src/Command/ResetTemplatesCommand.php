@@ -34,6 +34,7 @@ final class ResetTemplatesCommand extends Command
     {
         $this
             ->setName('fos:elastica:reset-templates')
+            ->setDescription('Reset search indexes templates')
             ->addOption(
                 'index',
                 null,
@@ -47,7 +48,6 @@ final class ResetTemplatesCommand extends Command
                 'Delete all indexes that matches index templates patterns. '.
                 'Aware that pattern may match various indexes.'
             )
-            ->setDescription('Reset search indexes templates')
         ;
     }
 

@@ -18,6 +18,10 @@ use FOS\ElasticaBundle\Paginator\PaginatorAdapterInterface;
 use Pagerfanta\PagerfantaInterface;
 
 /**
+ * @template TObject of object
+ *
+ * @extends HybridFinderInterface<TObject>
+ *
  * @phpstan-import-type TQuery from FinderInterface
  * @phpstan-import-type TOptions from FinderInterface
  */
@@ -29,7 +33,7 @@ interface PaginatedHybridFinderInterface extends HybridFinderInterface
      * @param TQuery   $query
      * @param TOptions $options
      *
-     * @return PagerfantaInterface<HybridResult<object>>
+     * @return PagerfantaInterface<HybridResult<TObject>>
      */
     public function findHybridPaginated(mixed $query, array $options = []): PagerfantaInterface;
 
@@ -39,7 +43,7 @@ interface PaginatedHybridFinderInterface extends HybridFinderInterface
      * @param TQuery   $query
      * @param TOptions $options
      *
-     * @return PaginatorAdapterInterface<HybridResult<object>>
+     * @return PaginatorAdapterInterface<HybridResult<TObject>>
      */
     public function createHybridPaginatorAdapter(mixed $query, array $options = []): PaginatorAdapterInterface;
 }

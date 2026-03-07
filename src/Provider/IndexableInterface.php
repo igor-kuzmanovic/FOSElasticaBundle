@@ -11,10 +11,15 @@
 
 namespace FOS\ElasticaBundle\Provider;
 
+/**
+ * @template TObject of object
+ */
 interface IndexableInterface
 {
     /**
      * Checks if an object passed should be indexable or not.
+     *
+     * @param TObject $object
      */
     public function isObjectIndexable(string $indexName, object $object): bool;
 }

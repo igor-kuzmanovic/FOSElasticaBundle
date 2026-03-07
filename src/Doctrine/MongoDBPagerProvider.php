@@ -18,11 +18,16 @@ use FOS\ElasticaBundle\Provider\PagerProviderInterface;
 use Pagerfanta\Doctrine\MongoDBODM\QueryAdapter;
 use Pagerfanta\Pagerfanta;
 
+/**
+ * @template TObject of object
+ *
+ * @implements PagerProviderInterface<TObject>
+ */
 final class MongoDBPagerProvider implements PagerProviderInterface
 {
     /**
-     * @param class-string         $objectClass
-     * @param array<string, mixed> $baseOptions
+     * @param class-string<TObject> $objectClass
+     * @param array<string, mixed>  $baseOptions
      */
     public function __construct(
         private readonly ManagerRegistry $doctrine,
@@ -31,6 +36,11 @@ final class MongoDBPagerProvider implements PagerProviderInterface
         private readonly array $baseOptions,
     ) {}
 
+    /**
+     * @param array<string, mixed> $options
+     *
+     * @return PagerInterface<TObject>
+     */
     public function provide(array $options = []): PagerInterface
     {
         $options = array_replace($this->baseOptions, $options);
@@ -38,6 +48,7 @@ final class MongoDBPagerProvider implements PagerProviderInterface
         $manager = $this->doctrine->getManagerForClass($this->objectClass);
         $repository = $manager->getRepository($this->objectClass);
 
+        /** @var PagerfantaPager<TObject> $pager */
         $pager = new PagerfantaPager(new Pagerfanta(
             new QueryAdapter(\call_user_func([$repository, $options['query_builder_method']]))
         ));

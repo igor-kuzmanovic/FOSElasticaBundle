@@ -16,6 +16,8 @@ use Elastica\Document;
 /**
  * Maps Elastica documents with model objects.
  *
+ * @template T of object
+ *
  * @phpstan-type TFields = array<string, TPath|TAttachment|TProperties>
  * @phpstan-type TPath = array{property_path?: non-empty-string|false}
  * @phpstan-type TAttachment = array{type: 'attachment'}
@@ -33,6 +35,7 @@ interface ModelToElasticaTransformerInterface
     /**
      * Transforms an object into an elastica object having the required keys.
      *
+     * @param T       $object
      * @param TFields $fields
      */
     public function transform(object $object, array $fields): Document;

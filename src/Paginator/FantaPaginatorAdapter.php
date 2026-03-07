@@ -14,14 +14,14 @@ namespace FOS\ElasticaBundle\Paginator;
 use Pagerfanta\Adapter\AdapterInterface;
 
 /**
- * @template T of mixed
+ * @template TResult
  *
- * @implements AdapterInterface<T>
+ * @implements AdapterInterface<TResult>
  */
 class FantaPaginatorAdapter implements AdapterInterface
 {
     /**
-     * @param PaginatorAdapterInterface<T> $adapter
+     * @param PaginatorAdapterInterface<TResult> $adapter
      */
     public function __construct(
         private readonly PaginatorAdapterInterface $adapter,
@@ -64,6 +64,8 @@ class FantaPaginatorAdapter implements AdapterInterface
      *
      * @param int $offset The offset
      * @param int $length The length
+     *
+     * @return iterable<array-key, TResult>
      */
     public function getSlice(int $offset, int $length): iterable
     {

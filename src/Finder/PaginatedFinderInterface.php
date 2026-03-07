@@ -19,8 +19,13 @@ use Pagerfanta\Pagerfanta;
  * @phpstan-import-type TQuery from FinderInterface
  * @phpstan-import-type TOptions from FinderInterface
  *
- * @method Pagerfanta<HybridResult<object>> findHybridPaginated(TQuery $query, array<string, mixed> $options = [])            Searches for query hybrid results.
- * @method list<HybridResult<object>>       findHybrid(TQuery $query, ?int $limit = null, array<string, mixed> $options = [])
+ * @template TObject of object
+ * @template TRaw of array<string, mixed>
+ *
+ * @extends FinderInterface<TObject>
+ *
+ * @method Pagerfanta<HybridResult<TObject>> findHybridPaginated(TQuery $query, array<string, mixed> $options = [])            Searches for query hybrid results.
+ * @method list<HybridResult<TObject>>       findHybrid(TQuery $query, ?int $limit = null, array<string, mixed> $options = [])
  */
 interface PaginatedFinderInterface extends FinderInterface
 {
@@ -30,7 +35,7 @@ interface PaginatedFinderInterface extends FinderInterface
      * @param TQuery   $query   Can be a string, an array or an \Elastica\Query object
      * @param TOptions $options
      *
-     * @return Pagerfanta<object> paginated results
+     * @return Pagerfanta<TObject> paginated results
      */
     public function findPaginated(mixed $query, array $options = []): Pagerfanta;
 
@@ -40,7 +45,7 @@ interface PaginatedFinderInterface extends FinderInterface
      * @param TQuery   $query
      * @param TOptions $options
      *
-     * @return PaginatorAdapterInterface<object>
+     * @return PaginatorAdapterInterface<TObject>
      */
     public function createPaginatorAdapter(mixed $query, array $options = []): PaginatorAdapterInterface;
 
@@ -50,7 +55,7 @@ interface PaginatedFinderInterface extends FinderInterface
      * @param TQuery   $query
      * @param TOptions $options
      *
-     * @return PaginatorAdapterInterface<HybridResult<object>>
+     * @return PaginatorAdapterInterface<HybridResult<TObject>>
      */
     public function createHybridPaginatorAdapter(mixed $query, array $options = []): PaginatorAdapterInterface;
 
@@ -60,7 +65,7 @@ interface PaginatedFinderInterface extends FinderInterface
      * @param TQuery   $query
      * @param TOptions $options
      *
-     * @return PaginatorAdapterInterface<array<string, mixed>>
+     * @return PaginatorAdapterInterface<TRaw>
      */
     public function createRawPaginatorAdapter(mixed $query, array $options = []): PaginatorAdapterInterface;
 }

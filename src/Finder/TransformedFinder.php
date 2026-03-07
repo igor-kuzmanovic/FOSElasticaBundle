@@ -24,16 +24,35 @@ use Pagerfanta\Pagerfanta;
 /**
  * Finds elastica documents and map them to persisted objects.
  *
+ * @template TObject of object
+ * @template TRaw of array<string, mixed>
+ *
+ * @implements PaginatedFinderInterface<TObject, TRaw>
+ * @implements PaginatedRawFinderInterface<TRaw>
+ * @implements PaginatedHybridFinderInterface<TObject>
+ *
  * @phpstan-import-type TQuery from FinderInterface
  * @phpstan-import-type TOptions from FinderInterface
  */
 class TransformedFinder implements PaginatedFinderInterface, PaginatedRawFinderInterface, PaginatedHybridFinderInterface
 {
+    /**
+     * @param ElasticaToModelTransformerInterface<TObject> $transformer
+     */
     public function __construct(
         protected SearchableInterface $searchable,
         protected ElasticaToModelTransformerInterface $transformer,
     ) {}
 
+    /**
+     * Searches for query results within a given limit.
+     *
+     * @param TQuery   $query   Can be a string, an array or an \Elastica\Query object
+     * @param int|null $limit   How many results to get
+     * @param TOptions $options
+     *
+     * @return array<TObject> results
+     */
     public function find(mixed $query, ?int $limit = null, array $options = []): array
     {
         $results = $this->search($query, $limit, $options);
@@ -42,7 +61,7 @@ class TransformedFinder implements PaginatedFinderInterface, PaginatedRawFinderI
     }
 
     /**
-     * @return list<\FOS\ElasticaBundle\HybridResult<object>>
+     * @return list<\FOS\ElasticaBundle\HybridResult<TObject>>
      */
     public function findHybrid(mixed $query, ?int $limit = null, array $options = []): array
     {
@@ -51,13 +70,16 @@ class TransformedFinder implements PaginatedFinderInterface, PaginatedRawFinderI
         return $this->transformer->hybridTransform($results);
     }
 
+    /**
+     * @return list<Result>
+     */
     public function findRaw(mixed $query, ?int $limit = null, array $options = []): array
     {
         return $this->search($query, $limit, $options);
     }
 
     /**
-     * @return Pagerfanta<object>
+     * @return Pagerfanta<TObject>
      */
     public function findPaginated(mixed $query, array $options = []): Pagerfanta
     {
@@ -67,7 +89,7 @@ class TransformedFinder implements PaginatedFinderInterface, PaginatedRawFinderI
     }
 
     /**
-     * @return Pagerfanta<\FOS\ElasticaBundle\HybridResult<object>>
+     * @return Pagerfanta<\FOS\ElasticaBundle\HybridResult<TObject>>
      */
     public function findHybridPaginated(mixed $query, array $options = []): Pagerfanta
     {
@@ -77,7 +99,7 @@ class TransformedFinder implements PaginatedFinderInterface, PaginatedRawFinderI
     }
 
     /**
-     * @return Pagerfanta<array<string, mixed>>
+     * @return Pagerfanta<TRaw>
      */
     public function findRawPaginated(mixed $query, array $options = []): Pagerfanta
     {
@@ -88,6 +110,8 @@ class TransformedFinder implements PaginatedFinderInterface, PaginatedRawFinderI
 
     /**
      * @param array<string, mixed> $options
+     *
+     * @return TransformedPaginatorAdapter<TObject>
      */
     public function createPaginatorAdapter(mixed $query, array $options = []): TransformedPaginatorAdapter
     {
@@ -98,6 +122,8 @@ class TransformedFinder implements PaginatedFinderInterface, PaginatedRawFinderI
 
     /**
      * @param array<string, mixed> $options
+     *
+     * @return HybridPaginatorAdapter<TObject>
      */
     public function createHybridPaginatorAdapter(mixed $query, array $options = []): HybridPaginatorAdapter
     {
@@ -109,13 +135,16 @@ class TransformedFinder implements PaginatedFinderInterface, PaginatedRawFinderI
     /**
      * @param array<string, mixed> $options
      *
-     * @return RawPaginatorAdapter<array<string, mixed>>
+     * @return RawPaginatorAdapter<TRaw>
      */
     public function createRawPaginatorAdapter(mixed $query, array $options = []): RawPaginatorAdapter
     {
         $query = Query::create($query);
 
-        return new RawPaginatorAdapter($this->searchable, $query, $options);
+        /** @var RawPaginatorAdapter<TRaw> $adapter */
+        $adapter = new RawPaginatorAdapter($this->searchable, $query, $options);
+
+        return $adapter;
     }
 
     /**

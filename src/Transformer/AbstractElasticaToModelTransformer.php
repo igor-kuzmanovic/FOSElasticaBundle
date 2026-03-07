@@ -13,6 +13,11 @@ namespace FOS\ElasticaBundle\Transformer;
 
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 
+/**
+ * @template T of object
+ *
+ * @implements ElasticaToModelTransformerInterface<T>
+ */
 abstract class AbstractElasticaToModelTransformer implements ElasticaToModelTransformerInterface
 {
     /**

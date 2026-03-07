@@ -14,6 +14,8 @@ namespace FOS\ElasticaBundle\Provider;
 use FOS\ElasticaBundle\Event\AbstractIndexPopulateEvent;
 
 /**
+ * @template TObject of object
+ *
  * @phpstan-import-type TOptions from AbstractIndexPopulateEvent
  *
  * @phpstan-type TPagerProviderOptions = TOptions|array<string, mixed>
@@ -22,6 +24,8 @@ interface PagerProviderInterface
 {
     /**
      * @param TPagerProviderOptions $options
+     *
+     * @return PagerInterface<TObject>
      */
     public function provide(array $options = []): PagerInterface;
 }

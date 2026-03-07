@@ -13,8 +13,16 @@ namespace FOS\ElasticaBundle\Event;
 
 use Elastica\Document;
 
+/**
+ * @template TObject of object
+ *
+ * @extends AbstractTransformEvent<TObject>
+ */
 final class PreTransformEvent extends AbstractTransformEvent
 {
+    /**
+     * @return PreTransformEvent<TObject>
+     */
     public function setDocument(Document $document): self
     {
         $this->document = $document;

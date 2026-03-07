@@ -17,7 +17,7 @@ use FOS\ElasticaBundle\HybridResult;
 /**
  * Maps Elastica documents with model objects.
  *
- * @todo: introduce a template of getObjectClass() for transform() return type
+ * @template TObject of object
  */
 interface ElasticaToModelTransformerInterface
 {
@@ -25,23 +25,23 @@ interface ElasticaToModelTransformerInterface
      * Transforms an array of elastica objects into an array of
      * model objects fetched from the doctrine repository.
      *
-     * @param Result[] $elasticaObjects array of elastica objects
+     * @param list<Result> $elasticaObjects array of elastica objects
      *
-     * @return array<object> of model objects
+     * @return array<TObject> of model objects
      */
     public function transform(array $elasticaObjects): array;
 
     /**
-     * @param Result[] $elasticaObjects
+     * @param list<Result> $elasticaObjects
      *
-     * @return list<HybridResult<object>>
+     * @return list<HybridResult<TObject>>
      */
     public function hybridTransform(array $elasticaObjects): array;
 
     /**
      * Returns the object class used by the transformer.
      *
-     * @return class-string
+     * @return class-string<TObject>
      */
     public function getObjectClass(): string;
 

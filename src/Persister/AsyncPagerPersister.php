@@ -22,6 +22,7 @@ use Symfony\Component\Messenger\MessageBusInterface;
 final class AsyncPagerPersister implements PagerPersisterInterface
 {
     public const NAME = 'async';
+
     private const DEFAULT_PAGE_SIZE = 100;
 
     public function __construct(
@@ -30,6 +31,9 @@ final class AsyncPagerPersister implements PagerPersisterInterface
         private readonly MessageBusInterface $messageBus,
     ) {}
 
+    /**
+     * @param PagerInterface<object> $pager
+     */
     public function insert(PagerInterface $pager, array $options = []): void
     {
         $pager->setMaxPerPage(empty($options['max_per_page']) ? self::DEFAULT_PAGE_SIZE : $options['max_per_page']);

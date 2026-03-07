@@ -17,10 +17,15 @@ use FOS\ElasticaBundle\Transformer\ElasticaToModelTransformerInterface;
 /**
  * Partial transformed result set.
  *
- * @extends RawPartialResults<object>
+ * @template TObject of object
+ *
+ * @extends AbstractPartialResults<TObject>
  */
-class TransformedPartialResults extends RawPartialResults
+class TransformedPartialResults extends AbstractPartialResults
 {
+    /**
+     * @param ElasticaToModelTransformerInterface<TObject> $transformer
+     */
     public function __construct(
         ResultSet $resultSet,
         protected ElasticaToModelTransformerInterface $transformer,
@@ -29,7 +34,7 @@ class TransformedPartialResults extends RawPartialResults
     }
 
     /**
-     * @return list<object>
+     * @return list<TObject>
      */
     public function toArray(): array
     {

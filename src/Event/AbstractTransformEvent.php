@@ -16,12 +16,15 @@ use FOS\ElasticaBundle\Transformer\ModelToElasticaAutoTransformer;
 use Symfony\Contracts\EventDispatcher\Event;
 
 /**
+ * @template TObject of object
+ *
  * @phpstan-import-type TFields from ModelToElasticaAutoTransformer
  */
 abstract class AbstractTransformEvent extends Event
 {
     /**
      * @param TFields $fields
+     * @param TObject $object
      */
     public function __construct(
         protected Document $document,
@@ -42,6 +45,9 @@ abstract class AbstractTransformEvent extends Event
         return $this->fields;
     }
 
+    /**
+     * @return TObject
+     */
     public function getObject(): object
     {
         return $this->object;

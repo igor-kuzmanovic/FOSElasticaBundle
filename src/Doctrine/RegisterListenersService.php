@@ -27,7 +27,8 @@ class RegisterListenersService
     ) {}
 
     /**
-     * @param array<string, mixed> $options
+     * @param PagerInterface<object> $pager
+     * @param array<string, mixed>   $options
      */
     public function register(ObjectManager $manager, PagerInterface $pager, array $options): void
     {
@@ -68,6 +69,9 @@ class RegisterListenersService
         }
     }
 
+    /**
+     * @param PagerInterface<object> $pager
+     */
     private function addListener(PagerInterface $pager, string $eventName, \Closure $callable): void
     {
         $this->dispatcher->addListener($eventName, static function (PersistEvent $event) use ($pager, $callable): void {

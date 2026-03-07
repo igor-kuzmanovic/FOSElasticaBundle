@@ -14,12 +14,14 @@ namespace FOS\ElasticaBundle\Provider;
 use Pagerfanta\Pagerfanta;
 
 /**
- * @template T of mixed
+ * @template TObject of object
+ *
+ * @implements PagerInterface<TObject>
  */
 class PagerfantaPager implements PagerInterface
 {
     /**
-     * @param Pagerfanta<T> $pagerfanta
+     * @param Pagerfanta<TObject> $pagerfanta
      */
     public function __construct(
         private readonly Pagerfanta $pagerfanta,
@@ -56,7 +58,7 @@ class PagerfantaPager implements PagerInterface
     }
 
     /**
-     * @return iterable<array-key, T>
+     * @return iterable<array-key, TObject>
      */
     public function getCurrentPageResults(): iterable
     {
@@ -64,7 +66,7 @@ class PagerfantaPager implements PagerInterface
     }
 
     /**
-     * @return Pagerfanta<T>
+     * @return Pagerfanta<TObject>
      */
     public function getPagerfanta(): Pagerfanta
     {

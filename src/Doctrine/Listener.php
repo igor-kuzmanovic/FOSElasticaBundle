@@ -20,22 +20,24 @@ use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 
 /**
- * Automatically update ElasticSearch based on changes to the Doctrine source
- * data. One listener is generated for each Doctrine entity / ElasticSearch type.
+ * Automatically update ElasticSearch based on changes to the Doctrine source data.
+ * One listener is generated for each Doctrine entity / ElasticSearch type.
+ *
+ * @template TObject of object
  */
 class Listener
 {
     /**
      * Objects scheduled for insertion.
      *
-     * @var list<object>
+     * @var list<TObject>
      */
     public array $scheduledForInsertion = [];
 
     /**
      * Objects scheduled to be updated or removed.
      *
-     * @var list<object>
+     * @var list<TObject>
      */
     public array $scheduledForUpdate = [];
 
@@ -56,7 +58,9 @@ class Listener
     private array $config;
 
     /**
-     * @param array<string, mixed> $config
+     * @param ObjectPersisterInterface<TObject> $objectPersister
+     * @param IndexableInterface<TObject>       $indexable
+     * @param array<string, mixed>              $config
      */
     public function __construct(
         protected ObjectPersisterInterface $objectPersister,
@@ -197,6 +201,8 @@ class Listener
 
     /**
      * Record the specified identifier to delete. Do not need to entire object.
+     *
+     * @param TObject $object
      */
     private function scheduleForDeletion(object $object): void
     {
@@ -207,6 +213,8 @@ class Listener
 
     /**
      * Checks if the object is indexable or not.
+     *
+     * @param TObject $object
      */
     private function isObjectIndexable(object $object): bool
     {

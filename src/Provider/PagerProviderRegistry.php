@@ -19,7 +19,7 @@ use Symfony\Component\DependencyInjection\ServiceLocator;
 class PagerProviderRegistry
 {
     /**
-     * @param ServiceLocator<PagerProviderInterface> $providers
+     * @param ServiceLocator<PagerProviderInterface<object>> $providers
      */
     public function __construct(
         private readonly ServiceLocator $providers,
@@ -30,7 +30,7 @@ class PagerProviderRegistry
      *
      * Providers will be indexed by "index" strings in the returned array.
      *
-     * @return PagerProviderInterface[]
+     * @return list<PagerProviderInterface<object>>
      */
     public function getProviders(): array
     {
@@ -39,6 +39,8 @@ class PagerProviderRegistry
 
     /**
      * Gets the provider for an index.
+     *
+     * @return PagerProviderInterface<object>
      *
      * @throws \InvalidArgumentException if no provider was registered for the index and type
      */

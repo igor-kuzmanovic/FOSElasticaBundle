@@ -12,8 +12,6 @@
 namespace FOS\ElasticaBundle\Event;
 
 /**
- * Index ResetEvent.
- *
  * @author Oleg Andreyev <oleg.andreyev@intexsys.lv>
  */
 abstract class AbstractIndexResetEvent extends AbstractIndexEvent

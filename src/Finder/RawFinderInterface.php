@@ -27,7 +27,7 @@ interface RawFinderInterface
      * @param TQuery   $query
      * @param TOptions $options
      *
-     * @return Result[]
+     * @return list<Result>
      */
     public function findRaw(mixed $query, ?int $limit = null, array $options = []): array;
 }

@@ -11,4 +11,9 @@
 
 namespace FOS\ElasticaBundle\Event;
 
+/**
+ * @template TObject of object
+ *
+ * @extends AbstractTransformEvent<TObject>
+ */
 final class PostTransformEvent extends AbstractTransformEvent {}

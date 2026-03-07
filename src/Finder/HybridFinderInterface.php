@@ -16,6 +16,8 @@ namespace FOS\ElasticaBundle\Finder;
 use FOS\ElasticaBundle\HybridResult;
 
 /**
+ * @template TObject of object
+ *
  * @phpstan-import-type TQuery from FinderInterface
  * @phpstan-import-type TOptions from FinderInterface
  */
@@ -27,7 +29,7 @@ interface HybridFinderInterface
      * @param TQuery   $query
      * @param TOptions $options
      *
-     * @return list<HybridResult<object>>
+     * @return list<HybridResult<TObject>>
      */
     public function findHybrid(mixed $query, ?int $limit = null, array $options = []): array;
 }

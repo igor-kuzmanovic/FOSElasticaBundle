@@ -20,13 +20,18 @@ use FOS\ElasticaBundle\Provider\PagerProviderInterface;
 use Pagerfanta\Doctrine\ORM\QueryAdapter;
 use Pagerfanta\Pagerfanta;
 
+/**
+ * @template TObject of object
+ *
+ * @implements PagerProviderInterface<TObject>
+ */
 final class ORMPagerProvider implements PagerProviderInterface
 {
     public const ENTITY_ALIAS = 'a';
 
     /**
-     * @param class-string         $objectClass
-     * @param array<string, mixed> $baseOptions
+     * @param class-string<TObject> $objectClass
+     * @param array<string, mixed>  $baseOptions
      */
     public function __construct(
         private readonly ManagerRegistry $doctrine,
@@ -35,6 +40,11 @@ final class ORMPagerProvider implements PagerProviderInterface
         private readonly array $baseOptions,
     ) {}
 
+    /**
+     * @param array<string, mixed> $options
+     *
+     * @return PagerInterface<TObject>
+     */
     public function provide(array $options = []): PagerInterface
     {
         $options = array_replace($this->baseOptions, $options);
@@ -55,7 +65,7 @@ final class ORMPagerProvider implements PagerProviderInterface
             // This side-effect allows us to be sure to get only From objects in the next call.
             $qb->getRootAliases();
 
-            /** @var From[] $fromClauses */
+            /** @var list<From> $fromClauses */
             $fromClauses = $qb->getDQLPart('from');
 
             foreach ($fromClauses as $fromClause) {
@@ -67,6 +77,7 @@ final class ORMPagerProvider implements PagerProviderInterface
             }
         }
 
+        /** @var PagerfantaPager<TObject> $pager */
         $pager = new PagerfantaPager(new Pagerfanta(new QueryAdapter($qb)));
 
         $this->registerListenersService->register($manager, $pager, $options);

@@ -20,13 +20,18 @@ use FOS\ElasticaBundle\Provider\PagerProviderInterface;
 use Pagerfanta\Doctrine\PHPCRODM\QueryAdapter;
 use Pagerfanta\Pagerfanta;
 
+/**
+ * @template TObject of object
+ *
+ * @implements PagerProviderInterface<TObject>
+ */
 final class PHPCRPagerProvider implements PagerProviderInterface
 {
     public const ENTITY_ALIAS = 'a';
 
     /**
-     * @param class-string         $objectClass
-     * @param array<string, mixed> $baseOptions
+     * @param class-string<TObject> $objectClass
+     * @param array<string, mixed>  $baseOptions
      */
     public function __construct(
         private readonly ManagerRegistry $doctrine,
@@ -35,6 +40,11 @@ final class PHPCRPagerProvider implements PagerProviderInterface
         private readonly array $baseOptions,
     ) {}
 
+    /**
+     * @param array<string, mixed> $options
+     *
+     * @return PagerInterface<TObject>
+     */
     public function provide(array $options = []): PagerInterface
     {
         $options = array_replace($this->baseOptions, $options);
@@ -53,6 +63,7 @@ final class PHPCRPagerProvider implements PagerProviderInterface
             \call_user_func([$repository, $options['query_builder_method']], self::ENTITY_ALIAS)
         );
 
+        /** @var PagerfantaPager<TObject> $pager */
         $pager = new PagerfantaPager(new Pagerfanta($adapter));
 
         $this->registerListenersService->register($manager, $pager, $options);

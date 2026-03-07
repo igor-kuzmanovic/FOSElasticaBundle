@@ -17,6 +17,8 @@ use FOS\ElasticaBundle\Paginator\PaginatorAdapterInterface;
 use Pagerfanta\PagerfantaInterface;
 
 /**
+ * @template TRaw of array<string, mixed>
+ *
  * @phpstan-import-type TQuery from FinderInterface
  * @phpstan-import-type TOptions from FinderInterface
  */
@@ -28,7 +30,7 @@ interface PaginatedRawFinderInterface extends RawFinderInterface
      * @param TQuery   $query
      * @param TOptions $options
      *
-     * @return PagerfantaInterface<array<string, mixed>>
+     * @return PagerfantaInterface<TRaw>
      */
     public function findRawPaginated(mixed $query, array $options = []): PagerfantaInterface;
 
@@ -38,7 +40,7 @@ interface PaginatedRawFinderInterface extends RawFinderInterface
      * @param TQuery   $query
      * @param TOptions $options
      *
-     * @return PaginatorAdapterInterface<array<string, mixed>>
+     * @return PaginatorAdapterInterface<TRaw>
      */
     public function createRawPaginatorAdapter(mixed $query, array $options = []): PaginatorAdapterInterface;
 }

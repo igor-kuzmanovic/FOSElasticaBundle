@@ -18,9 +18,12 @@ use FOS\ElasticaBundle\Transformer\AbstractElasticaToModelTransformer as BaseTra
 use FOS\ElasticaBundle\Transformer\HighlightableModelInterface;
 
 /**
- * Maps Elastica documents with Doctrine objects
- * This mapper assumes an exact match between
- * elastica documents ids and doctrine object ids.
+ * Maps Elastica documents with Doctrine objects.
+ * This mapper assumes an exact match between elastica documents ids and doctrine object ids.
+ *
+ * @template T of object
+ *
+ * @extends BaseTransformer<T>
  */
 abstract class AbstractElasticaToModelTransformer extends BaseTransformer
 {
@@ -45,7 +48,7 @@ abstract class AbstractElasticaToModelTransformer extends BaseTransformer
         /**
          * Class of the model to map to the elastica documents.
          *
-         * @var class-string
+         * @var class-string<T>
          */
         protected string $objectClass,
         array $options = [],
@@ -55,6 +58,8 @@ abstract class AbstractElasticaToModelTransformer extends BaseTransformer
 
     /**
      * Returns the object class that is used for conversion.
+     *
+     * @return class-string<T>
      */
     public function getObjectClass(): string
     {
@@ -65,7 +70,7 @@ abstract class AbstractElasticaToModelTransformer extends BaseTransformer
      * Transforms an array of elastica objects into an array of
      * model objects fetched from the doctrine repository.
      *
-     * @param Result[] $elasticaObjects of elastica objects
+     * @param list<Result> $elasticaObjects of elastica objects
      *
      * @throws \RuntimeException
      */
@@ -83,7 +88,7 @@ abstract class AbstractElasticaToModelTransformer extends BaseTransformer
         $propertyAccessor = $this->propertyAccessor;
         $identifier = $this->options['identifier'];
         if (!$this->options['ignore_missing'] && $objectsCnt < $elasticaObjectsCnt) {
-            $missingIds = array_diff($ids, array_map(static fn ($object): mixed => $propertyAccessor->getValue($object, $identifier), $objects));
+            $missingIds = array_diff($ids, array_map(static fn (array|object $object): mixed => $propertyAccessor->getValue($object, $identifier), $objects));
 
             throw new \RuntimeException(\sprintf('Cannot find corresponding Doctrine objects (%d) for all Elastica results (%d). Missing IDs: %s. IDs: %s', $objectsCnt, $elasticaObjectsCnt, implode(', ', $missingIds), implode(', ', $ids)));
         }
@@ -115,7 +120,7 @@ abstract class AbstractElasticaToModelTransformer extends BaseTransformer
     }
 
     /**
-     * @return list<HybridResult<object>>
+     * @return list<HybridResult<T>>
      */
     public function hybridTransform(array $elasticaObjects): array
     {
@@ -150,7 +155,7 @@ abstract class AbstractElasticaToModelTransformer extends BaseTransformer
      * @param list<string> $identifierValues ids values
      * @param bool         $hydrate          whether or not to hydrate the objects, false returns arrays
      *
-     * @return list<object|array<string, mixed>>
+     * @return list<T|array<string, mixed>>
      */
     abstract protected function findByIdentifiers(array $identifierValues, bool $hydrate): array;
 }

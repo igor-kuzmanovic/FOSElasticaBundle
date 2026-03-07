@@ -18,7 +18,7 @@ use FOS\ElasticaBundle\Elastica\Client;
 class ClientLocator
 {
     /**
-     * @param Client[] $clients
+     * @param list<Client> $clients
      */
     public function __construct(
         // @phpstan-ignore property.onlyWritten (Used only in tests to forbid container to remove clients.)

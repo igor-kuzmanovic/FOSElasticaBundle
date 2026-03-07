@@ -32,6 +32,9 @@ final class InPlacePagerPersister implements PagerPersisterInterface
         private readonly EventDispatcherInterface $dispatcher,
     ) {}
 
+    /**
+     * @param PagerInterface<object> $pager
+     */
     public function insert(PagerInterface $pager, array $options = []): void
     {
         $pager->setMaxPerPage(empty($options['max_per_page']) ? 100 : $options['max_per_page']);
@@ -66,7 +69,9 @@ final class InPlacePagerPersister implements PagerPersisterInterface
     }
 
     /**
-     * @param TPagerPersisterOptions $options
+     * @param PagerInterface<object>           $pager
+     * @param ObjectPersisterInterface<object> $objectPersister
+     * @param TPagerPersisterOptions           $options
      *
      * @throws \Exception
      */

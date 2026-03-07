@@ -35,6 +35,7 @@ class SearchCommand extends Command
     {
         $this
             ->setName('fos:elastica:search')
+            ->setDescription('Searches documents in a given type and index')
             ->addArgument('query', InputArgument::REQUIRED, 'The text to search')
             ->addOption('index', null, InputOption::VALUE_REQUIRED, 'The index to search in')
             ->addOption('limit', null, InputOption::VALUE_REQUIRED, 'The maximum number of documents to return', 20)
@@ -42,7 +43,6 @@ class SearchCommand extends Command
             ->addOption('show-source', null, InputOption::VALUE_NONE, 'Show the documents sources')
             ->addOption('show-id', null, InputOption::VALUE_NONE, 'Show the documents ids')
             ->addOption('explain', null, InputOption::VALUE_NONE, 'Enables explanation for each hit on how its score was computed.')
-            ->setDescription('Searches documents in a given type and index')
         ;
     }
 

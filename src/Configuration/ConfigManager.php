@@ -22,7 +22,7 @@ class ConfigManager implements ManagerInterface
     private array $indexes = [];
 
     /**
-     * @param Source\SourceInterface[] $sources
+     * @param list<Source\SourceInterface> $sources
      */
     public function __construct(array $sources)
     {

@@ -18,14 +18,16 @@ use FOS\ElasticaBundle\Transformer\ElasticaToModelTransformerInterface;
 /**
  * Allows pagination of \Elastica\Query.
  *
- * @extends RawPaginatorAdapter<object>
+ * @template TObject of object
+ *
+ * @extends AbstractPaginatorAdapter<TObject>
  */
-class TransformedPaginatorAdapter extends RawPaginatorAdapter
+class TransformedPaginatorAdapter extends AbstractPaginatorAdapter
 {
     /**
-     * @param SearchableInterface                 $searchable  the object to search in
-     * @param Query                               $query       the query to search
-     * @param ElasticaToModelTransformerInterface $transformer the transformer for fetching the results
+     * @param SearchableInterface                          $searchable  the object to search in
+     * @param Query                                        $query       the query to search
+     * @param ElasticaToModelTransformerInterface<TObject> $transformer the transformer for fetching the results
      */
     public function __construct(
         SearchableInterface $searchable,
@@ -36,6 +38,9 @@ class TransformedPaginatorAdapter extends RawPaginatorAdapter
         parent::__construct($searchable, $query, $options);
     }
 
+    /**
+     * @return PartialResultsInterface<TObject>
+     */
     public function getResults(int $offset, int $length): PartialResultsInterface
     {
         return new TransformedPartialResults($this->getElasticaResults($offset, $length), $this->transformer);
