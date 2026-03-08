@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the FOSElasticaBundle package.
  *
@@ -18,24 +20,21 @@ use PHPUnit\Framework\TestCase;
 /**
  * @internal
  */
-class IndexManagerTest extends TestCase
+final class IndexManagerTest extends TestCase
 {
     /**
      * @var array<string, Index>
      */
-    private $indexes = [];
+    private array $indexes = [];
 
-    /**
-     * @var IndexManager
-     */
-    private $indexManager;
+    private IndexManager $indexManager;
 
     protected function setUp(): void
     {
         foreach (['index1', 'index2', 'index3'] as $indexName) {
             $index = $this->createMock(Index::class);
 
-            $index->expects($this->any())
+            $index
                 ->method('getName')
                 ->willReturn($indexName)
             ;

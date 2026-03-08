@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the FOSElasticaBundle package.
  *
@@ -18,7 +20,7 @@ use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 /**
  * @internal
  */
-class AbstractElasticaToModelTransformerTest extends UnitTestHelper
+final class AbstractElasticaToModelTransformerTest extends UnitTestHelper
 {
     public function testSetPropertyAccessor(): void
     {

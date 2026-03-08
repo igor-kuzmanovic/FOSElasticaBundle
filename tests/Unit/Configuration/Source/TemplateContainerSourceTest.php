@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the FOSElasticaBundle package.
  *
@@ -20,7 +22,7 @@ use PHPUnit\Framework\TestCase;
  *
  * @internal
  */
-class TemplateContainerSourceTest extends TestCase
+final class TemplateContainerSourceTest extends TestCase
 {
     public function testGetEmptyConfiguration(): void
     {

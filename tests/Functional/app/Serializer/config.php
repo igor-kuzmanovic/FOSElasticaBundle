@@ -28,7 +28,7 @@ return static function (ContainerConfigurator $container): void {
     ]);
 
     $container->services()
-        ->set('indexableService', 'FOS\ElasticaBundle\Tests\Functional\app\ORM\IndexableService')
+        ->set('indexableService', \FOS\ElasticaBundle\Tests\Functional\app\ORM\IndexableService::class)
     ;
 
     $container->extension('jms_serializer', [
@@ -59,7 +59,7 @@ return static function (ContainerConfigurator $container): void {
                 'index_name' => 'foselastica_ser_test_%kernel.environment%',
                 'persistence' => [
                     'driver' => 'orm',
-                    'model' => 'FOS\ElasticaBundle\Tests\Functional\TypeObj',
+                    'model' => \FOS\ElasticaBundle\Tests\Functional\TypeObj::class,
                 ],
                 'serializer' => [
                     'groups' => [
@@ -76,7 +76,7 @@ return static function (ContainerConfigurator $container): void {
             'index_serialize_null_disabled' => [
                 'persistence' => [
                     'driver' => 'orm',
-                    'model' => 'FOS\ElasticaBundle\Tests\Functional\TypeObj',
+                    'model' => \FOS\ElasticaBundle\Tests\Functional\TypeObj::class,
                 ],
                 'serializer' => [
                     'serialize_null' => false,
@@ -88,7 +88,7 @@ return static function (ContainerConfigurator $container): void {
             'index_serialize_null_enabled' => [
                 'persistence' => [
                     'driver' => 'orm',
-                    'model' => 'FOS\ElasticaBundle\Tests\Functional\TypeObj',
+                    'model' => \FOS\ElasticaBundle\Tests\Functional\TypeObj::class,
                 ],
                 'serializer' => [
                     'serialize_null' => true,
@@ -100,7 +100,7 @@ return static function (ContainerConfigurator $container): void {
             'index_unmapped' => [
                 'persistence' => [
                     'driver' => 'orm',
-                    'model' => 'FOS\ElasticaBundle\Tests\Functional\TypeObj',
+                    'model' => \FOS\ElasticaBundle\Tests\Functional\TypeObj::class,
                 ],
                 'serializer' => [
                     'groups' => [

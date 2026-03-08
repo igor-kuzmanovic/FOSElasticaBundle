@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the FOSElasticaBundle package.
  *
@@ -22,7 +24,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 /**
  * @internal
  */
-class FilterObjectsListenerTest extends TestCase
+final class FilterObjectsListenerTest extends TestCase
 {
     public function testShouldImplementEventSubscriberInterface(): void
     {
@@ -52,27 +54,25 @@ class FilterObjectsListenerTest extends TestCase
         $indexableMock
             ->expects($matcher)
             ->method('isObjectIndexable')
-            ->willReturnCallback(function (string $indexName, object $object) use ($matcher, $objects): bool {
-                return match ($matcher->numberOfInvocations()) {
-                    1 => (function () use ($indexName, $object, $objects): bool {
-                        $this->assertSame('theIndex', $indexName);
-                        $this->assertSame($objects[0], $object);
+            ->willReturnCallback(fn (string $indexName, object $object): bool => match ($matcher->numberOfInvocations()) {
+                1 => (function () use ($indexName, $object, $objects): bool {
+                    $this->assertSame('theIndex', $indexName);
+                    $this->assertSame($objects[0], $object);
 
-                        return false;
-                    })(),
-                    2 => (function () use ($indexName, $object, $objects): bool {
-                        $this->assertSame('theIndex', $indexName);
-                        $this->assertSame($objects[1], $object);
+                    return false;
+                })(),
+                2 => (function () use ($indexName, $object, $objects): bool {
+                    $this->assertSame('theIndex', $indexName);
+                    $this->assertSame($objects[1], $object);
 
-                        return false;
-                    })(),
-                    3 => (function () use ($indexName, $object, $objects): bool {
-                        $this->assertSame('theIndex', $indexName);
-                        $this->assertSame($objects[2], $object);
+                    return false;
+                })(),
+                3 => (function () use ($indexName, $object, $objects): bool {
+                    $this->assertSame('theIndex', $indexName);
+                    $this->assertSame($objects[2], $object);
 
-                        return false;
-                    })(),
-                };
+                    return false;
+                })(),
             })
         ;
 
@@ -99,27 +99,25 @@ class FilterObjectsListenerTest extends TestCase
         $indexableMock
             ->expects($matcher)
             ->method('isObjectIndexable')
-            ->willReturnCallback(function (string $indexName, object $object) use ($matcher, $objects): bool {
-                return match ($matcher->numberOfInvocations()) {
-                    1 => (function () use ($indexName, $object, $objects): bool {
-                        $this->assertSame('theIndex', $indexName);
-                        $this->assertSame($objects[0], $object);
+            ->willReturnCallback(fn (string $indexName, object $object): bool => match ($matcher->numberOfInvocations()) {
+                1 => (function () use ($indexName, $object, $objects): bool {
+                    $this->assertSame('theIndex', $indexName);
+                    $this->assertSame($objects[0], $object);
 
-                        return true;
-                    })(),
-                    2 => (function () use ($indexName, $object, $objects): bool {
-                        $this->assertSame('theIndex', $indexName);
-                        $this->assertSame($objects[1], $object);
+                    return true;
+                })(),
+                2 => (function () use ($indexName, $object, $objects): bool {
+                    $this->assertSame('theIndex', $indexName);
+                    $this->assertSame($objects[1], $object);
 
-                        return false;
-                    })(),
-                    3 => (function () use ($indexName, $object, $objects): bool {
-                        $this->assertSame('theIndex', $indexName);
-                        $this->assertSame($objects[2], $object);
+                    return false;
+                })(),
+                3 => (function () use ($indexName, $object, $objects): bool {
+                    $this->assertSame('theIndex', $indexName);
+                    $this->assertSame($objects[2], $object);
 
-                        return true;
-                    })(),
-                };
+                    return true;
+                })(),
             })
         ;
 

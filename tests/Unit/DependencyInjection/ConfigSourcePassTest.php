@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the FOSElasticaBundle package.
  *
@@ -22,10 +24,9 @@ use Symfony\Component\DependencyInjection\Reference;
 /**
  * @internal
  */
-class ConfigSourcePassTest extends TestCase
+final class ConfigSourcePassTest extends TestCase
 {
-    /** @var ContainerBuilder */
-    private $container;
+    private ContainerBuilder $container;
 
     protected function setUp(): void
     {

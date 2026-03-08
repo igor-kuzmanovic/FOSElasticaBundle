@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the FOSElasticaBundle package.
  *
@@ -20,21 +22,19 @@ use Symfony\Component\Console\Tester\CommandTester;
  *
  * @internal
  */
-class ResetTemplatesCommandTest extends WebTestCase
+final class ResetTemplatesCommandTest extends WebTestCase
 {
     private Client $elasticClient;
 
     /**
      * Application.
-     *
-     * @var Application
      */
-    private $application;
+    private Application $application;
 
     protected function setUp(): void
     {
         self::bootKernel(['test_case' => 'Basic']);
-        $this->application = $application = new Application(static::$kernel);
+        $this->application = $application = new Application(self::$kernel);
         // required for old supported Symfony
         $application->all();
 

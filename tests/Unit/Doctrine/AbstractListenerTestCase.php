@@ -19,12 +19,8 @@ use PHPUnit\Framework\TestCase;
 class Entity
 {
     public mixed $identifier = null;
-    private int $id;
 
-    public function __construct(int $id)
-    {
-        $this->id = $id;
-    }
+    public function __construct(private readonly int $id) {}
 
     public function getId(): int
     {
@@ -34,12 +30,9 @@ class Entity
 
 class ConditionalUpdateEntity extends Entity
 {
-    private bool $shouldBeUpdated;
-
-    public function __construct(int $id, bool $shouldBeUpdated)
+    public function __construct(int $id, private readonly bool $shouldBeUpdated)
     {
         parent::__construct($id);
-        $this->shouldBeUpdated = $shouldBeUpdated;
     }
 
     public function shouldBeUpdated(): bool
@@ -147,13 +140,13 @@ abstract class AbstractListenerTestCase extends TestCase
         $eventArgs = $this->createLifecycleEventArgs($entity, $objectManager);
         $indexable = $this->getMockIndexable('index', $entity, false);
 
-        $objectManager->expects($this->any())
+        $objectManager
             ->method('getClassMetadata')
             ->with($entity::class)
             ->willReturn($classMetadata)
         ;
 
-        $classMetadata->expects($this->any())
+        $classMetadata
             ->method('getFieldValue')
             ->with($entity, 'id')
             ->willReturn($entity->getId())
@@ -186,13 +179,13 @@ abstract class AbstractListenerTestCase extends TestCase
         $eventArgs = $this->createLifecycleEventArgs($entity, $objectManager);
         $indexable = $this->getMockIndexable('index', $entity);
 
-        $objectManager->expects($this->any())
+        $objectManager
             ->method('getClassMetadata')
             ->with($entity::class)
             ->willReturn($classMetadata)
         ;
 
-        $classMetadata->expects($this->any())
+        $classMetadata
             ->method('getFieldValue')
             ->with($entity, 'id')
             ->willReturn($entity->getId())
@@ -222,13 +215,13 @@ abstract class AbstractListenerTestCase extends TestCase
         $eventArgs = $this->createLifecycleEventArgs($entity, $objectManager);
         $indexable = $this->getMockIndexable('index', $entity);
 
-        $objectManager->expects($this->any())
+        $objectManager
             ->method('getClassMetadata')
             ->with($entity::class)
             ->willReturn($classMetadata)
         ;
 
-        $classMetadata->expects($this->any())
+        $classMetadata
             ->method('getFieldValue')
             ->with($entity, 'identifier')
             ->willReturn($entity->getId())
@@ -251,7 +244,7 @@ abstract class AbstractListenerTestCase extends TestCase
     {
         $entity = new Entity(1);
         $persister = $this->getMockPersister($entity, 'index');
-        $indexable = $this->getMockIndexable(null, null, null);
+        $indexable = $this->getMockIndexable(null);
         $listener = $this->createListener(
             $persister,
             $indexable,
@@ -415,14 +408,14 @@ abstract class AbstractListenerTestCase extends TestCase
     {
         $mock = $this->createMock(ObjectPersister::class);
 
-        $mock->expects($this->any())
+        $mock
             ->method('handlesObject')
             ->with($object)
             ->willReturn(true)
         ;
 
         $index = $this->createMock(Index::class);
-        $index->expects($this->any())
+        $index
             ->method('getName')
             ->willReturn($indexName)
         ;

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the FOSElasticaBundle package.
  *
@@ -27,42 +29,39 @@ use Symfony\Component\Console\Output\OutputInterface;
  *
  * @internal
  */
-class CreateCommandTest extends TestCase
+final class CreateCommandTest extends TestCase
 {
     /**
      * @var IndexManager|\PHPUnit\Framework\MockObject\MockObject
      */
-    private $indexManager;
+    private \PHPUnit\Framework\MockObject\MockObject $indexManager;
 
     /**
      * @var MappingBuilder|\PHPUnit\Framework\MockObject\MockObject
      */
-    private $mappingBuilder;
+    private \PHPUnit\Framework\MockObject\MockObject $mappingBuilder;
 
     /**
      * @var ConfigManager|\PHPUnit\Framework\MockObject\MockObject
      */
-    private $configManager;
+    private \PHPUnit\Framework\MockObject\MockObject $configManager;
 
     /**
      * @var AliasProcessor|\PHPUnit\Framework\MockObject\MockObject
      */
-    private $aliasProcessor;
+    private \PHPUnit\Framework\MockObject\MockObject $aliasProcessor;
 
-    /**
-     * @var CreateCommand
-     */
-    private $command;
+    private CreateCommand $command;
 
     /**
      * @var IndexConfig|\PHPUnit\Framework\MockObject\MockObject
      */
-    private $indexConfig;
+    private \PHPUnit\Framework\MockObject\MockObject $indexConfig;
 
     /**
      * @var Index|\PHPUnit\Framework\MockObject\MockObject
      */
-    private $index;
+    private \PHPUnit\Framework\MockObject\MockObject $index;
 
     protected function setUp(): void
     {
@@ -93,19 +92,17 @@ class CreateCommandTest extends TestCase
         $input
             ->expects($matcher)
             ->method('getOption')
-            ->willReturnCallback(function (string $option) use ($matcher, $indexName) {
-                return match ($matcher->numberOfInvocations()) {
-                    1 => (function () use ($option, $indexName) {
-                        $this->assertSame('index', $option);
+            ->willReturnCallback(fn (string $option): mixed => match ($matcher->numberOfInvocations()) {
+                1 => (function () use ($option, $indexName): string {
+                    $this->assertSame('index', $option);
 
-                        return $indexName;
-                    })(),
-                    2 => (function () use ($option) {
-                        $this->assertSame('no-alias', $option);
+                    return $indexName;
+                })(),
+                2 => (function () use ($option): false {
+                    $this->assertSame('no-alias', $option);
 
-                        return false;
-                    })(),
-                };
+                    return false;
+                })(),
             })
         ;
         $output->expects($this->once())->method('writeln');
@@ -133,19 +130,17 @@ class CreateCommandTest extends TestCase
         $input
             ->expects($matcher)
             ->method('getOption')
-            ->willReturnCallback(function (string $option) use ($matcher, $indexName) {
-                return match ($matcher->numberOfInvocations()) {
-                    1 => (function () use ($option, $indexName) {
-                        $this->assertSame('index', $option);
+            ->willReturnCallback(fn (string $option): mixed => match ($matcher->numberOfInvocations()) {
+                1 => (function () use ($option, $indexName): string {
+                    $this->assertSame('index', $option);
 
-                        return $indexName;
-                    })(),
-                    2 => (function () use ($option) {
-                        $this->assertSame('no-alias', $option);
+                    return $indexName;
+                })(),
+                2 => (function () use ($option): true {
+                    $this->assertSame('no-alias', $option);
 
-                        return true;
-                    })(),
-                };
+                    return true;
+                })(),
             })
         ;
         $output->expects($this->once())->method('writeln');
@@ -200,37 +195,33 @@ class CreateCommandTest extends TestCase
 
         $getIndexConfigurationMatcher = $this->exactly(2);
         $this->configManager->expects($getIndexConfigurationMatcher)->method('getIndexConfiguration')
-            ->willReturnCallback(function (string $indexName) use ($getIndexConfigurationMatcher, $indexConfig1, $indexConfig2) {
-                return match ($getIndexConfigurationMatcher->numberOfInvocations()) {
-                    1 => (function () use ($indexName, $indexConfig1) {
-                        $this->assertSame('foo', $indexName);
+            ->willReturnCallback(fn (string $indexName): object => match ($getIndexConfigurationMatcher->numberOfInvocations()) {
+                1 => (function () use ($indexName, $indexConfig1): object {
+                    $this->assertSame('foo', $indexName);
 
-                        return $indexConfig1;
-                    })(),
-                    2 => (function () use ($indexName, $indexConfig2) {
-                        $this->assertSame('bar', $indexName);
+                    return $indexConfig1;
+                })(),
+                2 => (function () use ($indexName, $indexConfig2): object {
+                    $this->assertSame('bar', $indexName);
 
-                        return $indexConfig2;
-                    })(),
-                };
+                    return $indexConfig2;
+                })(),
             })
         ;
 
         $getIndexMatcher = $this->exactly(2);
         $this->indexManager->expects($getIndexMatcher)->method('getIndex')
-            ->willReturnCallback(function (string $indexName) use ($getIndexMatcher, $index1, $index2) {
-                return match ($getIndexMatcher->numberOfInvocations()) {
-                    1 => (function () use ($indexName, $index1) {
-                        $this->assertSame('foo', $indexName);
+            ->willReturnCallback(fn (string $indexName): object => match ($getIndexMatcher->numberOfInvocations()) {
+                1 => (function () use ($indexName, $index1): object {
+                    $this->assertSame('foo', $indexName);
 
-                        return $index1;
-                    })(),
-                    2 => (function () use ($indexName, $index2) {
-                        $this->assertSame('bar', $indexName);
+                    return $index1;
+                })(),
+                2 => (function () use ($indexName, $index2): object {
+                    $this->assertSame('bar', $indexName);
 
-                        return $index2;
-                    })(),
-                };
+                    return $index2;
+                })(),
             })
         ;
 
@@ -241,19 +232,17 @@ class CreateCommandTest extends TestCase
 
         $buildIndexMappingMatcher = $this->exactly(2);
         $this->mappingBuilder->expects($buildIndexMappingMatcher)->method('buildIndexMapping')
-            ->willReturnCallback(function (IndexConfig $indexConfig) use ($buildIndexMappingMatcher, $indexConfig1, $indexConfig2, $mapping) {
-                return match ($buildIndexMappingMatcher->numberOfInvocations()) {
-                    1 => (function () use ($indexConfig, $indexConfig1, $mapping) {
-                        $this->assertSame($indexConfig1, $indexConfig);
+            ->willReturnCallback(fn (IndexConfig $indexConfig): array => match ($buildIndexMappingMatcher->numberOfInvocations()) {
+                1 => (function () use ($indexConfig, $indexConfig1, $mapping): array {
+                    $this->assertSame($indexConfig1, $indexConfig);
 
-                        return $mapping;
-                    })(),
-                    2 => (function () use ($indexConfig, $indexConfig2, $mapping) {
-                        $this->assertSame($indexConfig2, $indexConfig);
+                    return $mapping;
+                })(),
+                2 => (function () use ($indexConfig, $indexConfig2, $mapping): array {
+                    $this->assertSame($indexConfig2, $indexConfig);
 
-                        return $mapping;
-                    })(),
-                };
+                    return $mapping;
+                })(),
             })
         ;
 

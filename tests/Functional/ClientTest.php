@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the FOSElasticaBundle package.
  *
@@ -18,7 +20,7 @@ use FOS\ElasticaBundle\Elastica\Client;
  * @internal
  */
 #[\PHPUnit\Framework\Attributes\Group('functional')]
-class ClientTest extends WebTestCase
+final class ClientTest extends WebTestCase
 {
     public function testContainerSource(): void
     {
@@ -27,19 +29,19 @@ class ClientTest extends WebTestCase
         /** @var Client $es */
         $es = self::getContainer()->get('fos_elastica.client.default');
         $transportConfig = $es->getConfig('transport_config');
-        self::assertArrayHasKey('node_pool', $transportConfig);
+        $this->assertArrayHasKey('node_pool', $transportConfig);
         $this->assertInstanceOf(SimpleNodePool::class, $transportConfig['node_pool']);
 
         /** @var Client $es */
         $es = self::getContainer()->get('fos_elastica.client.second_server');
         $transportConfig = $es->getConfig('transport_config');
-        self::assertArrayHasKey('node_pool', $transportConfig);
+        $this->assertArrayHasKey('node_pool', $transportConfig);
         $this->assertInstanceOf(SimpleNodePool::class, $transportConfig['node_pool']);
 
         /** @var Client $es */
         $es = self::getContainer()->get('fos_elastica.client.third');
         $transportConfig = $es->getConfig('transport_config');
-        self::assertArrayHasKey('node_pool', $transportConfig);
-        self::assertNull($transportConfig['node_pool']);
+        $this->assertArrayHasKey('node_pool', $transportConfig);
+        $this->assertNull($transportConfig['node_pool']);
     }
 }

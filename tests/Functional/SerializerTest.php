@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the FOSElasticaBundle package.
  *
@@ -15,11 +17,11 @@ namespace FOS\ElasticaBundle\Tests\Functional;
  * @internal
  */
 #[\PHPUnit\Framework\Attributes\Group('functional')]
-class SerializerTest extends WebTestCase
+final class SerializerTest extends WebTestCase
 {
     public function testMappingIteratorToArrayField(): void
     {
-        static::bootKernel(['test_case' => 'Serializer']);
+        self::bootKernel(['test_case' => 'Serializer']);
         $persister = self::getContainer()->get('fos_elastica.object_persister.index');
 
         $object = new TypeObj();
@@ -38,7 +40,7 @@ class SerializerTest extends WebTestCase
      */
     public function testWithNullValues(): void
     {
-        static::bootKernel(['test_case' => 'Serializer']);
+        self::bootKernel(['test_case' => 'Serializer']);
 
         $disabledNullPersister = self::getContainer()->get('fos_elastica.object_persister.index_serialize_null_disabled');
         $enabledNullPersister = self::getContainer()->get('fos_elastica.object_persister.index_serialize_null_enabled');
@@ -63,7 +65,7 @@ class SerializerTest extends WebTestCase
 
     public function testUnmappedType(): void
     {
-        static::bootKernel(['test_case' => 'Serializer']);
+        self::bootKernel(['test_case' => 'Serializer']);
         $resetter = self::getContainer()->get('fos_elastica.resetter');
         $resetter->resetIndex('index');
     }

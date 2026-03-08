@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the FOSElasticaBundle package.
  *
@@ -17,7 +19,7 @@ use FOS\ElasticaBundle\Provider\Indexable;
  * @internal
  */
 #[\PHPUnit\Framework\Attributes\Group('functional')]
-class IndexableCallbackTest extends WebTestCase
+final class IndexableCallbackTest extends WebTestCase
 {
     /**
      * 2 reasons for this test:.

@@ -23,16 +23,14 @@ use Symfony\Component\HttpKernel\Kernel;
  */
 class AppKernel extends Kernel
 {
-    private string $varDir;
-    private string $testCase;
-    private string $rootConfig;
+    private readonly string $testCase;
+    private readonly string $rootConfig;
 
-    public function __construct(string $varDir, string $testCase, string $rootConfig, string $environment, bool $debug)
+    public function __construct(private readonly string $varDir, string $testCase, string $rootConfig, string $environment, bool $debug)
     {
         if (!is_dir(__DIR__.'/'.$testCase)) {
             throw new \InvalidArgumentException(\sprintf('The test case "%s" does not exist.', $testCase));
         }
-        $this->varDir = $varDir;
         $this->testCase = $testCase;
 
         $fs = new Filesystem();

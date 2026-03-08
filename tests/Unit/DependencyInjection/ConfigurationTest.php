@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the FOSElasticaBundle package.
  *
@@ -18,12 +20,9 @@ use Symfony\Component\Config\Definition\Processor;
 /**
  * @internal
  */
-class ConfigurationTest extends TestCase
+final class ConfigurationTest extends TestCase
 {
-    /**
-     * @var Processor
-     */
-    private $processor;
+    private Processor $processor;
 
     protected function setUp(): void
     {

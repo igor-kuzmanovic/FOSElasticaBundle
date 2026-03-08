@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the FOSElasticaBundle package.
  *
@@ -29,7 +31,7 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 /**
  * @internal
  */
-class ClientTest extends TestCase
+final class ClientTest extends TestCase
 {
     public function testRequestsAreLogged(): void
     {
@@ -70,7 +72,7 @@ class ClientTest extends TestCase
         $dispatcher = $this->createMock(EventDispatcherInterface::class);
         $dispatcher->expects($invoke = $this->exactly(2))
             ->method('dispatch')
-            ->with($this->callback(function ($o) use ($invoke): bool {
+            ->with($this->callback(function (object $o) use ($invoke): bool {
                 $counter = $invoke->numberOfInvocations() - 1;
 
                 if ($counter > 1) {
@@ -122,7 +124,7 @@ class ClientTest extends TestCase
             ['Content-Type' => 'application/json', Elasticsearch::HEADER_CHECK => Elasticsearch::PRODUCT_NAME],
             json_encode(['foo' => 'bar'], \JSON_THROW_ON_ERROR)
         );
-        $logger = $this->createMock(ElasticaLogger::class);
+        $logger = $this->createStub(ElasticaLogger::class);
         $client = $this->getClient($logger, $response);
         $client->setEventDispatcher($dispatcher);
 
@@ -144,12 +146,12 @@ class ClientTest extends TestCase
             $responseString
         );
 
-        $client = $this->getClient($this->createMock(LoggerInterface::class), $response);
+        $client = $this->getClient($this->createStub(LoggerInterface::class), $response);
 
         $dispatcher = $this->createMock(EventDispatcherInterface::class);
         $dispatcher->expects($invoke = $this->exactly(2))
             ->method('dispatch')
-            ->with($this->callback(function ($o) use ($invoke): bool {
+            ->with($this->callback(function (object $o) use ($invoke): bool {
                 $counter = $invoke->numberOfInvocations() - 1;
 
                 if ($counter > 1) {
@@ -216,7 +218,7 @@ class ClientTest extends TestCase
             $responseString
         );
 
-        $client = $this->getClient($this->createMock(LoggerInterface::class), $response);
+        $client = $this->getClient($this->createStub(LoggerInterface::class), $response);
 
         $desiredMessage = \sprintf('Error in transportInfo: response code is %d, response body is %s', $httpCode, $responseString);
         $this->expectException(ClientException::class);
@@ -237,7 +239,7 @@ class ClientTest extends TestCase
     private function getClient(LoggerInterface $logger, \GuzzleHttp\Psr7\Response $response): Client
     {
         $httpClient = $this->createMock(ClientInterface::class);
-        $httpClient->expects($this->any())
+        $httpClient
             ->method('sendRequest')
             ->willReturn($response)
         ;

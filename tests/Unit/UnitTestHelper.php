@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the FOSElasticaBundle package.
  *
@@ -40,9 +42,7 @@ class UnitTestHelper extends TestCase
      */
     protected function mockElasticaToModelTransformer(): ElasticaToModelTransformerInterface
     {
-        return $this
-            ->getMockBuilder(ElasticaToModelTransformerInterface::class)
-            ->getMock()
+        return $this->createMock(ElasticaToModelTransformerInterface::class)
         ;
     }
 
@@ -51,9 +51,7 @@ class UnitTestHelper extends TestCase
      */
     protected function mockSearchable(): SearchableInterface
     {
-        return $this
-            ->getMockBuilder(SearchableInterface::class)
-            ->getMock()
+        return $this->createMock(SearchableInterface::class)
         ;
     }
 
@@ -62,10 +60,7 @@ class UnitTestHelper extends TestCase
      */
     protected function mockResultSet(): ResultSet
     {
-        return $this
-            ->getMockBuilder(ResultSet::class)
-            ->disableOriginalConstructor()
-            ->getMock()
+        return $this->createMock(ResultSet::class)
         ;
     }
 }

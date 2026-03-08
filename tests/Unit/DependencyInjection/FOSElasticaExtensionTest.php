@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the FOSElasticaBundle package.
  *
@@ -30,7 +32,7 @@ use Symfony\Component\DependencyInjection\Reference;
 /**
  * @internal
  */
-class FOSElasticaExtensionTest extends TestCase
+final class FOSElasticaExtensionTest extends TestCase
 {
     public function testExtensionSupportsDriverlessTypePersistence(): void
     {

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the FOSElasticaBundle package.
  *
@@ -19,7 +21,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * @internal
  */
-class FantaPaginatorAdapterTest extends TestCase
+final class FantaPaginatorAdapterTest extends TestCase
 {
     public function testGetNbResults(): void
     {
@@ -87,7 +89,7 @@ class FantaPaginatorAdapterTest extends TestCase
             ->willReturn(123.0)
         ;
         $adapter = new FantaPaginatorAdapter($mock);
-        $this->assertSame(123.0, $adapter->getMaxScore());
+        $this->assertEqualsWithDelta(123.0, $adapter->getMaxScore(), \PHP_FLOAT_EPSILON);
     }
 
     /**
@@ -97,9 +99,7 @@ class FantaPaginatorAdapterTest extends TestCase
      */
     private function mockPartialResults(array $results): PartialResultsInterface
     {
-        $mock = $this
-            ->getMockBuilder(PartialResultsInterface::class)
-            ->getMock()
+        $mock = $this->createMock(PartialResultsInterface::class)
         ;
         $mock
             ->expects($this->exactly(1))
@@ -115,9 +115,7 @@ class FantaPaginatorAdapterTest extends TestCase
      */
     private function mockPaginatorAdapter(): PaginatorAdapterInterface
     {
-        return $this
-            ->getMockBuilder(PaginatorAdapterInterface::class)
-            ->getMock()
+        return $this->createMock(PaginatorAdapterInterface::class)
         ;
     }
 }

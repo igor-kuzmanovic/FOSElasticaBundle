@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the FOSElasticaBundle package.
  *
@@ -21,22 +23,19 @@ use Symfony\Component\Console\Output\NullOutput;
 /**
  * @internal
  */
-class ResetCommandTest extends TestCase
+final class ResetCommandTest extends TestCase
 {
-    /**
-     * @var ResetCommand
-     */
-    private $command;
+    private ResetCommand $command;
 
     /**
      * @var Resetter|\PHPUnit\Framework\MockObject\MockObject
      */
-    private $resetter;
+    private \PHPUnit\Framework\MockObject\MockObject $resetter;
 
     /**
      * @var IndexManager|\PHPUnit\Framework\MockObject\MockObject
      */
-    private $indexManager;
+    private \PHPUnit\Framework\MockObject\MockObject $indexManager;
 
     protected function setUp(): void
     {
@@ -48,7 +47,7 @@ class ResetCommandTest extends TestCase
 
     public function testResetAllIndexes(): void
     {
-        $this->indexManager->expects($this->any())
+        $this->indexManager
             ->method('getAllIndexes')
             ->willReturn(['index1' => true, 'index2' => true])
         ;
@@ -78,7 +77,7 @@ class ResetCommandTest extends TestCase
 
         $this->resetter->expects($this->once())
             ->method('resetIndex')
-            ->with($this->equalTo('index1'))
+            ->with('index1')
         ;
 
         $this->command->run(

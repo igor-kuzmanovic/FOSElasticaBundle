@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the FOSElasticaBundle package.
  *
@@ -22,7 +24,7 @@ use FOS\ElasticaBundle\Index\TemplateResetter;
  *
  * @internal
  */
-class IndexTemplatesTest extends WebTestCase
+final class IndexTemplatesTest extends WebTestCase
 {
     public function testContainer(): void
     {

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the FOSElasticaBundle package.
  *
@@ -18,11 +20,11 @@ use FOS\ElasticaBundle\Configuration\IndexConfig;
  * @internal
  */
 #[\PHPUnit\Framework\Attributes\Group('functional')]
-class ConfigurationManagerTest extends WebTestCase
+final class ConfigurationManagerTest extends WebTestCase
 {
     public function testContainerSource(): void
     {
-        static::bootKernel(['test_case' => 'Basic']);
+        self::bootKernel(['test_case' => 'Basic']);
         /** @var ConfigManager $manager */
         $manager = self::getContainer()->get('fos_elastica.config_manager');
 

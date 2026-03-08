@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the FOSElasticaBundle package.
  *
@@ -22,15 +24,15 @@ use Symfony\Component\HttpFoundation\Response;
  *
  * @internal
  */
-class ElasticaDataCollectorTest extends UnitTestHelper
+final class ElasticaDataCollectorTest extends UnitTestHelper
 {
     public function testCorrectAmountOfQueries(): void
     {
         /** @var \PHPUnit\Framework\MockObject\MockObject|Request $requestMock */
-        $requestMock = $this->createMock(Request::class);
+        $requestMock = $this->createStub(Request::class);
 
         /** @var \PHPUnit\Framework\MockObject\MockObject|Response $responseMock */
-        $responseMock = $this->createMock(Response::class);
+        $responseMock = $this->createStub(Response::class);
 
         /** @var \PHPUnit\Framework\MockObject\MockObject|ElasticaLogger $loggerMock */
         $loggerMock = $this->createMock(ElasticaLogger::class);
@@ -50,10 +52,10 @@ class ElasticaDataCollectorTest extends UnitTestHelper
     public function testCorrectQueriesReturned(): void
     {
         /** @var \PHPUnit\Framework\MockObject\MockObject|Request $requestMock */
-        $requestMock = $this->createMock(Request::class);
+        $requestMock = $this->createStub(Request::class);
 
         /** @var \PHPUnit\Framework\MockObject\MockObject|Response $responseMock */
-        $responseMock = $this->createMock(Response::class);
+        $responseMock = $this->createStub(Response::class);
 
         /** @var \PHPUnit\Framework\MockObject\MockObject|ElasticaLogger $loggerMock */
         $loggerMock = $this->createMock(ElasticaLogger::class);
@@ -73,10 +75,10 @@ class ElasticaDataCollectorTest extends UnitTestHelper
     public function testCorrectQueriesTime(): void
     {
         /** @var \PHPUnit\Framework\MockObject\MockObject|Request $requestMock */
-        $requestMock = $this->createMock(Request::class);
+        $requestMock = $this->createStub(Request::class);
 
         /** @var \PHPUnit\Framework\MockObject\MockObject|Response $responseMock */
-        $responseMock = $this->createMock(Response::class);
+        $responseMock = $this->createStub(Response::class);
 
         /** @var \PHPUnit\Framework\MockObject\MockObject|ElasticaLogger $loggerMock */
         $loggerMock = $this->createMock(ElasticaLogger::class);
@@ -102,7 +104,7 @@ class ElasticaDataCollectorTest extends UnitTestHelper
     public function testName(): void
     {
         /** @var \PHPUnit\Framework\MockObject\MockObject|ElasticaLogger $loggerMock */
-        $loggerMock = $this->createMock(ElasticaLogger::class);
+        $loggerMock = $this->createStub(ElasticaLogger::class);
 
         $elasticaDataCollector = new ElasticaDataCollector($loggerMock);
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the FOSElasticaBundle package.
  *
@@ -19,7 +21,7 @@ use FOS\ElasticaBundle\Persister\ObjectPersisterInterface;
  * @internal
  */
 #[\PHPUnit\Framework\Attributes\Group('functional')]
-class MappingToElasticaTest extends WebTestCase
+final class MappingToElasticaTest extends WebTestCase
 {
     public function testResetIndexAddsMappings(): void
     {

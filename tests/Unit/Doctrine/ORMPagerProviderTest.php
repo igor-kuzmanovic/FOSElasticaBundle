@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the FOSElasticaBundle package.
  *
@@ -28,7 +30,7 @@ use Symfony\Bridge\Doctrine\ManagerRegistry;
 /**
  * @internal
  */
-class ORMPagerProviderTest extends TestCase
+final class ORMPagerProviderTest extends TestCase
 {
     public function testShouldImplementPagerProviderInterface(): void
     {
@@ -54,7 +56,7 @@ class ORMPagerProviderTest extends TestCase
         $expectedBuilder = $this->createMock(QueryBuilder::class);
         $expectedBuilder->method('getDQLPart')
             ->with('orderBy')
-            ->willReturn([$this->createMock(OrderBy::class)])
+            ->willReturn([$this->createStub(OrderBy::class)])
         ;
 
         $repository = $this->createMock(EntityRepository::class);
@@ -98,7 +100,7 @@ class ORMPagerProviderTest extends TestCase
         $expectedBuilder = $this->createMock(QueryBuilder::class);
         $expectedBuilder->method('getDQLPart')
             ->with('orderBy')
-            ->willReturn([$this->createMock(OrderBy::class)])
+            ->willReturn([$this->createStub(OrderBy::class)])
         ;
 
         $repository = $this->createMock(DoctrineORMCustomRepositoryMock::class);
@@ -139,7 +141,7 @@ class ORMPagerProviderTest extends TestCase
         $expectedBuilder = $this->createMock(QueryBuilder::class);
         $expectedBuilder->method('getDQLPart')
             ->with('orderBy')
-            ->willReturn([$this->createMock(OrderBy::class)])
+            ->willReturn([$this->createStub(OrderBy::class)])
         ;
 
         $repository = $this->createMock(EntityRepository::class);

@@ -27,16 +27,16 @@ class NamespacedEntity {}
  *
  * @internal
  */
-class RepositoryManagerTest extends TestCase
+final class RepositoryManagerTest extends TestCase
 {
     public function testThatGetRepositoryCallsMainRepositoryManager(): void
     {
-        $finderMock = $this->createMock(TransformedFinder::class);
-        $registryMock = $this->createMock(ManagerRegistry::class);
+        $finderMock = $this->createStub(TransformedFinder::class);
+        $registryMock = $this->createStub(ManagerRegistry::class);
         $mainManager = $this->createMock(RepositoryManagerInterface::class);
 
         $mainManager->method('getRepository')
-            ->with($this->equalTo('index'))
+            ->with('index')
             ->willReturn(new Repository($finderMock))
         ;
 
@@ -48,7 +48,7 @@ class RepositoryManagerTest extends TestCase
 
     public function testGetRepositoryShouldResolveEntityShortName(): void
     {
-        $finderMock = $this->createMock(TransformedFinder::class);
+        $finderMock = $this->createStub(TransformedFinder::class);
         $registryMock = $this->createMock(ManagerRegistry::class);
         $mainManager = $this->createMock(RepositoryManagerInterface::class);
 
@@ -56,12 +56,12 @@ class RepositoryManagerTest extends TestCase
         if (method_exists(ManagerRegistry::class, 'getAliasNamespace')) {
             // @phpstan-ignore phpunit.mockMethod (method exists only on newer doctrine/persistence versions and is guarded by method_exists)
             $registryMock->method('getAliasNamespace')
-                ->with($this->equalTo('FOSElasticaBundle'))
+                ->with('FOSElasticaBundle')
                 ->willReturn((new \ReflectionClass(NamespacedEntity::class))->getNamespaceName())
             ;
 
             $mainManager->method('getRepository')
-                ->with($this->equalTo('index'))
+                ->with('index')
                 ->willReturn(new Repository($finderMock))
             ;
         }

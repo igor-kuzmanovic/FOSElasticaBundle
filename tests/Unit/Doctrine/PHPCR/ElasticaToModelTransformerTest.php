@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the FOSElasticaBundle package.
  *
@@ -21,27 +23,22 @@ use PHPUnit\Framework\TestCase;
 /**
  * @internal
  */
-class ElasticaToModelTransformerTest extends TestCase
+final class ElasticaToModelTransformerTest extends TestCase
 {
     /**
      * @var ManagerRegistry|\PHPUnit\Framework\MockObject\MockObject
      */
-    protected $registry;
+    private \PHPUnit\Framework\MockObject\MockObject $registry;
 
     /**
      * @var DocumentManager|\PHPUnit\Framework\MockObject\MockObject
      */
-    protected $manager;
-
-    /**
-     * @var DocumentRepository|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $repository;
+    private \PHPUnit\Framework\MockObject\MockObject $manager;
 
     /**
      * @var class-string
      */
-    protected string $objectClass = 'stdClass';
+    private string $objectClass = 'stdClass';
 
     protected function setUp(): void
     {
@@ -52,12 +49,12 @@ class ElasticaToModelTransformerTest extends TestCase
         $this->registry = $this->createMock(ManagerRegistry::class);
         $this->manager = $this->createMock(DocumentManager::class);
 
-        $this->registry->expects($this->any())
+        $this->registry
             ->method('getManager')
             ->willReturn($this->manager)
         ;
 
-        $this->repository = $this
+        $repository = $this
             ->getMockBuilder(DocumentRepository::class)
             ->disableOriginalConstructor()
             ->onlyMethods([
@@ -71,21 +68,21 @@ class ElasticaToModelTransformerTest extends TestCase
             ])->getMock()
         ;
 
-        $this->repository->expects($this->any())
+        $repository
             ->method('findMany')
             ->willReturn(new ArrayCollection([new \stdClass(), new \stdClass()]))
         ;
 
-        $this->manager->expects($this->any())
+        $this->manager
             ->method('getRepository')
             ->with($this->objectClass)
-            ->willReturn($this->repository)
+            ->willReturn($repository)
         ;
     }
 
     public function testTransformUsesFindByIdentifier(): void
     {
-        $this->registry->expects($this->any())
+        $this->registry
             ->method('getManager')
             ->willReturn($this->manager)
         ;

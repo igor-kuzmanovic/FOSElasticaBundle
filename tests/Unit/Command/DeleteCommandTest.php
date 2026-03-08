@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the FOSElasticaBundle package.
  *
@@ -21,22 +23,19 @@ use Symfony\Component\Console\Output\NullOutput;
 /**
  * @internal
  */
-class DeleteCommandTest extends TestCase
+final class DeleteCommandTest extends TestCase
 {
-    /**
-     * @var DeleteCommand
-     */
-    private $command;
+    private DeleteCommand $command;
 
     /**
      * @var IndexManager|\PHPUnit\Framework\MockObject\MockObject
      */
-    private $indexManagerMock;
+    private \PHPUnit\Framework\MockObject\MockObject $indexManagerMock;
 
     /**
      * @var Index|\PHPUnit\Framework\MockObject\MockObject
      */
-    private $indexMock;
+    private \PHPUnit\Framework\MockObject\MockObject $indexMock;
 
     protected function setUp(): void
     {

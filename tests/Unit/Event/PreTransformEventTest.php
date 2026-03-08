@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the FOSElasticaBundle package.
  *
@@ -18,7 +20,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * @internal
  */
-class PreTransformEventTest extends TestCase
+final class PreTransformEventTest extends TestCase
 {
     public function testDocument(): void
     {

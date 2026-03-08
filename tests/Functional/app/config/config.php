@@ -22,7 +22,7 @@ return static function (ContainerConfigurator $container): void {
     $container->services()
         ->set('logger', \Psr\Log\NullLogger::class)
 
-        ->set('FOS\ElasticaBundle\Test\ClientLocator')
+        ->set(\FOS\ElasticaBundle\Test\ClientLocator::class)
             ->public()
             ->args([
                 tagged_iterator('fos_elastica.client'),

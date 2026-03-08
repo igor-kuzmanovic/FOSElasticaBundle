@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the FOSElasticaBundle package.
  *
@@ -19,7 +21,7 @@ use Symfony\Component\DependencyInjection\ServiceLocator;
 /**
  * @internal
  */
-class PagerPersisterRegistryTest extends TestCase
+final class PagerPersisterRegistryTest extends TestCase
 {
     public function testShouldBeFinal(): void
     {

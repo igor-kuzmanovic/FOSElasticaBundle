@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the FOSElasticaBundle package.
  *
@@ -29,7 +31,7 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 /**
  * @internal
  */
-class RegisterListenersServiceTest extends TestCase
+final class RegisterListenersServiceTest extends TestCase
 {
     public function testCouldBeConstructedWithDispatcherArgument(): void
     {
@@ -191,7 +193,7 @@ class RegisterListenersServiceTest extends TestCase
 
         $service = new RegisterListenersService($dispatcher);
 
-        $configuration = $this->createMock(Configuration::class);
+        $configuration = $this->createStub(Configuration::class);
         $connection = $this->createMock(Connection::class);
         $connection
             ->expects($this->once())
@@ -253,7 +255,7 @@ class RegisterListenersServiceTest extends TestCase
 
         $service = new RegisterListenersService($dispatcher);
 
-        $manager = $this->createMock(\Doctrine\ODM\MongoDB\DocumentManager::class);
+        $manager = $this->createStub(\Doctrine\ODM\MongoDB\DocumentManager::class);
 
         $pager = $this->createPagerMock();
 
@@ -278,7 +280,7 @@ class RegisterListenersServiceTest extends TestCase
 
         $service = new RegisterListenersService($dispatcher);
 
-        $manager = $this->createMock(\Doctrine\ODM\PHPCR\DocumentManagerInterface::class);
+        $manager = $this->createStub(\Doctrine\ODM\PHPCR\DocumentManagerInterface::class);
 
         $pager = $this->createPagerMock();
 

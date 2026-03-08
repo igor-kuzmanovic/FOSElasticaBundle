@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the FOSElasticaBundle package.
  *
@@ -28,27 +30,24 @@ use PHPUnit\Framework\TestCase;
  *
  * @internal
  */
-class TemplateResetterTest extends TestCase
+final class TemplateResetterTest extends TestCase
 {
     /**
      * @var ManagerInterface&MockObject
      */
-    private $configManager;
+    private MockObject $configManager;
 
     /**
      * @var MappingBuilder&MockObject
      */
-    private $mappingBuilder;
+    private MockObject $mappingBuilder;
 
     /**
      * @var IndexTemplateManager&MockObject
      */
-    private $templateManager;
+    private MockObject $templateManager;
 
-    /**
-     * @var TemplateResetter
-     */
-    private $resetter;
+    private TemplateResetter $resetter;
 
     protected function setUp(): void
     {

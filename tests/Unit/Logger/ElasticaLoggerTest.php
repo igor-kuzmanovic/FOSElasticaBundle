@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the FOSElasticaBundle package.
  *
@@ -20,7 +22,7 @@ use Psr\Log\LoggerInterface;
  *
  * @internal
  */
-class ElasticaLoggerTest extends TestCase
+final class ElasticaLoggerTest extends TestCase
 {
     public function testGetZeroIfNoQueriesAdded(): void
     {
@@ -98,8 +100,8 @@ class ElasticaLoggerTest extends TestCase
         $loggerMock->expects($this->once())
             ->method('info')
             ->with(
-                $this->equalTo($expectedMessage),
-                $this->equalTo($data)
+                $expectedMessage,
+                $data
             )
         ;
 
@@ -185,7 +187,7 @@ class ElasticaLoggerTest extends TestCase
     }
 
     /**
-     * @param mixed[] $context
+     * @param string[] $context
      */
     private function getMockLoggerForLevelMessageAndContext(string $level, string $message, array $context): ElasticaLogger
     {
@@ -195,8 +197,8 @@ class ElasticaLoggerTest extends TestCase
             ->method('log')
             ->with(
                 $level,
-                $this->equalTo($message),
-                $this->equalTo($context)
+                $message,
+                $context
             )
         ;
 

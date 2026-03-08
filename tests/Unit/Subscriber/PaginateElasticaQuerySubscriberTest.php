@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the FOSElasticaBundle package.
  *
@@ -24,7 +26,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 /**
  * @internal
  */
-class PaginateElasticaQuerySubscriberTest extends TestCase
+final class PaginateElasticaQuerySubscriberTest extends TestCase
 {
     public function testShouldDoNothingIfSortParamIsEmpty(): void
     {
@@ -38,7 +40,7 @@ class PaginateElasticaQuerySubscriberTest extends TestCase
             ->willReturn($this->getResultSetMock())
         ;
 
-        $event = new ItemsEvent(0, 10, $this->getMockBuilder(ArgumentAccessInterface::class)->getMock());
+        $event = new ItemsEvent(0, 10, $this->createStub(ArgumentAccessInterface::class));
         $event->target = $adapter;
 
         $subscriber->items($event);
@@ -62,7 +64,7 @@ class PaginateElasticaQuerySubscriberTest extends TestCase
             ->willReturn($this->getResultSetMock())
         ;
 
-        $event = new ItemsEvent(0, 10, $this->getMockBuilder(ArgumentAccessInterface::class)->getMock());
+        $event = new ItemsEvent(0, 10, $this->createStub(ArgumentAccessInterface::class));
         $event->target = $adapter;
         $event->options = [
             'defaultSortFieldName' => 'createdAt',
@@ -120,7 +122,7 @@ class PaginateElasticaQuerySubscriberTest extends TestCase
             ->willReturn($this->getResultSetMock())
         ;
 
-        $event = new ItemsEvent(0, 10, $this->getMockBuilder(ArgumentAccessInterface::class)->getMock());
+        $event = new ItemsEvent(0, 10, $this->createStub(ArgumentAccessInterface::class));
         $event->target = $adapter;
         $event->options = [
             'defaultSortFieldName' => 'createdAt',
@@ -147,7 +149,7 @@ class PaginateElasticaQuerySubscriberTest extends TestCase
             ->willReturn($this->getResultSetMock())
         ;
 
-        $event = new ItemsEvent(0, 10, $this->getMockBuilder(ArgumentAccessInterface::class)->getMock());
+        $event = new ItemsEvent(0, 10, $this->createStub(ArgumentAccessInterface::class));
         $event->target = $adapter;
         $event->options = [
             'defaultSortFieldName' => 'createdAt',
@@ -179,13 +181,13 @@ class PaginateElasticaQuerySubscriberTest extends TestCase
             ->willReturn($this->getResultSetMock())
         ;
 
-        $event = new ItemsEvent(0, 10, $this->getMockBuilder(ArgumentAccessInterface::class)->getMock());
+        $event = new ItemsEvent(0, 10, $this->createStub(ArgumentAccessInterface::class));
         $event->target = $adapter;
         $event->options = [
             'defaultSortFieldName' => 'createdAt',
             'sortFieldParameterName' => 'ord',
             'sortDirectionParameterName' => 'az',
-            'sortNestedPath' => function ($sortField) {
+            'sortNestedPath' => function ($sortField): string {
                 $this->assertSame('owner.name', $sortField);
 
                 return 'owner';
@@ -215,7 +217,7 @@ class PaginateElasticaQuerySubscriberTest extends TestCase
             ->willReturn($this->getResultSetMock())
         ;
 
-        $event = new ItemsEvent(0, 10, $this->getMockBuilder(ArgumentAccessInterface::class)->getMock());
+        $event = new ItemsEvent(0, 10, $this->createStub(ArgumentAccessInterface::class));
         $event->target = $adapter;
         $event->options = [
             'defaultSortFieldName' => 'createdAt',
@@ -258,14 +260,14 @@ class PaginateElasticaQuerySubscriberTest extends TestCase
             ->willReturn($this->getResultSetMock())
         ;
 
-        $event = new ItemsEvent(0, 10, $this->getMockBuilder(ArgumentAccessInterface::class)->getMock());
+        $event = new ItemsEvent(0, 10, $this->createStub(ArgumentAccessInterface::class));
         $event->target = $adapter;
         $event->options = [
             'defaultSortFieldName' => 'createdAt',
             'sortFieldParameterName' => 'ord',
             'sortDirectionParameterName' => 'az',
             'sortNestedPath' => 'owner',
-            'sortNestedFilter' => function ($sortField) {
+            'sortNestedFilter' => function ($sortField): Query\Term {
                 $this->assertSame('owner.name', $sortField);
 
                 return new Query\Term(['enabled' => ['value' => true]]);
@@ -303,7 +305,7 @@ class PaginateElasticaQuerySubscriberTest extends TestCase
             ->willReturn($this->getResultSetMock())
         ;
 
-        $event = new ItemsEvent(0, 10, $this->getMockBuilder(ArgumentAccessInterface::class)->getMock());
+        $event = new ItemsEvent(0, 10, $this->createStub(ArgumentAccessInterface::class));
         $event->target = $adapter;
 
         $subscriber->items($event);

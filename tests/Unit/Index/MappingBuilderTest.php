@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the FOSElasticaBundle package.
  *
@@ -20,44 +22,14 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 /**
  * @internal
  */
-class MappingBuilderTest extends TestCase
+final class MappingBuilderTest extends TestCase
 {
-    /**
-     * @var MappingBuilder
-     */
-    private $builder;
+    private MappingBuilder $builder;
 
-    /**
-     * @var array<string, mixed>
-     *
-     * @phpstan-ignore property.onlyWritten (used by parent test framework)
-     */
-    private array $mapping;
-
-    /**
-     * @var IndexConfig
-     */
-    private $indexConfig;
+    private IndexConfig $indexConfig;
 
     protected function setUp(): void
     {
-        $this->mapping = [
-            'mapping' => [
-                'properties' => [
-                    'storeless' => [
-                        'type' => 'text',
-                    ],
-                    'stored' => [
-                        'type' => 'text',
-                        'store' => true,
-                    ],
-                    'unstored' => [
-                        'type' => 'text',
-                        'store' => false,
-                    ],
-                ],
-            ],
-        ];
         $this->indexConfig = new IndexConfig(
             [
                 'name' => 'name',
@@ -79,9 +51,7 @@ class MappingBuilderTest extends TestCase
                 ],
             ]
         );
-
-        $dispatcher = $this->createMock(EventDispatcherInterface::class);
-        $this->builder = new MappingBuilder($dispatcher);
+        $this->builder = new MappingBuilder($this->createStub(EventDispatcherInterface::class));
     }
 
     public function testMappingBuilderStoreProperty(): void

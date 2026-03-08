@@ -34,13 +34,6 @@ class POPO3
     public \SplFileInfo $file;
     public string $fileContents;
 
-    /**
-     * test non-accessible private property.
-     *
-     * @phpstan-ignore property.onlyWritten (test fixture for private property access)
-     */
-    private string $desc = 'desc';
-
     public function __construct()
     {
         $this->date = new \DateTime('1979-05-05');
@@ -186,20 +179,20 @@ class POPO3
     }
 }
 
-class CastableObject
+class CastableObject implements \Stringable
 {
     public mixed $foo = null;
 
     public function __toString(): string
     {
-        return $this->foo;
+        return (string) $this->foo;
     }
 }
 
 /**
  * @internal
  */
-class ModelToElasticaAutoTransformerTest extends TestCase
+final class ModelToElasticaAutoTransformerTest extends TestCase
 {
     public function testTransformerDispatches(): void
     {
@@ -266,7 +259,7 @@ class ModelToElasticaAutoTransformerTest extends TestCase
         $this->assertInstanceOf(Document::class, $document);
         $this->assertSame('123', $document->getId());
         $this->assertSame('someName', $data['name']);
-        $this->assertSame(7.2, $data['float']);
+        $this->assertEqualsWithDelta(7.2, $data['float'], \PHP_FLOAT_EPSILON);
         $this->assertTrue($data['bool']);
         $this->assertFalse($data['falseBool']);
         $expectedDate = new \DateTime('1979-05-05');

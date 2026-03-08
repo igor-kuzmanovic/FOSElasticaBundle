@@ -28,11 +28,11 @@ class Entity {}
  *
  * @internal
  */
-class RepositoryManagerTest extends TestCase
+final class RepositoryManagerTest extends TestCase
 {
     public function testThatGetRepositoryReturnsDefaultRepository(): void
     {
-        $finderMock = $this->createMock(TransformedFinder::class);
+        $finderMock = $this->createStub(TransformedFinder::class);
 
         $indexName = 'index';
 
@@ -44,7 +44,7 @@ class RepositoryManagerTest extends TestCase
 
     public function testThatGetRepositoryReturnsCustomRepository(): void
     {
-        $finderMock = $this->createMock(TransformedFinder::class);
+        $finderMock = $this->createStub(TransformedFinder::class);
 
         $indexName = 'index';
 
@@ -56,7 +56,7 @@ class RepositoryManagerTest extends TestCase
 
     public function testThatGetRepositoryThrowsExceptionIfEntityNotConfigured(): void
     {
-        $finderMock = $this->createMock(TransformedFinder::class);
+        $finderMock = $this->createStub(TransformedFinder::class);
 
         $indexName = 'index';
 
@@ -69,7 +69,7 @@ class RepositoryManagerTest extends TestCase
 
     public function testThatGetRepositoryThrowsExceptionIfCustomRepositoryNotFound(): void
     {
-        $finderMock = $this->createMock(TransformedFinder::class);
+        $finderMock = $this->createStub(TransformedFinder::class);
 
         $indexName = 'index';
 

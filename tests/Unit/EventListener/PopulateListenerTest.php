@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the FOSElasticaBundle package.
  *
@@ -19,7 +21,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * @internal
  */
-class PopulateListenerTest extends TestCase
+final class PopulateListenerTest extends TestCase
 {
     public function testOnPostIndexPopulateWithReset(): void
     {
@@ -52,10 +54,7 @@ class PopulateListenerTest extends TestCase
      */
     private function mockResetter(int $numberOfCalls, string $indexName, bool $deleteOption): Resetter
     {
-        $stub = $this
-            ->getMockBuilder(Resetter::class)
-            ->disableOriginalConstructor()
-            ->getMock()
+        $stub = $this->createMock(Resetter::class)
         ;
 
         $stub

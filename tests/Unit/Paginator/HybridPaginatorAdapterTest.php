@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the FOSElasticaBundle package.
  *
@@ -18,7 +20,7 @@ use FOS\ElasticaBundle\Tests\Unit\UnitTestHelper;
 /**
  * @internal
  */
-class HybridPaginatorAdapterTest extends UnitTestHelper
+final class HybridPaginatorAdapterTest extends UnitTestHelper
 {
     public function testGetResults(): void
     {
@@ -35,7 +37,7 @@ class HybridPaginatorAdapterTest extends UnitTestHelper
      *
      * @return HybridPaginatorAdapter<object>
      */
-    protected function mockHybridPaginatorAdapter($args): HybridPaginatorAdapter
+    protected function mockHybridPaginatorAdapter(array $args): HybridPaginatorAdapter
     {
         $mock = $this
             ->getMockBuilder(HybridPaginatorAdapter::class)

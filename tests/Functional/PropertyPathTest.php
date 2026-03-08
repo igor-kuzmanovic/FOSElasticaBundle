@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the FOSElasticaBundle package.
  *
@@ -19,7 +21,7 @@ use FOS\ElasticaBundle\Persister\ObjectPersisterInterface;
  * @internal
  */
 #[\PHPUnit\Framework\Attributes\Group('functional')]
-class PropertyPathTest extends WebTestCase
+final class PropertyPathTest extends WebTestCase
 {
     public function testContainerSource(): void
     {

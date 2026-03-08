@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the FOSElasticaBundle package.
  *
@@ -28,33 +30,30 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 /**
  * @internal
  */
-class ResetterTest extends TestCase
+final class ResetterTest extends TestCase
 {
-    /**
-     * @var Resetter
-     */
-    private $resetter;
+    private Resetter $resetter;
 
     /**
      * @var AliasProcessor&MockObject
      */
-    private $aliasProcessor;
+    private MockObject $aliasProcessor;
     /**
      * @var ConfigManager&MockObject
      */
-    private $configManager;
+    private MockObject $configManager;
     /**
      * @var EventDispatcherInterface&MockObject
      */
-    private $dispatcher;
+    private MockObject $dispatcher;
     /**
      * @var IndexManager&MockObject
      */
-    private $indexManager;
+    private MockObject $indexManager;
     /**
      * @var MappingBuilder&MockObject
      */
-    private $mappingBuilder;
+    private MockObject $mappingBuilder;
 
     protected function setUp(): void
     {
@@ -159,7 +158,7 @@ class ResetterTest extends TestCase
         $this->configManager->expects($this->once())
             ->method('getIndexConfiguration')
             ->with('nonExistant')
-            ->will($this->throwException(new \InvalidArgumentException()))
+            ->willThrowException(new \InvalidArgumentException())
         ;
 
         $this->indexManager->expects($this->never())
@@ -219,7 +218,7 @@ class ResetterTest extends TestCase
         $matcher = $this->exactly(\count($events));
         $this->dispatcher->expects($matcher)
             ->method('dispatch')
-            ->willReturnCallback(function (...$args) use ($matcher, $events) {
+            ->willReturnCallback(function (...$args) use ($matcher, $events): object {
                 $expectedArgs = $events[$matcher->numberOfInvocations() - 1];
 
                 foreach ($expectedArgs as $index => $expectedArg) {
@@ -250,12 +249,12 @@ class ResetterTest extends TestCase
             ->willReturn($config)
         ;
         $index = $this->createMock(Index::class);
-        $this->indexManager->expects($this->any())
+        $this->indexManager
             ->method('getIndex')
             ->with($indexName)
             ->willReturn($index)
         ;
-        $this->mappingBuilder->expects($this->any())
+        $this->mappingBuilder
             ->method('buildIndexMapping')
             ->with($config)
             ->willReturn($mapping)

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the FOSElasticaBundle package.
  *
@@ -17,7 +19,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * @internal
  */
-class IndexTemplateConfigTest extends TestCase
+final class IndexTemplateConfigTest extends TestCase
 {
     public function testInstantiate(): void
     {

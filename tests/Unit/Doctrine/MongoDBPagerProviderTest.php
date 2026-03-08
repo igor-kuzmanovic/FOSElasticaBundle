@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the FOSElasticaBundle package.
  *
@@ -27,7 +29,7 @@ use Symfony\Bridge\Doctrine\ManagerRegistry;
 /**
  * @internal
  */
-class MongoDBPagerProviderTest extends TestCase
+final class MongoDBPagerProviderTest extends TestCase
 {
     protected function setUp(): void
     {
@@ -57,7 +59,7 @@ class MongoDBPagerProviderTest extends TestCase
         $objectClass = \stdClass::class;
         $baseConfig = ['query_builder_method' => 'createQueryBuilder'];
 
-        $expectedBuilder = $this->createMock(Builder::class);
+        $expectedBuilder = $this->createStub(Builder::class);
 
         $repository = $this->createMock(DocumentRepository::class);
         $repository
@@ -101,7 +103,7 @@ class MongoDBPagerProviderTest extends TestCase
         $repository
             ->expects($this->once())
             ->method('createCustomQueryBuilder')
-            ->willReturn($this->createMock(Builder::class))
+            ->willReturn($this->createStub(Builder::class))
         ;
 
         $manager = $this->createMock(DocumentManager::class);
@@ -134,7 +136,7 @@ class MongoDBPagerProviderTest extends TestCase
         $repository
             ->expects($this->once())
             ->method('createQueryBuilder')
-            ->willReturn($this->createMock(Builder::class))
+            ->willReturn($this->createStub(Builder::class))
         ;
 
         $manager = $this->createMock(DocumentManager::class);

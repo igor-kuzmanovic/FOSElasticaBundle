@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the FOSElasticaBundle package.
  *
@@ -22,7 +24,7 @@ use Symfony\Component\PropertyAccess\PropertyAccess;
 /**
  * @internal
  */
-class ObjectSerializerPersisterTest extends TestCase
+final class ObjectSerializerPersisterTest extends TestCase
 {
     public function testThatCanReplaceObject(): void
     {

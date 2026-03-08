@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the FOSElasticaBundle package.
  *
@@ -19,14 +21,14 @@ use Symfony\Component\DependencyInjection\ServiceLocator;
 /**
  * @internal
  */
-class PagerProviderRegistryTest extends TestCase
+final class PagerProviderRegistryTest extends TestCase
 {
     public function testGetProviders(): void
     {
-        $service = $this->createMock(PagerProviderInterface::class);
+        $service = $this->createStub(PagerProviderInterface::class);
 
         $providers = new ServiceLocator([
-            'index' => static fn () => $service,
+            'index' => static fn (): \PHPUnit\Framework\MockObject\Stub => $service,
         ]);
 
         $registry = new PagerProviderRegistry($providers);
@@ -35,10 +37,10 @@ class PagerProviderRegistryTest extends TestCase
 
     public function testGetProviderValid(): void
     {
-        $service = $this->createMock(PagerProviderInterface::class);
+        $service = $this->createStub(PagerProviderInterface::class);
 
         $providers = new ServiceLocator([
-            'index' => static fn () => $service,
+            'index' => static fn (): \PHPUnit\Framework\MockObject\Stub => $service,
         ]);
 
         $registry = new PagerProviderRegistry($providers);

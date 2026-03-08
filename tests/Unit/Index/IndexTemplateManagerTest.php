@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the FOSElasticaBundle package.
  *
@@ -20,7 +22,7 @@ use PHPUnit\Framework\TestCase;
  *
  * @internal
  */
-class IndexTemplateManagerTest extends TestCase
+final class IndexTemplateManagerTest extends TestCase
 {
     /**
      * Test get index template.
@@ -39,39 +41,32 @@ class IndexTemplateManagerTest extends TestCase
     }
 
     /**
-     * @return array<string, array{
-     *     templates: array<string, IndexTemplate>,
-     *     name: string,
-     *     expectedTemplate: IndexTemplate|null,
-     *     expectedException?: class-string<\Throwable>
-     * }>
+     * @return \Iterator<string, array{templates: array<string, IndexTemplate>, name: string, expectedTemplate: (IndexTemplate | null), expectedException?: class-string<\Throwable>}>
      */
-    public static function provideTestGetIndexTemplate(): array
+    public static function provideTestGetIndexTemplate(): \Iterator
     {
-        return [
-            'empty templates' => [
-                'templates' => [],
-                'name' => 'any template',
-                'expectedTemplate' => null,
-                'expectedException' => \InvalidArgumentException::class,
+        yield 'empty templates' => [
+            'templates' => [],
+            'name' => 'any template',
+            'expectedTemplate' => null,
+            'expectedException' => \InvalidArgumentException::class,
+        ];
+        yield 'expected template found' => [
+            'templates' => [
+                'first template' => $firstTemplate = self::createStub(IndexTemplate::class),
+                'second template' => $secondTemplate = self::createStub(IndexTemplate::class),
             ],
-            'expected template found' => [
-                'templates' => [
-                    'first template' => $firstTemplate = static::createStub(IndexTemplate::class),
-                    'second template' => $secondTemplate = static::createStub(IndexTemplate::class),
-                ],
-                'name' => 'second template',
-                'expectedTemplate' => $secondTemplate,
+            'name' => 'second template',
+            'expectedTemplate' => $secondTemplate,
+        ];
+        yield 'expected template not found' => [
+            'templates' => [
+                'first template' => $firstTemplate = self::createStub(IndexTemplate::class),
+                'second template' => $secondTemplate = self::createStub(IndexTemplate::class),
             ],
-            'expected template not found' => [
-                'templates' => [
-                    'first template' => $firstTemplate = static::createStub(IndexTemplate::class),
-                    'second template' => $secondTemplate = static::createStub(IndexTemplate::class),
-                ],
-                'name' => 'some template',
-                'expectedTemplate' => null,
-                'expectedException' => \InvalidArgumentException::class,
-            ],
+            'name' => 'some template',
+            'expectedTemplate' => null,
+            'expectedException' => \InvalidArgumentException::class,
         ];
     }
 }

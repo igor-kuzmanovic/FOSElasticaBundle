@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the FOSElasticaBundle package.
  *
@@ -18,7 +20,7 @@ use Symfony\Component\Serializer\SerializerInterface;
 /**
  * @internal
  */
-class CallbackTest extends TestCase
+final class CallbackTest extends TestCase
 {
     public function testSerializerMustHaveSerializeMethod(): void
     {
@@ -31,7 +33,7 @@ class CallbackTest extends TestCase
     public function testSetGroupsWorksWithValidSerializer(): void
     {
         $callback = new Callback();
-        $serializer = $this->createMock(SerializerInterface::class);
+        $serializer = $this->createStub(SerializerInterface::class);
         $callback->setSerializer($serializer);
 
         $callback->setGroups(['foo']);
@@ -40,7 +42,7 @@ class CallbackTest extends TestCase
     public function testSetGroupsFailsWithInvalidSerializer(): void
     {
         $callback = new Callback();
-        $serializer = $this->createMock(FakeSerializer::class);
+        $serializer = $this->createStub(FakeSerializer::class);
         $callback->setSerializer($serializer);
 
         $this->expectException(\RuntimeException::class);

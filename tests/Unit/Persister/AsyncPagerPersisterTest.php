@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the FOSElasticaBundle package.
  *
@@ -25,7 +27,7 @@ use Symfony\Component\Messenger\MessageBusInterface;
 /**
  * @internal
  */
-class AsyncPagerPersisterTest extends TestCase
+final class AsyncPagerPersisterTest extends TestCase
 {
     public function testShouldImplementPagerPersisterInterface(): void
     {
@@ -35,19 +37,21 @@ class AsyncPagerPersisterTest extends TestCase
 
     public function testInsertDispatchAsyncPersistPageObject(): void
     {
-        $pagerPersisterRegistry = new PagerPersisterRegistry($this->createMock(ServiceLocator::class));
-        $pagerProviderRegistry = $this->createMock(PagerProviderRegistry::class);
+        $pagerPersisterRegistry = new PagerPersisterRegistry($this->createStub(ServiceLocator::class));
+        $pagerProviderRegistry = $this->createStub(PagerProviderRegistry::class);
         $messageBus = $this->createMock(MessageBusInterface::class);
         $sut = new AsyncPagerPersister($pagerPersisterRegistry, $pagerProviderRegistry, $messageBus);
 
-        $messageBus->expects($this->once())->method('dispatch')->with(
-            $this->callback(
-                static fn ($message) => $message instanceof AsyncPersistPage
-            )
-            // @phpstan-ignore argument.type (test verifies dispatch mechanics; empty options are valid at runtime and completed later by persister defaults)
-        )->willReturn(new Envelope(new AsyncPersistPage(0, [])));
+        $messageBus->expects($this->once())->method('dispatch')->willReturnCallback(
+            function (object $message): Envelope {
+                $this->assertInstanceOf(AsyncPersistPage::class, $message);
 
-        $pager = $this->createMock(PagerInterface::class);
+                // @phpstan-ignore argument.type (test verifies dispatch mechanics; empty options are valid at runtime and completed later by persister defaults)
+                return new Envelope(new AsyncPersistPage(0, []));
+            }
+        );
+
+        $pager = $this->createStub(PagerInterface::class);
         $sut->insert($pager);
     }
 }

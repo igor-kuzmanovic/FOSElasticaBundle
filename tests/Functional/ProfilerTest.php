@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the FOSElasticaBundle package.
  *
@@ -29,20 +31,17 @@ use Twig\RuntimeLoader\RuntimeLoaderInterface;
  * @internal
  */
 #[\PHPUnit\Framework\Attributes\Group('functional')]
-class ProfilerTest extends WebTestCase
+final class ProfilerTest extends WebTestCase
 {
-    /** @var ElasticaLogger */
-    private $logger;
+    private ElasticaLogger $logger;
 
-    /** @var Environment */
-    private $twig;
+    private Environment $twig;
 
-    /** @var ElasticaDataCollector */
-    private $collector;
+    private ElasticaDataCollector $collector;
 
     protected function setUp(): void
     {
-        $this->logger = new ElasticaLogger($this->createMock(LoggerInterface::class), true);
+        $this->logger = new ElasticaLogger($this->createStub(LoggerInterface::class), true);
         $this->collector = new ElasticaDataCollector($this->logger);
 
         $twigLoaderFilesystem = new FilesystemLoader(__DIR__.'/../../src/Resources/views/Collector');
@@ -92,13 +91,11 @@ class ProfilerTest extends WebTestCase
     }
 
     /**
-     * @return list<array{array<string, mixed>|string}>
+     * @return \Iterator<int<0, max>, array{(array<string, mixed> | string)}>
      */
-    public static function queryProvider(): array
+    public static function queryProvider(): \Iterator
     {
-        return [
-            [json_decode('{"query":{"match_all":{}}}', true)],
-            ['{"query":{"match_all":{}}}'],
-        ];
+        yield [json_decode('{"query":{"match_all":{}}}', true)];
+        yield ['{"query":{"match_all":{}}}'];
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the FOSElasticaBundle package.
  *
@@ -18,7 +20,7 @@ use FOS\ElasticaBundle\Tests\Unit\UnitTestHelper;
 /**
  * @internal
  */
-class HybridPartialResultsTest extends UnitTestHelper
+final class HybridPartialResultsTest extends UnitTestHelper
 {
     public function testToArray(): void
     {
@@ -38,10 +40,7 @@ class HybridPartialResultsTest extends UnitTestHelper
 
     protected function mockResultSet(): ResultSet
     {
-        $mock = $this
-            ->getMockBuilder(ResultSet::class)
-            ->disableOriginalConstructor()
-            ->getMock()
+        $mock = $this->createMock(ResultSet::class)
         ;
 
         $mock

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the FOSElasticaBundle package.
  *
@@ -14,7 +16,7 @@ namespace FOS\ElasticaBundle\Tests\Functional;
 /**
  * @internal
  */
-class PersistenceRepositoryTest extends WebTestCase
+final class PersistenceRepositoryTest extends WebTestCase
 {
     public function testRepositoryShouldBeSetCorrectly(): void
     {

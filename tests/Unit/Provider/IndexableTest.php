@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the FOSElasticaBundle package.
  *
@@ -17,7 +19,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * @internal
  */
-class IndexableTest extends TestCase
+final class IndexableTest extends TestCase
 {
     public function testIndexableUnknown(): void
     {
@@ -39,21 +41,19 @@ class IndexableTest extends TestCase
     }
 
     /**
-     * @return list<array{0: mixed, 1: bool}>
+     * @return \Iterator<int<0, max>, array{mixed, bool}>
      */
-    public static function provideIsIndexableCallbacks(): array
+    public static function provideIsIndexableCallbacks(): \Iterator
     {
-        return [
-            ['isIndexable', false],
-            [[new IndexableDecider(), 'isIndexable'], true],
-            [new IndexableDecider(), true],
-            [static fn (Entity $entity) => $entity->maybeIndex(), true],
-            ['entity.maybeIndex()', true],
-            ['!object.isIndexable() && entity.property == "abc"', true],
-            ['entity.property != "abc"', false],
-            ['["array", "values"]', true],
-            ['[]', false],
-        ];
+        yield ['isIndexable', false];
+        yield [[new IndexableDecider(), 'isIndexable'], true];
+        yield [new IndexableDecider(), true];
+        yield [static fn (Entity $entity): bool => $entity->maybeIndex(), true];
+        yield ['entity.maybeIndex()', true];
+        yield ['!object.isIndexable() && entity.property == "abc"', true];
+        yield ['entity.property != "abc"', false];
+        yield ['["array", "values"]', true];
+        yield ['[]', false];
     }
 
     #[\PHPUnit\Framework\Attributes\DataProvider('provideInvalidIsIndexableCallbacks')]
@@ -68,16 +68,14 @@ class IndexableTest extends TestCase
     }
 
     /**
-     * @return list<array{0: mixed}>
+     * @return \Iterator<int<0, max>, array{mixed}>
      */
-    public static function provideInvalidIsIndexableCallbacks(): array
+    public static function provideInvalidIsIndexableCallbacks(): \Iterator
     {
-        return [
-            ['nonexistentEntityMethod'],
-            [[new IndexableDecider(), 'internalMethod']],
-            [42],
-            ['entity.getIsIndexable() && nonexistentEntityFunction()'],
-        ];
+        yield ['nonexistentEntityMethod'];
+        yield [[new IndexableDecider(), 'internalMethod']];
+        yield [42];
+        yield ['entity.getIsIndexable() && nonexistentEntityFunction()'];
     }
 }
 

@@ -33,7 +33,7 @@ class InvalidObjectPersister extends ObjectPersister
 /**
  * @internal
  */
-class ObjectPersisterTest extends TestCase
+final class ObjectPersisterTest extends TestCase
 {
     public function testThatCanReplaceObject(): void
     {

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the FOSElasticaBundle package.
  *
@@ -18,7 +20,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 /**
  * @internal
  */
-class FOSElasticaBundleTest extends TestCase
+final class FOSElasticaBundleTest extends TestCase
 {
     public function testCompilerPassesAreRegistered(): void
     {

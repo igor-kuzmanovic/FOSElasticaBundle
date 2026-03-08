@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the FOSElasticaBundle package.
  *
@@ -31,7 +33,7 @@ use Symfony\Component\EventDispatcher\EventDispatcher;
 /**
  * @internal
  */
-class InPlacePagerPersisterTest extends TestCase
+final class InPlacePagerPersisterTest extends TestCase
 {
     public function testShouldImplementPagerPersisterInterface(): void
     {
@@ -408,7 +410,7 @@ class InPlacePagerPersisterTest extends TestCase
     /**
      * @return ObjectPersisterInterface<object>&MockObject
      */
-    private function createObjectPersisterMock()
+    private function createObjectPersisterMock(): MockObject
     {
         return $this->createMock(ObjectPersisterInterface::class);
     }
@@ -416,7 +418,7 @@ class InPlacePagerPersisterTest extends TestCase
     /**
      * @return PersisterRegistry|MockObject
      */
-    private function createPersisterRegistryMock()
+    private function createPersisterRegistryMock(): MockObject
     {
         return $this->createMock(PersisterRegistry::class);
     }
@@ -426,7 +428,7 @@ class InPlacePagerPersisterTest extends TestCase
      *
      * @return PersisterRegistry|MockObject
      */
-    private function createPersisterRegistryStub($objectPersister = null)
+    private function createPersisterRegistryStub($objectPersister = null): MockObject
     {
         $registryMock = $this->createPersisterRegistryMock();
         $registryMock

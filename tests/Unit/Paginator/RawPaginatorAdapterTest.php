@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the FOSElasticaBundle package.
  *
@@ -19,7 +21,7 @@ use FOS\ElasticaBundle\Tests\Unit\UnitTestHelper;
 /**
  * @internal
  */
-class RawPaginatorAdapterTest extends UnitTestHelper
+final class RawPaginatorAdapterTest extends UnitTestHelper
 {
     public function testGetTotalHits(): void
     {
@@ -62,7 +64,7 @@ class RawPaginatorAdapterTest extends UnitTestHelper
 
     public function testGetQuery(): void
     {
-        $resultSet = $this->mockResultSet();
+        $this->mockResultSet();
 
         $query = new Query();
         $options = [];

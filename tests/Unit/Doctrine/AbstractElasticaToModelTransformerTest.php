@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the FOSElasticaBundle package.
  *
@@ -24,22 +26,11 @@ use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 /**
  * @internal
  */
-class AbstractElasticaToModelTransformerTest extends TestCase
+final class AbstractElasticaToModelTransformerTest extends TestCase
 {
-    /**
-     * @var ManagerRegistry|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $registry;
+    private string $objectClass = 'stdClass';
 
-    /**
-     * @var string
-     */
-    protected $objectClass = 'stdClass';
-
-    protected function setUp(): void
-    {
-        $this->registry = $this->createMock(ManagerRegistry::class);
-    }
+    protected function setUp(): void {}
 
     /**
      * Tests if ignore_missing option is properly handled in transformHybrid() method.
@@ -48,7 +39,7 @@ class AbstractElasticaToModelTransformerTest extends TestCase
     {
         $transformer = $this->getMockBuilder(ElasticaToModelTransformer::class)
             ->onlyMethods(['findByIdentifiers'])
-            ->setConstructorArgs([$this->registry, $this->objectClass, ['ignore_missing' => true]])
+            ->setConstructorArgs([$this->createStub(ManagerRegistry::class), $this->objectClass, ['ignore_missing' => true]])
             ->getMock()
         ;
 
@@ -95,7 +86,7 @@ class AbstractElasticaToModelTransformerTest extends TestCase
         $transformer
             ->expects($this->once())
             ->method('findByIdentifiers')
-            ->with($this->equalTo([1, 2, 3]), $this->isType('boolean'))
+            ->with([1, 2, 3], $this->isType('boolean'))
             ->willReturn($doctrineObjects)
         ;
 
@@ -118,7 +109,7 @@ class AbstractElasticaToModelTransformerTest extends TestCase
         $transformer
             ->expects($this->once())
             ->method('findByIdentifiers')
-            ->with($this->equalTo([1, 2, 3]), $this->isType('boolean'))
+            ->with([1, 2, 3], $this->isType('boolean'))
             ->willReturn([])
         ;
 
@@ -142,7 +133,7 @@ class AbstractElasticaToModelTransformerTest extends TestCase
         $transformer
             ->expects($this->once())
             ->method('findByIdentifiers')
-            ->with($this->equalTo([1, 2, 3]), $this->isType('boolean'))
+            ->with([1, 2, 3], $this->isType('boolean'))
             ->willReturn([])
         ;
 
@@ -163,7 +154,7 @@ class AbstractElasticaToModelTransformerTest extends TestCase
         $transformer
             ->expects($this->once())
             ->method('findByIdentifiers')
-            ->with($this->equalTo([1, 2, 3]), $this->isType('boolean'))
+            ->with([1, 2, 3], $this->isType('boolean'))
             ->willReturn($doctrineObjects)
         ;
 
@@ -189,7 +180,7 @@ class AbstractElasticaToModelTransformerTest extends TestCase
         $transformer
             ->expects($this->once())
             ->method('findByIdentifiers')
-            ->with($this->equalTo([1, 2, 3]), $this->isType('boolean'))
+            ->with([1, 2, 3], $this->isType('boolean'))
             ->willReturn($doctrineObjects)
         ;
 
@@ -212,7 +203,7 @@ class AbstractElasticaToModelTransformerTest extends TestCase
         $transformer
             ->expects($this->once())
             ->method('findByIdentifiers')
-            ->with($this->equalTo([1, 2, 3]), $this->isType('boolean'))
+            ->with([1, 2, 3], $this->isType('boolean'))
             ->willReturn($doctrineObjects)
         ;
 
@@ -259,7 +250,6 @@ class AbstractElasticaToModelTransformerTest extends TestCase
 
         $propertyAccessor = $this->createMock(PropertyAccessorInterface::class);
         $propertyAccessor
-            ->expects($this->any())
             ->method('getValue')
             ->with($this->isType('object'), $this->isType('string'))
             ->willReturnCallback($callback)
@@ -279,7 +269,7 @@ class AbstractElasticaToModelTransformerTest extends TestCase
         $propertyAccessor = $this->createMockPropertyAccessor();
 
         $transformer = $this->getMockBuilder(AbstractElasticaToModelTransformer::class)
-            ->setConstructorArgs([$this->registry, $objectClass, $options])
+            ->setConstructorArgs([$this->createStub(ManagerRegistry::class), $objectClass, $options])
             ->onlyMethods(['findByIdentifiers'])
             ->getMock();
 
@@ -291,16 +281,12 @@ class AbstractElasticaToModelTransformerTest extends TestCase
 
 class Foo implements HighlightableModelInterface
 {
-    public mixed $id;
     /**
      * @var list<array<mixed>>|null
      */
     public ?array $highlights = null;
 
-    public function __construct(mixed $id)
-    {
-        $this->id = $id;
-    }
+    public function __construct(public mixed $id) {}
 
     public function getId(): mixed
     {

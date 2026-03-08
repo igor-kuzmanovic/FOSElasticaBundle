@@ -16,14 +16,8 @@ use FOS\ElasticaBundle\Doctrine\ConditionalUpdate;
 class ConditionalUpdateEntity implements ConditionalUpdate
 {
     public mixed $identifier = null;
-    private int $id;
-    private bool $shouldBeUpdated = true;
 
-    public function __construct(int $id, bool $shouldBeUpdated = true)
-    {
-        $this->id = $id;
-        $this->shouldBeUpdated = $shouldBeUpdated;
-    }
+    public function __construct(private readonly int $id, private bool $shouldBeUpdated = true) {}
 
     public function getId(): int
     {

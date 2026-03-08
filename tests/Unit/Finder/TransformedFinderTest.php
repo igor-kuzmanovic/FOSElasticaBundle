@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the FOSElasticaBundle package.
  *
@@ -24,7 +26,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * @internal
  */
-class TransformedFinderTest extends TestCase
+final class TransformedFinderTest extends TestCase
 {
     public function testFindMethodTransformsSearchResults(): void
     {
@@ -65,7 +67,7 @@ class TransformedFinderTest extends TestCase
     public function testSearchMethodCreatesAQueryAndReturnsResultsFromSearchableDependency(): void
     {
         $searchable = $this->createMock(SearchableInterface::class);
-        $transformer = $this->createMock(ElasticaToModelTransformerInterface::class);
+        $transformer = $this->createStub(ElasticaToModelTransformerInterface::class);
 
         $searchable->expects($this->once())
             ->method('search')
@@ -84,8 +86,8 @@ class TransformedFinderTest extends TestCase
 
     public function testFindHybridPaginatedReturnsAConfiguredPagerfantaObject(): void
     {
-        $searchable = $this->createMock(SearchableInterface::class);
-        $transformer = $this->createMock(ElasticaToModelTransformerInterface::class);
+        $searchable = $this->createStub(SearchableInterface::class);
+        $transformer = $this->createStub(ElasticaToModelTransformerInterface::class);
 
         $finder = new TransformedFinder($searchable, $transformer);
 
@@ -96,8 +98,8 @@ class TransformedFinderTest extends TestCase
 
     public function testFindPaginatedReturnsAConfiguredPagerfantaObject(): void
     {
-        $searchable = $this->createMock(SearchableInterface::class);
-        $transformer = $this->createMock(ElasticaToModelTransformerInterface::class);
+        $searchable = $this->createStub(SearchableInterface::class);
+        $transformer = $this->createStub(ElasticaToModelTransformerInterface::class);
 
         $finder = new TransformedFinder($searchable, $transformer);
 
@@ -108,8 +110,8 @@ class TransformedFinderTest extends TestCase
 
     public function testCreatePaginatorAdapter(): void
     {
-        $searchable = $this->createMock(SearchableInterface::class);
-        $transformer = $this->createMock(ElasticaToModelTransformerInterface::class);
+        $searchable = $this->createStub(SearchableInterface::class);
+        $transformer = $this->createStub(ElasticaToModelTransformerInterface::class);
 
         $finder = new TransformedFinder($searchable, $transformer);
 
@@ -118,8 +120,8 @@ class TransformedFinderTest extends TestCase
 
     public function testCreateHybridPaginatorAdapter(): void
     {
-        $searchable = $this->createMock(SearchableInterface::class);
-        $transformer = $this->createMock(ElasticaToModelTransformerInterface::class);
+        $searchable = $this->createStub(SearchableInterface::class);
+        $transformer = $this->createStub(ElasticaToModelTransformerInterface::class);
 
         $finder = new TransformedFinder($searchable, $transformer);
 

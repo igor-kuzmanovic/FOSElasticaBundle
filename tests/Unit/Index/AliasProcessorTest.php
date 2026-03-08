@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the FOSElasticaBundle package.
  *
@@ -25,12 +27,9 @@ use PHPUnit\Framework\TestCase;
 /**
  * @internal
  */
-class AliasProcessorTest extends TestCase
+final class AliasProcessorTest extends TestCase
 {
-    /**
-     * @var AliasProcessor
-     */
-    private $processor;
+    private AliasProcessor $processor;
 
     protected function setUp(): void
     {
@@ -54,14 +53,12 @@ class AliasProcessorTest extends TestCase
     }
 
     /**
-     * @return array<int, array{0: array<string, mixed>, 1: string}>
+     * @return \Iterator<int, array{array<string, mixed>, string}>
      */
-    public static function getSetRootNameData()
+    public static function getSetRootNameData(): \Iterator
     {
-        return [
-            [['name' => 'name', 'config' => [], 'mapping' => []], 'name_'],
-            [['elasticsearch_name' => 'notname', 'name' => 'name', 'config' => [], 'mapping' => []], 'notname_'],
-        ];
+        yield [['name' => 'name', 'config' => [], 'mapping' => []], 'name_'];
+        yield [['elasticsearch_name' => 'notname', 'name' => 'name', 'config' => [], 'mapping' => []], 'notname_'];
     }
 
     public function testSwitchAliasNoAliasSet(): void
@@ -329,7 +326,7 @@ class AliasProcessorTest extends TestCase
     {
         $index = $this->createMock(Index::class);
 
-        $index->expects($this->any())
+        $index
             ->method('getName')
             ->willReturn($name)
         ;
@@ -341,7 +338,7 @@ class AliasProcessorTest extends TestCase
     {
         $client = $this->createMock(Client::class);
 
-        $index->expects($this->any())
+        $index
             ->method('getClient')
             ->willReturn($client)
         ;
@@ -353,7 +350,7 @@ class AliasProcessorTest extends TestCase
     {
         $indices = $this->createMock(Indices::class);
 
-        $client->expects($this->any())
+        $client
             ->method('indices')
             ->willReturn($indices)
         ;

@@ -31,7 +31,7 @@ return static function (ContainerConfigurator $container): void {
         ->alias('test_alias.fos_elastica.indexable', 'fos_elastica.indexable')
             ->public()
 
-        ->set('indexable_service', 'FOS\ElasticaBundle\Tests\Functional\app\ORM\IndexableService')
+        ->set('indexable_service', \FOS\ElasticaBundle\Tests\Functional\app\ORM\IndexableService::class)
 
         ->alias('test_alias.fos_elastica.manager.orm', 'fos_elastica.manager.orm')
             ->public()
@@ -56,7 +56,7 @@ return static function (ContainerConfigurator $container): void {
                 'indexable_callback' => 'object.isIndexable() && !object.isntIndexable()',
                 'persistence' => [
                     'driver' => 'orm',
-                    'model' => 'FOS\ElasticaBundle\Tests\Functional\TypeObj',
+                    'model' => \FOS\ElasticaBundle\Tests\Functional\TypeObj::class,
                     'listener' => null,
                     'provider' => [
                         'debug_logging' => true,
@@ -72,7 +72,7 @@ return static function (ContainerConfigurator $container): void {
                 'indexable_callback' => 'object.isIndexable() && !object.isntIndexable()',
                 'persistence' => [
                     'driver' => 'orm',
-                    'model' => 'FOS\ElasticaBundle\Tests\Functional\TypeObj',
+                    'model' => \FOS\ElasticaBundle\Tests\Functional\TypeObj::class,
                     'listener' => null,
                 ],
                 'properties' => [
@@ -88,7 +88,7 @@ return static function (ContainerConfigurator $container): void {
                 ],
                 'persistence' => [
                     'driver' => 'orm',
-                    'model' => 'FOS\ElasticaBundle\Tests\Functional\TypeObj',
+                    'model' => \FOS\ElasticaBundle\Tests\Functional\TypeObj::class,
                     'listener' => null,
                 ],
                 'properties' => [
@@ -100,7 +100,7 @@ return static function (ContainerConfigurator $container): void {
                 'indexable_callback' => 'isntIndexable',
                 'persistence' => [
                     'driver' => 'orm',
-                    'model' => 'FOS\ElasticaBundle\Tests\Functional\TypeObj',
+                    'model' => \FOS\ElasticaBundle\Tests\Functional\TypeObj::class,
                     'finder' => null,
                     'provider' => null,
                     'listener' => null,
@@ -112,12 +112,12 @@ return static function (ContainerConfigurator $container): void {
             'fifth_index' => [
                 'index_name' => 'foselastica_orm_test_fifth_%kernel.environment%',
                 'indexable_callback' => [
-                    'FOS\ElasticaBundle\Tests\Functional\app\ORM\IndexableService',
+                    \FOS\ElasticaBundle\Tests\Functional\app\ORM\IndexableService::class,
                     'isntIndexable',
                 ],
                 'persistence' => [
                     'driver' => 'orm',
-                    'model' => 'FOS\ElasticaBundle\Tests\Functional\TypeObj',
+                    'model' => \FOS\ElasticaBundle\Tests\Functional\TypeObj::class,
                     'finder' => null,
                     'provider' => null,
                     'listener' => null,
@@ -130,7 +130,7 @@ return static function (ContainerConfigurator $container): void {
                 'index_name' => 'foselastica_orm_test_%kernel.environment%',
                 'persistence' => [
                     'driver' => 'orm',
-                    'model' => 'FOS\ElasticaBundle\Tests\Functional\TypeObj',
+                    'model' => \FOS\ElasticaBundle\Tests\Functional\TypeObj::class,
                     'provider' => null,
                 ],
                 'properties' => [
@@ -149,8 +149,8 @@ return static function (ContainerConfigurator $container): void {
                 'index_name' => 'foselastica_orm_test_%kernel.environment%',
                 'persistence' => [
                     'driver' => 'orm',
-                    'model' => 'FOS\ElasticaBundle\Tests\Functional\TypeObject',
-                    'repository' => 'FOS\ElasticaBundle\Tests\Functional\TypeObjectRepository',
+                    'model' => \FOS\ElasticaBundle\Tests\Functional\TypeObject::class,
+                    'repository' => \FOS\ElasticaBundle\Tests\Functional\TypeObjectRepository::class,
                     'finder' => null,
                     'provider' => null,
                 ],

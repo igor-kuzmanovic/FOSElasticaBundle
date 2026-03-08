@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the FOSElasticaBundle package.
  *
@@ -27,7 +29,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * @internal
  */
-class PHPCRPagerProviderTest extends TestCase
+final class PHPCRPagerProviderTest extends TestCase
 {
     protected function setUp(): void
     {
@@ -57,7 +59,7 @@ class PHPCRPagerProviderTest extends TestCase
         $objectClass = \stdClass::class;
         $baseConfig = ['query_builder_method' => 'createQueryBuilder'];
 
-        $expectedBuilder = $this->createMock(QueryBuilder::class);
+        $expectedBuilder = $this->createStub(QueryBuilder::class);
 
         $repository = $this->createMock(DocumentRepository::class);
         $repository
@@ -101,7 +103,7 @@ class PHPCRPagerProviderTest extends TestCase
         $repository
             ->expects($this->once())
             ->method('createCustomQueryBuilder')
-            ->willReturn($this->createMock(QueryBuilder::class))
+            ->willReturn($this->createStub(QueryBuilder::class))
         ;
 
         $manager = $this->createMock(DocumentManager::class);
@@ -130,7 +132,7 @@ class PHPCRPagerProviderTest extends TestCase
         $objectClass = \stdClass::class;
         $baseConfig = ['query_builder_method' => 'createQueryBuilder'];
 
-        $queryBuilder = $this->createMock(QueryBuilder::class);
+        $queryBuilder = $this->createStub(QueryBuilder::class);
 
         $repository = $this->createMock(DocumentRepository::class);
         $repository

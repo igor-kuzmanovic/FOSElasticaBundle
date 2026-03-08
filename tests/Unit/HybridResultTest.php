@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the FOSElasticaBundle package.
  *
@@ -18,7 +20,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * @internal
  */
-class HybridResultTest extends TestCase
+final class HybridResultTest extends TestCase
 {
     public function testTransformedResultDefaultsToNull(): void
     {

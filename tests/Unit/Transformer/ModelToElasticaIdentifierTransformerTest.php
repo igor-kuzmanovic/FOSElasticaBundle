@@ -35,7 +35,7 @@ class POPO4
 /**
  * @internal
  */
-class ModelToElasticaIdentifierTransformerTest extends TestCase
+final class ModelToElasticaIdentifierTransformerTest extends TestCase
 {
     public function testGetDocumentWithIdentifierOnly(): void
     {
