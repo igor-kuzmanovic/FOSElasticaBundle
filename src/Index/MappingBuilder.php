@@ -29,7 +29,7 @@ class MappingBuilder
     /**
      * Builds mappings for an entire index.
      *
-     * @return array{mappings: TMapping, settings: TSettings}
+     * @return array{mappings?: TMapping, settings?: TSettings}
      */
     public function buildIndexMapping(IndexConfigInterface $indexConfig): array
     {
@@ -66,6 +66,8 @@ class MappingBuilder
 
     /**
      * Builds mappings for a single type.
+     *
+     * @param class-string<object>|null $model
      *
      * @return TMapping
      */

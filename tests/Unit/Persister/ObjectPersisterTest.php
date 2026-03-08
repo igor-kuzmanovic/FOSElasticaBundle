@@ -19,6 +19,9 @@ use FOS\ElasticaBundle\Transformer\ModelToElasticaAutoTransformer;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 
+/**
+ * @extends ObjectPersister<object>
+ */
 class InvalidObjectPersister extends ObjectPersister
 {
     public function transformToElasticaDocument(object $object): Document
@@ -43,7 +46,7 @@ class ObjectPersisterTest extends TestCase
 
         $fields = ['name' => []];
 
-        $objectPersister = new ObjectPersister($indexMock, $transformer, 'SomeClass', $fields);
+        $objectPersister = new ObjectPersister($indexMock, $transformer, POPO::class, $fields);
         $objectPersister->replaceOne(new POPO());
     }
 
@@ -61,7 +64,7 @@ class ObjectPersisterTest extends TestCase
 
         $fields = ['name' => []];
 
-        $objectPersister = new InvalidObjectPersister($indexMock, $transformer, 'SomeClass', $fields);
+        $objectPersister = new InvalidObjectPersister($indexMock, $transformer, POPO::class, $fields);
 
         $this->expectException(\BadMethodCallException::class);
         $objectPersister->replaceOne(new POPO());
@@ -81,7 +84,7 @@ class ObjectPersisterTest extends TestCase
 
         $fields = ['name' => []];
 
-        $objectPersister = new ObjectPersister($indexMock, $transformer, 'SomeClass', $fields);
+        $objectPersister = new ObjectPersister($indexMock, $transformer, POPO::class, $fields);
         $objectPersister->insertOne(new POPO());
     }
 
@@ -99,7 +102,7 @@ class ObjectPersisterTest extends TestCase
 
         $fields = ['name' => []];
 
-        $objectPersister = new InvalidObjectPersister($indexMock, $transformer, 'SomeClass', $fields);
+        $objectPersister = new InvalidObjectPersister($indexMock, $transformer, POPO::class, $fields);
 
         $this->expectException(\BadMethodCallException::class);
         $objectPersister->insertOne(new POPO());
@@ -119,7 +122,7 @@ class ObjectPersisterTest extends TestCase
 
         $fields = ['name' => []];
 
-        $objectPersister = new ObjectPersister($indexMock, $transformer, 'SomeClass', $fields);
+        $objectPersister = new ObjectPersister($indexMock, $transformer, POPO::class, $fields);
         $objectPersister->deleteOne(new POPO());
     }
 
@@ -137,7 +140,7 @@ class ObjectPersisterTest extends TestCase
 
         $fields = ['name' => []];
 
-        $objectPersister = new InvalidObjectPersister($indexMock, $transformer, 'SomeClass', $fields);
+        $objectPersister = new InvalidObjectPersister($indexMock, $transformer, POPO::class, $fields);
 
         $this->expectException(\BadMethodCallException::class);
         $objectPersister->deleteOne(new POPO());
@@ -160,7 +163,7 @@ class ObjectPersisterTest extends TestCase
 
         $fields = ['name' => []];
 
-        $objectPersister = new ObjectPersister($indexMock, $transformer, 'SomeClass', $fields);
+        $objectPersister = new ObjectPersister($indexMock, $transformer, POPO::class, $fields);
         $objectPersister->insertMany([new POPO(), new POPO()]);
     }
 
@@ -181,12 +184,15 @@ class ObjectPersisterTest extends TestCase
 
         $fields = ['name' => []];
 
-        $objectPersister = new InvalidObjectPersister($indexMock, $transformer, 'SomeClass', $fields);
+        $objectPersister = new InvalidObjectPersister($indexMock, $transformer, POPO::class, $fields);
 
         $this->expectException(\BadMethodCallException::class);
         $objectPersister->insertMany([new POPO(), new POPO()]);
     }
 
+    /**
+     * @return ModelToElasticaAutoTransformer<object>
+     */
     private function getTransformer(): ModelToElasticaAutoTransformer
     {
         $transformer = new ModelToElasticaAutoTransformer();

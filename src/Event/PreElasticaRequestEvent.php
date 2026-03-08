@@ -11,7 +11,6 @@
 
 namespace FOS\ElasticaBundle\Event;
 
-use Elastica\Request;
 use Symfony\Contracts\EventDispatcher\Event;
 
 class PreElasticaRequestEvent extends Event
@@ -25,7 +24,7 @@ class PreElasticaRequestEvent extends Event
         private readonly string $method,
         private readonly array|string $data,
         private readonly array $query,
-        private readonly string $contentType = Request::DEFAULT_CONTENT_TYPE,
+        private readonly string $contentType = 'application/json',
     ) {}
 
     public function getPath(): string

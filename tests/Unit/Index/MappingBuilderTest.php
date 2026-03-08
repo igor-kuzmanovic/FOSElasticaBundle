@@ -28,9 +28,11 @@ class MappingBuilderTest extends TestCase
     private $builder;
 
     /**
-     * @var array
+     * @var array<string, mixed>
+     *
+     * @phpstan-ignore property.onlyWritten (used by parent test framework)
      */
-    private $mapping;
+    private array $mapping;
 
     /**
      * @var IndexConfig
@@ -60,7 +62,6 @@ class MappingBuilderTest extends TestCase
             [
                 'name' => 'name',
                 'config' => [],
-                'model' => null,
                 'mapping' => [
                     'properties' => [
                         'storeless' => [

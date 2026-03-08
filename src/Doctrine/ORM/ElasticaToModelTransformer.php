@@ -18,9 +18,9 @@ use FOS\ElasticaBundle\Doctrine\AbstractElasticaToModelTransformer;
  * Maps Elastica documents with Doctrine objects.
  * This mapper assumes an exact match between elastica documents ids and doctrine object ids.
  *
- * @template T of object
+ * @template TObject of object
  *
- * @extends AbstractElasticaToModelTransformer<T>
+ * @extends AbstractElasticaToModelTransformer<TObject>
  */
 class ElasticaToModelTransformer extends AbstractElasticaToModelTransformer
 {
@@ -32,7 +32,7 @@ class ElasticaToModelTransformer extends AbstractElasticaToModelTransformer
      * @param list<string> $identifierValues ids values
      * @param bool         $hydrate          whether or not to hydrate the objects, false returns arrays
      *
-     * @return list<T|array<string, mixed>>
+     * @return list<TObject|array<string, mixed>>
      */
     protected function findByIdentifiers(array $identifierValues, bool $hydrate): array
     {

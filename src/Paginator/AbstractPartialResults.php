@@ -26,6 +26,9 @@ abstract class AbstractPartialResults implements PartialResultsInterface
         protected ResultSet $resultSet,
     ) {}
 
+    /**
+     * @return int<0, max>
+     */
     public function getTotalHits(): int
     {
         return $this->resultSet->getTotalHits();

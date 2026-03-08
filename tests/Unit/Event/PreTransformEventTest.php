@@ -31,6 +31,7 @@ class PreTransformEventTest extends TestCase
 
     public function testFields(): void
     {
+        // @phpstan-ignore argument.type (test intentionally verifies field passthrough with a simplified non-transformer field shape)
         $event = new PreTransformEvent(new Document(), $fields = ['abc', '123'], new \stdClass());
         $this->assertSame($fields, $event->getFields());
     }

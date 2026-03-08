@@ -23,9 +23,9 @@ use Psr\Log\LoggerInterface;
  *
  * @author Thibault Duplessis <thibault.duplessis@gmail.com>
  *
- * @template T of object
+ * @template TObject of object
  *
- * @implements ObjectPersisterInterface<T>
+ * @implements ObjectPersisterInterface<TObject>
  *
  * @phpstan-type TOptions = array<string, mixed>
  *
@@ -38,10 +38,10 @@ class ObjectPersister implements ObjectPersisterInterface
     protected ?LoggerInterface $logger = null;
 
     /**
-     * @param ModelToElasticaTransformerInterface<T> $transformer
-     * @param class-string<T>                        $objectClass
-     * @param TFields                                $fields
-     * @param TOptions                               $options
+     * @param ModelToElasticaTransformerInterface<TObject> $transformer
+     * @param class-string<TObject>                        $objectClass
+     * @param TFields                                      $fields
+     * @param TOptions                                     $options
      */
     public function __construct(
         protected Index $index,
@@ -52,9 +52,11 @@ class ObjectPersister implements ObjectPersisterInterface
     ) {}
 
     /**
-     * @template TObject of object
+     * @template T of object
      *
-     * @param TObject $object
+     * @param T $object
+     *
+     * @return (T is TObject ? true : false)
      */
     public function handlesObject(object $object): bool
     {
@@ -67,7 +69,7 @@ class ObjectPersister implements ObjectPersisterInterface
     }
 
     /**
-     * @param T $object
+     * @param TObject $object
      */
     public function insertOne(object $object): void
     {
@@ -75,7 +77,7 @@ class ObjectPersister implements ObjectPersisterInterface
     }
 
     /**
-     * @param T $object
+     * @param TObject $object
      */
     public function replaceOne(object $object): void
     {
@@ -83,7 +85,7 @@ class ObjectPersister implements ObjectPersisterInterface
     }
 
     /**
-     * @param T $object
+     * @param TObject $object
      */
     public function deleteOne(object $object): void
     {
@@ -96,7 +98,7 @@ class ObjectPersister implements ObjectPersisterInterface
     }
 
     /**
-     * @param list<object> $objects
+     * @param list<TObject> $objects
      */
     public function insertMany(array $objects): void
     {
@@ -112,7 +114,7 @@ class ObjectPersister implements ObjectPersisterInterface
     }
 
     /**
-     * @param list<object> $objects
+     * @param list<TObject> $objects
      */
     public function replaceMany(array $objects): void
     {
@@ -131,7 +133,7 @@ class ObjectPersister implements ObjectPersisterInterface
     }
 
     /**
-     * @param list<object> $objects
+     * @param list<TObject> $objects
      */
     public function deleteMany(array $objects): void
     {
@@ -160,6 +162,8 @@ class ObjectPersister implements ObjectPersisterInterface
 
     /**
      * Transforms an object to an elastica document.
+     *
+     * @param TObject $object
      */
     public function transformToElasticaDocument(object $object): Document
     {

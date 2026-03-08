@@ -22,9 +22,9 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
  * This mapper assumes an exact match between
  * elastica documents ids and doctrine object ids.
  *
- * @template T of object
+ * @template TObject of object
  *
- * @implements ModelToElasticaTransformerInterface<T>
+ * @implements ModelToElasticaTransformerInterface<TObject>
  *
  * @phpstan-import-type TFields from ModelToElasticaTransformerInterface
  *
@@ -70,7 +70,7 @@ class ModelToElasticaAutoTransformer implements ModelToElasticaTransformerInterf
     /**
      * Transforms an object into an elastica object having the required keys.
      *
-     * @param T       $object
+     * @param TObject $object
      * @param TFields $fields
      */
     public function transform(object $object, array $fields): Document
@@ -81,14 +81,14 @@ class ModelToElasticaAutoTransformer implements ModelToElasticaTransformerInterf
     }
 
     /**
-     * transform a nested document or an object property into an array of ElasticaDocument.
+     * Transform a nested document or an object property into an array of ElasticaDocument.
      *
-     * @param array<T>|\Traversable<T>|\ArrayAccess<mixed, mixed>|null $objects the object to convert
-     * @param TFields                                                  $fields  the keys we want to have in the returned array
+     * @param array<TObject>|\Traversable<TObject>|\ArrayAccess<mixed, mixed>|null $objects the object to convert
+     * @param TFields                                                              $fields  the keys we want to have in the returned array
      *
-     * @return array<mixed>
+     * @return array<mixed>|null
      */
-    protected function transformNested($objects, array $fields): ?array
+    protected function transformNested(mixed $objects, array $fields): ?array
     {
         if (is_iterable($objects)) {
             $documents = [];
@@ -141,7 +141,7 @@ class ModelToElasticaAutoTransformer implements ModelToElasticaTransformerInterf
     /**
      * Transforms the given object to an elastica document.
      *
-     * @param T       $object
+     * @param TObject $object
      * @param TFields $fields
      */
     protected function transformObjectToDocument(object $object, array $fields, string $identifier = ''): Document

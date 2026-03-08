@@ -16,9 +16,9 @@ use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 use Symfony\Component\ExpressionLanguage\SyntaxError;
 
 /**
- * @template T of object
+ * @template TObject of object
  *
- * @implements IndexableInterface<T>
+ * @implements IndexableInterface<TObject>
  *
  * @phpstan-type TCallbackInput = string|(callable(object):bool)
  * @phpstan-type TCallbackInternal = callable|string|ExpressionLanguage|null
@@ -50,7 +50,7 @@ class Indexable implements IndexableInterface
     /**
      * Return whether the object is indexable with respect to the callback.
      *
-     * @param T $object
+     * @param TObject $object
      */
     public function isObjectIndexable(string $indexName, object $object): bool
     {
@@ -73,7 +73,7 @@ class Indexable implements IndexableInterface
     /**
      * Builds and initialises a callback.
      *
-     * @param T $object
+     * @param TObject $object
      *
      * @return TCallbackInternal
      */
@@ -99,7 +99,7 @@ class Indexable implements IndexableInterface
     /**
      * Processes a string expression into an Expression.
      *
-     * @param T $object
+     * @param TObject $object
      */
     private function buildExpressionCallback(string $index, object $object, string $callback): Expression
     {
@@ -123,7 +123,7 @@ class Indexable implements IndexableInterface
     /**
      * Retreives a cached callback, or creates a new callback if one is not found.
      *
-     * @param T $object
+     * @param TObject $object
      *
      * @return TCallbackInternal
      */
@@ -152,7 +152,7 @@ class Indexable implements IndexableInterface
      * Returns the variable name to be used to access the object when using the ExpressionLanguage
      * component to parse and evaluate an expression.
      *
-     * @param T|null $object
+     * @param TObject|null $object
      */
     private function getExpressionVar(?object $object = null): string
     {

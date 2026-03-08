@@ -35,10 +35,25 @@ class ResetterTest extends TestCase
      */
     private $resetter;
 
+    /**
+     * @var AliasProcessor&MockObject
+     */
     private $aliasProcessor;
+    /**
+     * @var ConfigManager&MockObject
+     */
     private $configManager;
+    /**
+     * @var EventDispatcherInterface&MockObject
+     */
     private $dispatcher;
+    /**
+     * @var IndexManager&MockObject
+     */
     private $indexManager;
+    /**
+     * @var MappingBuilder&MockObject
+     */
     private $mappingBuilder;
 
     protected function setUp(): void
@@ -65,7 +80,6 @@ class ResetterTest extends TestCase
             'name' => $indexName,
             'config' => [],
             'mapping' => [],
-            'model' => null,
         ]);
         $mapping = ['map' => 'ping'];
         $index = $this->mockIndex($indexName, $indexConfig, $mapping);
@@ -94,7 +108,6 @@ class ResetterTest extends TestCase
             'name' => 'index1',
             'config' => [],
             'mapping' => [],
-            'model' => null,
         ]);
         $mapping = ['map' => 'ping'];
         $index = $this->mockIndex('index1', $indexConfig, $mapping);
@@ -120,7 +133,6 @@ class ResetterTest extends TestCase
             'use_alias' => true,
             'config' => [],
             'mapping' => [],
-            'model' => null,
         ]);
         $mapping = ['map' => 'ping'];
         $index = $this->mockIndex('index1', $indexConfig, $mapping);
@@ -164,7 +176,6 @@ class ResetterTest extends TestCase
             'name' => 'index',
             'config' => [],
             'mapping' => [],
-            'model' => null,
         ]));
 
         $this->indexManager->expects($this->never())
@@ -184,7 +195,6 @@ class ResetterTest extends TestCase
             'use_alias' => true,
             'config' => [],
             'mapping' => [],
-            'model' => null,
         ]);
         $index = $this->mockIndex('index', $indexConfig);
 
@@ -201,6 +211,9 @@ class ResetterTest extends TestCase
         $this->assertInstanceOf(ResetterInterface::class, $this->resetter);
     }
 
+    /**
+     * @param array<int, array<int, mixed>> $events
+     */
     private function dispatcherExpects(array $events): void
     {
         $matcher = $this->exactly(\count($events));
@@ -226,6 +239,9 @@ class ResetterTest extends TestCase
         ;
     }
 
+    /**
+     * @param array<string, mixed> $mapping
+     */
     private function mockIndex(string $indexName, IndexConfig $config, array $mapping = []): Index&MockObject
     {
         $this->configManager->expects($this->atLeast(1))

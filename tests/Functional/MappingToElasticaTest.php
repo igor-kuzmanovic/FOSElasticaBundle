@@ -58,7 +58,7 @@ class MappingToElasticaTest extends WebTestCase
     public function testMappingIteratorToArrayField(): void
     {
         self::bootKernel(['test_case' => 'ORM']);
-        /** @var ObjectPersisterInterface $persister */
+        /** @var ObjectPersisterInterface<TypeObj> $persister */
         $persister = self::getContainer()->get('fos_elastica.object_persister.index');
 
         $object = new TypeObj();

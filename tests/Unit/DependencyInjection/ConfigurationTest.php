@@ -260,7 +260,12 @@ class ConfigurationTest extends TestCase
         $this->assertArrayHasKey('some_field', $indexTemplate['properties']);
     }
 
-    private function getConfigs(array $configArray)
+    /**
+     * @param array<string, mixed> $configArray
+     *
+     * @return array<string, mixed>
+     */
+    private function getConfigs(array $configArray): array
     {
         $configuration = new Configuration(true);
 

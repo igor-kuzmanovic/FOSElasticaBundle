@@ -129,7 +129,10 @@ class ResetTemplatesCommandTest extends WebTestCase
         $this->elasticClient->indices()->deleteTemplate(['name' => '*']);
     }
 
-    private function fetchAllTemplates()
+    /**
+     * @return array<string, mixed>
+     */
+    private function fetchAllTemplates(): array
     {
         $reponse = $this->elasticClient->indices()->getTemplate();
 

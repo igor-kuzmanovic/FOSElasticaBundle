@@ -29,6 +29,9 @@ class TypeObject
         return false;
     }
 
+    /**
+     * @return list<mixed>
+     */
     public function getSerializableColl(): array
     {
         return iterator_to_array($this->coll, false);

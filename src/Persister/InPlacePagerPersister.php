@@ -34,9 +34,14 @@ final class InPlacePagerPersister implements PagerPersisterInterface
 
     /**
      * @param PagerInterface<object> $pager
+     * @param TPagerPersisterOptions $options
      */
     public function insert(PagerInterface $pager, array $options = []): void
     {
+        if (!isset($options['indexName'])) {
+            throw new \RuntimeException('Invalid call. $options is missing the indexName key.');
+        }
+
         $pager->setMaxPerPage(empty($options['max_per_page']) ? 100 : $options['max_per_page']);
 
         $options = array_replace([
@@ -86,6 +91,7 @@ final class InPlacePagerPersister implements PagerPersisterInterface
         $objects = $pager->getCurrentPageResults();
 
         if ($objects instanceof \Traversable) {
+            /** @var list<object> $objects */
             $objects = iterator_to_array($objects);
         }
 

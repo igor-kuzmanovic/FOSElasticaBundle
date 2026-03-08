@@ -99,6 +99,7 @@ class Listener
      */
     public function postPersist(LifecycleEventArgs $eventArgs): void
     {
+        /* @var TObject $entity */
         $entity = $eventArgs->getObject();
 
         if ($this->objectPersister->handlesObject($entity) && $this->isObjectIndexable($entity)) {
@@ -115,6 +116,7 @@ class Listener
      */
     public function postUpdate(LifecycleEventArgs $eventArgs): void
     {
+        /* @var TObject $entity */
         $entity = $eventArgs->getObject();
 
         if ($this->objectPersister->handlesObject($entity)) {
@@ -137,6 +139,7 @@ class Listener
      */
     public function preRemove(LifecycleEventArgs $eventArgs): void
     {
+        /* @var TObject $entity */
         $entity = $eventArgs->getObject();
 
         if ($this->objectPersister->handlesObject($entity)) {
@@ -201,8 +204,6 @@ class Listener
 
     /**
      * Record the specified identifier to delete. Do not need to entire object.
-     *
-     * @param TObject $object
      */
     private function scheduleForDeletion(object $object): void
     {

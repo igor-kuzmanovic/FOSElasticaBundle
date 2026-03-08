@@ -24,7 +24,7 @@ class PropertyPathTest extends WebTestCase
     public function testContainerSource(): void
     {
         self::bootKernel(['test_case' => 'ORM']);
-        /** @var ObjectPersisterInterface $persister */
+        /** @var ObjectPersisterInterface<TypeObj> $persister */
         $persister = self::getContainer()->get('fos_elastica.object_persister.property_paths_index');
         $obj = new TypeObj();
         $obj->coll = 'Hello';

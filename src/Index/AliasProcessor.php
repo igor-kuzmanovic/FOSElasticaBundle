@@ -147,8 +147,7 @@ class AliasProcessor
     }
 
     /**
-     * Returns the name of a single index that an alias points to or throws
-     * an exception if there is more than one.
+     * Returns the name of a single index that an alias points to or throws an exception if there is more than one.
      *
      * @throws AliasIsIndexException
      */
@@ -156,6 +155,7 @@ class AliasProcessor
     {
         $response = $client->indices()->getAlias(['name' => '*']);
         $aliasesInfo = $response->asArray();
+        /** @var list<string> $aliasedIndexes */
         $aliasedIndexes = [];
 
         foreach ($aliasesInfo as $indexName => $indexInfo) {

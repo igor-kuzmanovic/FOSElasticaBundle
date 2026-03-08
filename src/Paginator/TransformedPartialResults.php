@@ -34,7 +34,7 @@ class TransformedPartialResults extends AbstractPartialResults
     }
 
     /**
-     * @return list<TObject>
+     * @return TObject[]
      */
     public function toArray(): array
     {

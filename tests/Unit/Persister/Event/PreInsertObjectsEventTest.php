@@ -131,17 +131,17 @@ final class PreInsertObjectsEventTest extends TestCase
     }
 
     /**
-     * @return ObjectPersisterInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @return ObjectPersisterInterface<object>&\PHPUnit\Framework\MockObject\MockObject
      */
-    private function createObjectPersisterMock()
+    private function createObjectPersisterMock(): ObjectPersisterInterface
     {
         return $this->createMock(ObjectPersisterInterface::class);
     }
 
     /**
-     * @return PagerInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @return PagerInterface<object>&\PHPUnit\Framework\MockObject\MockObject
      */
-    private function createPagerMock()
+    private function createPagerMock(): PagerInterface
     {
         return $this->createMock(PagerInterface::class);
     }

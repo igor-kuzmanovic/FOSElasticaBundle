@@ -29,6 +29,8 @@ class FantaPaginatorAdapter implements AdapterInterface
 
     /**
      * Returns the number of results.
+     *
+     * @return int<0, max>
      */
     public function getNbResults(): int
     {
@@ -62,8 +64,8 @@ class FantaPaginatorAdapter implements AdapterInterface
     /**
      * Returns a slice of the results.
      *
-     * @param int $offset The offset
-     * @param int $length The length
+     * @param int<0, max> $offset The offset
+     * @param int<0, max> $length The length
      *
      * @return iterable<array-key, TResult>
      */

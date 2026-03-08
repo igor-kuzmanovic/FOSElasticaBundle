@@ -46,7 +46,7 @@ class MongoDBPagerProviderTest extends TestCase
     public function testCouldBeConstructedWithExpectedArguments(): void
     {
         $doctrine = $this->createDoctrineMock();
-        $objectClass = 'anObjectClass';
+        $objectClass = \stdClass::class;
         $baseConfig = [];
 
         new MongoDBPagerProvider($doctrine, $this->createRegisterListenersServiceMock(), $objectClass, $baseConfig);
@@ -54,7 +54,7 @@ class MongoDBPagerProviderTest extends TestCase
 
     public function testShouldReturnPagerfanataPagerWithDoctrineODMMongoDBAdapter(): void
     {
-        $objectClass = 'anObjectClass';
+        $objectClass = \stdClass::class;
         $baseConfig = ['query_builder_method' => 'createQueryBuilder'];
 
         $expectedBuilder = $this->createMock(Builder::class);
@@ -94,7 +94,7 @@ class MongoDBPagerProviderTest extends TestCase
 
     public function testShouldAllowCallCustomRepositoryMethod(): void
     {
-        $objectClass = 'anObjectClass';
+        $objectClass = \stdClass::class;
         $baseConfig = ['query_builder_method' => 'createQueryBuilder'];
 
         $repository = $this->createMock(DoctrineMongoDBCustomRepositoryMock::class);
@@ -127,7 +127,7 @@ class MongoDBPagerProviderTest extends TestCase
 
     public function testShouldCallRegisterListenersService(): void
     {
-        $objectClass = 'anObjectClass';
+        $objectClass = \stdClass::class;
         $baseConfig = ['query_builder_method' => 'createQueryBuilder'];
 
         $repository = $this->createMock(DocumentRepository::class);
@@ -166,7 +166,7 @@ class MongoDBPagerProviderTest extends TestCase
     /**
      * @return \PHPUnit\Framework\MockObject\MockObject|ManagerRegistry
      */
-    private function createDoctrineMock()
+    private function createDoctrineMock(): ManagerRegistry
     {
         return $this->createMock(ManagerRegistry::class);
     }
@@ -174,7 +174,7 @@ class MongoDBPagerProviderTest extends TestCase
     /**
      * @return RegisterListenersService|\PHPUnit\Framework\MockObject\MockObject
      */
-    private function createRegisterListenersServiceMock()
+    private function createRegisterListenersServiceMock(): RegisterListenersService
     {
         return $this->createMock(RegisterListenersService::class);
     }

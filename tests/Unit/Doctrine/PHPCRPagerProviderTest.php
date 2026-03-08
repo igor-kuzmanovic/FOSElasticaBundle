@@ -46,7 +46,7 @@ class PHPCRPagerProviderTest extends TestCase
     public function testCouldBeConstructedWithExpectedArguments(): void
     {
         $doctrine = $this->createDoctrineMock();
-        $objectClass = 'anObjectClass';
+        $objectClass = \stdClass::class;
         $baseConfig = [];
 
         new PHPCRPagerProvider($doctrine, $this->createRegisterListenersServiceMock(), $objectClass, $baseConfig);
@@ -54,7 +54,7 @@ class PHPCRPagerProviderTest extends TestCase
 
     public function testShouldReturnPagerfanataPagerWithDoctrineODMMongoDBAdapter(): void
     {
-        $objectClass = 'anObjectClass';
+        $objectClass = \stdClass::class;
         $baseConfig = ['query_builder_method' => 'createQueryBuilder'];
 
         $expectedBuilder = $this->createMock(QueryBuilder::class);
@@ -94,7 +94,7 @@ class PHPCRPagerProviderTest extends TestCase
 
     public function testShouldAllowCallCustomRepositoryMethod(): void
     {
-        $objectClass = 'anObjectClass';
+        $objectClass = \stdClass::class;
         $baseConfig = ['query_builder_method' => 'createQueryBuilder'];
 
         $repository = $this->createMock(DoctrinePHPCRCustomRepositoryMock::class);
@@ -127,7 +127,7 @@ class PHPCRPagerProviderTest extends TestCase
 
     public function testShouldCallRegisterListenersService(): void
     {
-        $objectClass = 'anObjectClass';
+        $objectClass = \stdClass::class;
         $baseConfig = ['query_builder_method' => 'createQueryBuilder'];
 
         $queryBuilder = $this->createMock(QueryBuilder::class);
@@ -168,7 +168,7 @@ class PHPCRPagerProviderTest extends TestCase
     /**
      * @return \PHPUnit\Framework\MockObject\MockObject|ManagerRegistry
      */
-    private function createDoctrineMock()
+    private function createDoctrineMock(): ManagerRegistry
     {
         return $this->createMock(ManagerRegistry::class);
     }
@@ -176,7 +176,7 @@ class PHPCRPagerProviderTest extends TestCase
     /**
      * @return RegisterListenersService|\PHPUnit\Framework\MockObject\MockObject
      */
-    private function createRegisterListenersServiceMock()
+    private function createRegisterListenersServiceMock(): RegisterListenersService
     {
         return $this->createMock(RegisterListenersService::class);
     }

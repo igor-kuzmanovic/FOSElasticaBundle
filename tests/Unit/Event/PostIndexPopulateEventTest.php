@@ -21,6 +21,7 @@ class PostIndexPopulateEventTest extends TestCase
 {
     public function testPopulate(): void
     {
+        // @phpstan-ignore argument.type (test data uses empty array instead of full options shape)
         $event = new PostIndexPopulateEvent('index', false, []);
 
         $this->assertSame('index', $event->getIndex());
@@ -30,6 +31,7 @@ class PostIndexPopulateEventTest extends TestCase
 
     public function testPopulateReset(): void
     {
+        // @phpstan-ignore argument.type (test data uses empty array instead of full options shape)
         $event = new PostIndexPopulateEvent('index', true, []);
 
         $this->assertTrue($event->isReset());
@@ -37,6 +39,7 @@ class PostIndexPopulateEventTest extends TestCase
 
     public function testPopulateOptions(): void
     {
+        // @phpstan-ignore argument.type (test data uses partial options shape)
         $event = new PostIndexPopulateEvent('index', false, [
             'option' => 'value',
         ]);
@@ -47,6 +50,7 @@ class PostIndexPopulateEventTest extends TestCase
 
     public function testPopulateInvalidOption(): void
     {
+        // @phpstan-ignore argument.type (test uses empty array for invalid options)
         $event = new PostIndexPopulateEvent('index', false, []);
 
         $this->expectException(\InvalidArgumentException::class);

@@ -16,6 +16,9 @@ use FOS\ElasticaBundle\Manager\RepositoryManager;
 use FOS\ElasticaBundle\Repository;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @extends Repository<object>
+ */
 class CustomRepository extends Repository {}
 
 class Entity {}
@@ -71,6 +74,7 @@ class RepositoryManagerTest extends TestCase
         $indexName = 'index';
 
         $manager = new RepositoryManager();
+        // @phpstan-ignore argument.type (intentionally passing non-existing class to assert runtime exception)
         $manager->addIndex($indexName, $finderMock, 'FOS\ElasticaBundle\Tests\MissingRepository');
 
         $this->expectException(\RuntimeException::class);

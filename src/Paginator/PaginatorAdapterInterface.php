@@ -19,15 +19,15 @@ interface PaginatorAdapterInterface
     /**
      * Returns the number of results.
      *
-     * @return int The number of results
+     * @return int<0, max> The number of results
      */
     public function getTotalHits(): int;
 
     /**
      * Returns an slice of the results.
      *
-     * @param int $offset The offset
-     * @param int $length The length
+     * @param int<0, max> $offset The offset
+     * @param int<0, max> $length The length
      *
      * @return PartialResultsInterface<TResult>
      */

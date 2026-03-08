@@ -24,6 +24,7 @@ use FOS\ElasticaBundle\Persister\PersisterRegistry;
 use FOS\ElasticaBundle\Provider\PagerfantaPager;
 use Pagerfanta\Adapter\ArrayAdapter;
 use Pagerfanta\Pagerfanta;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
@@ -70,6 +71,7 @@ class InPlacePagerPersisterTest extends TestCase
             );
         });
 
+        // @phpstan-ignore argument.type (test intentionally passes minimal options; persister fills paging defaults internally)
         $persister->insert($pager, $options);
 
         $this->assertTrue($called);
@@ -103,6 +105,7 @@ class InPlacePagerPersisterTest extends TestCase
             );
         });
 
+        // @phpstan-ignore argument.type (test intentionally passes minimal options; persister fills paging defaults internally)
         $persister->insert($pager, $options);
 
         $this->assertTrue($called);
@@ -137,6 +140,7 @@ class InPlacePagerPersisterTest extends TestCase
             $this->assertSame($objects, $event->getObjects());
         });
 
+        // @phpstan-ignore argument.type (test intentionally passes minimal options; persister fills paging defaults internally)
         $persister->insert($pager, $options);
 
         $this->assertTrue($called);
@@ -171,6 +175,7 @@ class InPlacePagerPersisterTest extends TestCase
             $this->assertSame($objects, $event->getObjects());
         });
 
+        // @phpstan-ignore argument.type (test intentionally passes minimal options; persister fills paging defaults internally)
         $persister->insert($pager, $options);
 
         $this->assertTrue($called);
@@ -204,6 +209,7 @@ class InPlacePagerPersisterTest extends TestCase
             );
         });
 
+        // @phpstan-ignore argument.type (test intentionally passes minimal options; persister fills paging defaults internally)
         $persister->insert($pager, $options);
 
         $this->assertTrue($called);
@@ -239,6 +245,7 @@ class InPlacePagerPersisterTest extends TestCase
 
         $pager = $this->createPager($objects);
 
+        // @phpstan-ignore argument.type (test intentionally passes partial options; persister normalizes page bounds internally)
         $persister->insert($pager, $options);
     }
 
@@ -270,6 +277,7 @@ class InPlacePagerPersisterTest extends TestCase
 
         $pager = $this->createPager($objects);
 
+        // @phpstan-ignore argument.type (test intentionally passes partial options; persister normalizes page bounds internally)
         $persister->insert($pager, $options);
     }
 
@@ -299,6 +307,7 @@ class InPlacePagerPersisterTest extends TestCase
 
         $pager = $this->createPager($objects);
 
+        // @phpstan-ignore argument.type (test intentionally passes partial options; persister normalizes page bounds internally)
         $persister->insert($pager, $options);
     }
 
@@ -339,6 +348,7 @@ class InPlacePagerPersisterTest extends TestCase
         });
 
         try {
+            // @phpstan-ignore argument.type (test intentionally passes minimal options to exercise exception event flow)
             $persister->insert($pager, $options);
         } catch (\Exception $e) {
             $this->assertTrue($called);
@@ -379,18 +389,24 @@ class InPlacePagerPersisterTest extends TestCase
             $event->setIgnored(true);
         });
 
+        // @phpstan-ignore argument.type (test intentionally passes minimal options to exercise ignored-exception flow)
         $persister->insert($pager, $options);
 
         $this->assertTrue($called);
     }
 
-    private function createPager(array $objects)
+    /**
+     * @param list<object> $objects
+     *
+     * @return PagerfantaPager<object>
+     */
+    private function createPager(array $objects): PagerfantaPager
     {
         return new PagerfantaPager(new Pagerfanta(new ArrayAdapter($objects)));
     }
 
     /**
-     * @return ObjectPersisterInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @return ObjectPersisterInterface<object>&MockObject
      */
     private function createObjectPersisterMock()
     {
@@ -398,7 +414,7 @@ class InPlacePagerPersisterTest extends TestCase
     }
 
     /**
-     * @return PersisterRegistry|\PHPUnit\Framework\MockObject\MockObject
+     * @return PersisterRegistry|MockObject
      */
     private function createPersisterRegistryMock()
     {
@@ -408,7 +424,7 @@ class InPlacePagerPersisterTest extends TestCase
     /**
      * @param mixed|null $objectPersister
      *
-     * @return PersisterRegistry|\PHPUnit\Framework\MockObject\MockObject
+     * @return PersisterRegistry|MockObject
      */
     private function createPersisterRegistryStub($objectPersister = null)
     {

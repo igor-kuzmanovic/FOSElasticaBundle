@@ -36,7 +36,7 @@ class HybridPartialResultsTest extends UnitTestHelper
         $results->toArray();
     }
 
-    protected function mockResultSet()
+    protected function mockResultSet(): ResultSet
     {
         $mock = $this
             ->getMockBuilder(ResultSet::class)

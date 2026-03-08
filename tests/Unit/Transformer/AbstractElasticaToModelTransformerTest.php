@@ -28,7 +28,10 @@ class AbstractElasticaToModelTransformerTest extends UnitTestHelper
         $this->assertSame($propertyAccessor, $this->getProtectedProperty($transformer, 'propertyAccessor'));
     }
 
-    protected function mockAbstractElasticaToModelTransformer()
+    /**
+     * @return AbstractElasticaToModelTransformer<object>
+     */
+    protected function mockAbstractElasticaToModelTransformer(): AbstractElasticaToModelTransformer
     {
         return $this
             ->getMockBuilder(AbstractElasticaToModelTransformer::class)
@@ -37,7 +40,7 @@ class AbstractElasticaToModelTransformerTest extends UnitTestHelper
         ;
     }
 
-    protected function mockPropertyAccesor()
+    protected function mockPropertyAccesor(): PropertyAccessorInterface
     {
         return $this->createMock(PropertyAccessorInterface::class);
     }

@@ -30,6 +30,8 @@ trait IndexConfigTrait
 
     /**
      * The model of the index.
+     *
+     * @var class-string<object>|null
      */
     private ?string $model = null;
 
@@ -61,6 +63,9 @@ trait IndexConfigTrait
         return $this->elasticSearchName;
     }
 
+    /**
+     * @return class-string<object>|null
+     */
     public function getModel(): ?string
     {
         return $this->model;

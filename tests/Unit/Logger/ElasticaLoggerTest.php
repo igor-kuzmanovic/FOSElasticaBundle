@@ -107,7 +107,7 @@ class ElasticaLoggerTest extends TestCase
     }
 
     #[\PHPUnit\Framework\Attributes\DataProvider('logLevels')]
-    public function testMessagesCanBeLoggedAtSpecificLogLevels($level): void
+    public function testMessagesCanBeLoggedAtSpecificLogLevels(string $level): void
     {
         $message = 'foo';
         $context = ['data'];
@@ -118,9 +118,9 @@ class ElasticaLoggerTest extends TestCase
     }
 
     /**
-     * @return array
+     * @return array<int, array<int, string>>
      */
-    public static function logLevels()
+    public static function logLevels(): array
     {
         return [
             ['emergency'],
@@ -179,19 +179,15 @@ class ElasticaLoggerTest extends TestCase
     /**
      * @return \PHPUnit\Framework\MockObject\MockObject|LoggerInterface
      */
-    private function getMockLogger()
+    private function getMockLogger(): LoggerInterface
     {
         return $this->createMock(LoggerInterface::class);
     }
 
     /**
-     * @param string $level
-     * @param string $message
-     * @param array  $context
-     *
-     * @return ElasticaLogger
+     * @param mixed[] $context
      */
-    private function getMockLoggerForLevelMessageAndContext($level, $message, $context)
+    private function getMockLoggerForLevelMessageAndContext(string $level, string $message, array $context): ElasticaLogger
     {
         $loggerMock = $this->createMock(LoggerInterface::class);
 

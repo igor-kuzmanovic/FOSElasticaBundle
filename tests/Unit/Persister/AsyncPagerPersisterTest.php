@@ -44,6 +44,7 @@ class AsyncPagerPersisterTest extends TestCase
             $this->callback(
                 static fn ($message) => $message instanceof AsyncPersistPage
             )
+            // @phpstan-ignore argument.type (test verifies dispatch mechanics; empty options are valid at runtime and completed later by persister defaults)
         )->willReturn(new Envelope(new AsyncPersistPage(0, [])));
 
         $pager = $this->createMock(PagerInterface::class);

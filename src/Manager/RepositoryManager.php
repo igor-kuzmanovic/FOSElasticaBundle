@@ -27,7 +27,7 @@ class RepositoryManager implements RepositoryManagerInterface
     private array $indexes = [];
 
     /**
-     * @var array<string, Repository<object, array<string, mixed>>>
+     * @var array<string, Repository<object>>
      */
     private array $repositories = [];
 
@@ -47,7 +47,7 @@ class RepositoryManager implements RepositoryManagerInterface
      *
      * Returns custom repository if one specified otherwise returns a basic repository.
      *
-     * @return Repository<object, array<string, mixed>>
+     * @return Repository<object>
      */
     public function getRepository(string $indexName): Repository
     {
@@ -79,7 +79,7 @@ class RepositoryManager implements RepositoryManagerInterface
     }
 
     /**
-     * @return Repository<object, array<string, mixed>>
+     * @return Repository<object>
      */
     private function createRepository(string $indexName): Repository
     {
@@ -87,7 +87,8 @@ class RepositoryManager implements RepositoryManagerInterface
             throw new \RuntimeException(\sprintf('%s repository for index "%s" does not exist', $repositoryName, $indexName));
         }
 
-        /* @var Repository<object, array<string, mixed>> */
+        /* @var class-string<Repository<object>> $repositoryName */
+
         return new $repositoryName($this->indexes[$indexName]['finder']);
     }
 }

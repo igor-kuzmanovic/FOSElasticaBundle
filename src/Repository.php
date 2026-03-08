@@ -19,11 +19,9 @@ use Pagerfanta\Pagerfanta;
 /**
  * @author Richard Miller <info@limethinking.co.uk>
  *
- * Basic repository to be extended to hold custom queries to be run
- * in the finder
+ * Basic repository to be extended to hold custom queries to be run in the finder.
  *
  * @template TObject of object
- * @template TRaw of array<string, mixed>
  *
  * @phpstan-import-type TQuery from FinderInterface
  * @phpstan-import-type TOptions from FinderInterface
@@ -31,7 +29,7 @@ use Pagerfanta\Pagerfanta;
 class Repository
 {
     /**
-     * @param PaginatedFinderInterface<TObject, TRaw> $finder
+     * @param PaginatedFinderInterface<TObject> $finder
      */
     public function __construct(
         protected PaginatedFinderInterface $finder,

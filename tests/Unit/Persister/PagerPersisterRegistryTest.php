@@ -69,7 +69,7 @@ class PagerPersisterRegistryTest extends TestCase
     /**
      * @return PagerPersisterInterface|\PHPUnit\Framework\MockObject\MockObject
      */
-    private function createPagerPersisterMock()
+    private function createPagerPersisterMock(): PagerPersisterInterface
     {
         return $this->createMock(PagerPersisterInterface::class);
     }

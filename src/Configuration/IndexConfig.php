@@ -37,7 +37,7 @@ class IndexConfig implements IndexConfigInterface
         $this->useAlias = $config['use_alias'] ?? false;
         $this->config = $config['config'];
         $this->mapping = $config['mapping'];
-        $this->model = $config['model'];
+        $this->model = $config['model'] ?? null;
     }
 
     public function isUseAlias(): bool

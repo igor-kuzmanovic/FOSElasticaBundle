@@ -44,6 +44,9 @@ class PaginateElasticaQuerySubscriberTest extends TestCase
         $subscriber->items($event);
     }
 
+    /**
+     * @param array<string, array{order: string}> $expected
+     */
     #[\PHPUnit\Framework\Attributes\DataProvider('sortCases')]
     public function testShouldSort(array $expected, Request $request): void
     {
@@ -72,7 +75,10 @@ class PaginateElasticaQuerySubscriberTest extends TestCase
         $this->assertSame($expected, $query->getParam('sort'));
     }
 
-    public static function sortCases()
+    /**
+     * @return list<array{0: array<string, array{order: string}>, 1: Request}>
+     */
+    public static function sortCases(): array
     {
         $tests = [];
 
@@ -303,17 +309,20 @@ class PaginateElasticaQuerySubscriberTest extends TestCase
         $subscriber->items($event);
     }
 
-    protected function getAdapterMock()
+    protected function getAdapterMock(): \PHPUnit\Framework\MockObject\MockObject&RawPaginatorAdapter
     {
         return $this->createMock(RawPaginatorAdapter::class);
     }
 
-    protected function getResultSetMock()
+    /**
+     * @return \PHPUnit\Framework\MockObject\MockObject&PartialResultsInterface<mixed>
+     */
+    protected function getResultSetMock(): \PHPUnit\Framework\MockObject\MockObject&PartialResultsInterface
     {
         return $this->createMock(PartialResultsInterface::class);
     }
 
-    private function getRequestStack(?Request $request = null)
+    private function getRequestStack(?Request $request = null): RequestStack
     {
         $stack = new RequestStack();
 

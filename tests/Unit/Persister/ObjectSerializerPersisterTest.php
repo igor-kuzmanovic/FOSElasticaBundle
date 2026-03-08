@@ -36,7 +36,7 @@ class ObjectSerializerPersisterTest extends TestCase
         $serializerMock = $this->createMock(Callback::class);
         $serializerMock->expects($this->once())->method('serialize');
 
-        $objectPersister = new ObjectSerializerPersister($indexMock, $transformer, 'SomeClass', [$serializerMock, 'serialize']);
+        $objectPersister = new ObjectSerializerPersister($indexMock, $transformer, POPO::class, [$serializerMock, 'serialize']);
         $objectPersister->replaceOne(new POPO());
     }
 
@@ -55,7 +55,7 @@ class ObjectSerializerPersisterTest extends TestCase
         $serializerMock = $this->createMock(Callback::class);
         $serializerMock->expects($this->once())->method('serialize');
 
-        $objectPersister = new ObjectSerializerPersister($indexMock, $transformer, 'SomeClass', [$serializerMock, 'serialize']);
+        $objectPersister = new ObjectSerializerPersister($indexMock, $transformer, POPO::class, [$serializerMock, 'serialize']);
         $objectPersister->insertOne(new POPO());
     }
 
@@ -74,7 +74,7 @@ class ObjectSerializerPersisterTest extends TestCase
         $serializerMock = $this->createMock(Callback::class);
         $serializerMock->expects($this->once())->method('serialize');
 
-        $objectPersister = new ObjectSerializerPersister($indexMock, $transformer, 'SomeClass', [$serializerMock, 'serialize']);
+        $objectPersister = new ObjectSerializerPersister($indexMock, $transformer, POPO::class, [$serializerMock, 'serialize']);
         $objectPersister->deleteOne(new POPO());
     }
 
@@ -93,14 +93,14 @@ class ObjectSerializerPersisterTest extends TestCase
         $serializerMock = $this->createMock(Callback::class);
         $serializerMock->expects($this->exactly(2))->method('serialize');
 
-        $objectPersister = new ObjectSerializerPersister($indexMock, $transformer, 'SomeClass', [$serializerMock, 'serialize']);
+        $objectPersister = new ObjectSerializerPersister($indexMock, $transformer, POPO::class, [$serializerMock, 'serialize']);
         $objectPersister->insertMany([new POPO(), new POPO()]);
     }
 
     /**
-     * @return ModelToElasticaIdentifierTransformer
+     * @return ModelToElasticaIdentifierTransformer<object>
      */
-    private function getTransformer()
+    private function getTransformer(): ModelToElasticaIdentifierTransformer
     {
         $transformer = new ModelToElasticaIdentifierTransformer();
         $transformer->setPropertyAccessor(PropertyAccess::createPropertyAccessor());

@@ -77,6 +77,9 @@ class AppKernel extends Kernel
         $loader->load($this->rootConfig);
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     protected function getKernelParameters(): array
     {
         $parameters = parent::getKernelParameters();

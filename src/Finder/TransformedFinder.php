@@ -25,10 +25,8 @@ use Pagerfanta\Pagerfanta;
  * Finds elastica documents and map them to persisted objects.
  *
  * @template TObject of object
- * @template TRaw of array<string, mixed>
  *
- * @implements PaginatedFinderInterface<TObject, TRaw>
- * @implements PaginatedRawFinderInterface<TRaw>
+ * @implements PaginatedFinderInterface<TObject>
  * @implements PaginatedHybridFinderInterface<TObject>
  *
  * @phpstan-import-type TQuery from FinderInterface
@@ -47,9 +45,9 @@ class TransformedFinder implements PaginatedFinderInterface, PaginatedRawFinderI
     /**
      * Searches for query results within a given limit.
      *
-     * @param TQuery   $query   Can be a string, an array or an \Elastica\Query object
-     * @param int|null $limit   How many results to get
-     * @param TOptions $options
+     * @param TQuery           $query   Can be a string, an array or an \Elastica\Query object
+     * @param int<0, max>|null $limit   How many results to get
+     * @param TOptions         $options
      *
      * @return array<TObject> results
      */
@@ -71,7 +69,7 @@ class TransformedFinder implements PaginatedFinderInterface, PaginatedRawFinderI
     }
 
     /**
-     * @return list<Result>
+     * @return Result[]
      */
     public function findRaw(mixed $query, ?int $limit = null, array $options = []): array
     {
@@ -99,7 +97,7 @@ class TransformedFinder implements PaginatedFinderInterface, PaginatedRawFinderI
     }
 
     /**
-     * @return Pagerfanta<TRaw>
+     * @return Pagerfanta<array<string, mixed>>
      */
     public function findRawPaginated(mixed $query, array $options = []): Pagerfanta
     {
@@ -134,24 +132,19 @@ class TransformedFinder implements PaginatedFinderInterface, PaginatedRawFinderI
 
     /**
      * @param array<string, mixed> $options
-     *
-     * @return RawPaginatorAdapter<TRaw>
      */
     public function createRawPaginatorAdapter(mixed $query, array $options = []): RawPaginatorAdapter
     {
         $query = Query::create($query);
 
-        /** @var RawPaginatorAdapter<TRaw> $adapter */
-        $adapter = new RawPaginatorAdapter($this->searchable, $query, $options);
-
-        return $adapter;
+        return new RawPaginatorAdapter($this->searchable, $query, $options);
     }
 
     /**
      * @param TQuery   $query
      * @param TOptions $options
      *
-     * @return list<Result>
+     * @return Result[]
      */
     protected function search(mixed $query, ?int $limit = null, array $options = []): array
     {

@@ -28,7 +28,7 @@ class IndexableTest extends TestCase
     }
 
     #[\PHPUnit\Framework\Attributes\DataProvider('provideIsIndexableCallbacks')]
-    public function testValidIndexableCallbacks($callback, $return): void
+    public function testValidIndexableCallbacks(mixed $callback, bool $return): void
     {
         $indexable = new Indexable([
             'index' => $callback,
@@ -38,7 +38,10 @@ class IndexableTest extends TestCase
         $this->assertSame($return, $index);
     }
 
-    public static function provideIsIndexableCallbacks()
+    /**
+     * @return list<array{0: mixed, 1: bool}>
+     */
+    public static function provideIsIndexableCallbacks(): array
     {
         return [
             ['isIndexable', false],
@@ -54,7 +57,7 @@ class IndexableTest extends TestCase
     }
 
     #[\PHPUnit\Framework\Attributes\DataProvider('provideInvalidIsIndexableCallbacks')]
-    public function testInvalidIsIndexableCallbacks($callback): void
+    public function testInvalidIsIndexableCallbacks(mixed $callback): void
     {
         $indexable = new Indexable([
             'index' => $callback,
@@ -64,7 +67,10 @@ class IndexableTest extends TestCase
         $indexable->isObjectIndexable('index', new Entity());
     }
 
-    public static function provideInvalidIsIndexableCallbacks()
+    /**
+     * @return list<array{0: mixed}>
+     */
+    public static function provideInvalidIsIndexableCallbacks(): array
     {
         return [
             ['nonexistentEntityMethod'],
@@ -77,14 +83,14 @@ class IndexableTest extends TestCase
 
 class Entity
 {
-    public $property = 'abc';
+    public string $property = 'abc';
 
-    public function isIndexable()
+    public function isIndexable(): bool
     {
         return false;
     }
 
-    public function maybeIndex()
+    public function maybeIndex(): bool
     {
         return true;
     }
@@ -92,12 +98,12 @@ class Entity
 
 class IndexableDecider
 {
-    public function __invoke($object)
+    public function __invoke(object $object): bool
     {
         return true;
     }
 
-    public function isIndexable(Entity $entity)
+    public function isIndexable(Entity $entity): bool
     {
         return !$entity->isIndexable();
     }

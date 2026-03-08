@@ -30,7 +30,12 @@ class HybridPaginatorAdapterTest extends UnitTestHelper
         $adapter->getResults(0, 0);
     }
 
-    protected function mockHybridPaginatorAdapter($args)
+    /**
+     * @param array<int, mixed> $args
+     *
+     * @return HybridPaginatorAdapter<object>
+     */
+    protected function mockHybridPaginatorAdapter($args): HybridPaginatorAdapter
     {
         $mock = $this
             ->getMockBuilder(HybridPaginatorAdapter::class)

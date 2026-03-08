@@ -99,7 +99,7 @@ class ElasticaLogger extends AbstractLogger
     }
 
     /**
-     * @param array<string, mixed> $context
+     * @param mixed[] $context
      */
     public function log(mixed $level, string|\Stringable $message, array $context = []): void
     {

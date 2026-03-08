@@ -27,7 +27,7 @@ namespace FOS\ElasticaBundle\Configuration;
  *     use_alias?: bool,
  *     config: TElasticConfig,
  *     mapping: TMapping,
- *     model: mixed,
+ *     model?: class-string<object>,
  *     index_patterns?: list<non-empty-string>,
  * }
  * @phpstan-type TElasticConfig = array{
@@ -42,6 +42,9 @@ interface IndexConfigInterface
 {
     public function getElasticSearchName(): string;
 
+    /**
+     * @return class-string<object>|null
+     */
     public function getModel(): ?string;
 
     public function getName(): string;

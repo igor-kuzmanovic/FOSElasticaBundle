@@ -78,6 +78,7 @@ class Client extends BaseClient implements ResetInterface
         } catch (\JsonException) {
             $data = [];
         }
+        /** @var array<string, mixed> $query */
         $query = [];
         parse_str($request->getUri()->getQuery(), $query);
 

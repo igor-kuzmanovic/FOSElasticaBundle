@@ -35,7 +35,7 @@ interface RepositoryManagerInterface
      *
      * Returns custom repository if one specified otherwise returns a basic repository.
      *
-     * @return Repository<object, array<string, mixed>>
+     * @return Repository<object>
      */
     public function getRepository(string $indexName): Repository;
 

@@ -28,6 +28,7 @@ class PostTransformEventTest extends TestCase
 
     public function testFields(): void
     {
+        // @phpstan-ignore argument.type (test uses simplified field array structure)
         $event = new PostTransformEvent(new Document(), $fields = ['abc', '123'], new \stdClass());
         $this->assertSame($fields, $event->getFields());
     }

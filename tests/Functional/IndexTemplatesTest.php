@@ -30,6 +30,7 @@ class IndexTemplatesTest extends WebTestCase
 
         $instance = self::getContainer()->get('fos_elastica.index_template.index_template_example_1');
         $this->assertInstanceOf(IndexTemplate::class, $instance);
+        // @phpstan-ignore method.alreadyNarrowedType (Test validates IndexTemplate extends OriginalIndexTemplate)
         $this->assertInstanceOf(OriginalIndexTemplate::class, $instance);
 
         $instance = self::getContainer()->get('fos_elastica.config_manager.index_templates');

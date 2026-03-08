@@ -15,5 +15,8 @@ use Doctrine\ODM\PHPCR\DocumentRepository;
 
 class DoctrinePHPCRCustomRepositoryMock extends DocumentRepository
 {
-    public function createCustomQueryBuilder(): mixed {}
+    public function createCustomQueryBuilder(): mixed
+    {
+        return null;
+    }
 }

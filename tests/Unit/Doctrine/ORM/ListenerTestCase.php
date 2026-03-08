@@ -18,22 +18,22 @@ use FOS\ElasticaBundle\Tests\Unit\Doctrine\AbstractListenerTestCase;
  */
 class ListenerTestCase extends AbstractListenerTestCase
 {
-    protected function getClassMetadataClass()
+    protected function getClassMetadataClass(): string
     {
         return \Doctrine\ORM\Mapping\ClassMetadata::class;
     }
 
-    protected function getLifecycleEventArgsClass()
+    protected function getLifecycleEventArgsClass(): string
     {
         return \Doctrine\Persistence\Event\LifecycleEventArgs::class;
     }
 
-    protected function getListenerClass()
+    protected function getListenerClass(): string
     {
         return \FOS\ElasticaBundle\Doctrine\Listener::class;
     }
 
-    protected function getObjectManagerClass()
+    protected function getObjectManagerClass(): string
     {
         return \Doctrine\ORM\EntityManager::class;
     }

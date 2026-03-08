@@ -29,7 +29,7 @@ interface PagerInterface
     public function setMaxPerPage(int $perPage): void;
 
     /**
-     * @return array<TObject>|\Traversable<TObject>
+     * @return list<TObject>|\Traversable<TObject>
      */
     public function getCurrentPageResults(): array|\Traversable;
 }

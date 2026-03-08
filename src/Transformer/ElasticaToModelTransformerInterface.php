@@ -25,14 +25,14 @@ interface ElasticaToModelTransformerInterface
      * Transforms an array of elastica objects into an array of
      * model objects fetched from the doctrine repository.
      *
-     * @param list<Result> $elasticaObjects array of elastica objects
+     * @param Result[] $elasticaObjects array of elastica objects
      *
      * @return array<TObject> of model objects
      */
     public function transform(array $elasticaObjects): array;
 
     /**
-     * @param list<Result> $elasticaObjects
+     * @param Result[] $elasticaObjects
      *
      * @return list<HybridResult<TObject>>
      */

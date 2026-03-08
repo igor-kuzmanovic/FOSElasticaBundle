@@ -15,7 +15,6 @@ use Elastic\Elasticsearch\Exception\ElasticsearchException;
 use Elastic\Elasticsearch\Response\Elasticsearch;
 use Elastica\Exception\ClientException;
 use Elastica\JSON;
-use Elastica\Request;
 use Elastica\Response;
 use FOS\ElasticaBundle\Elastica\Client;
 use FOS\ElasticaBundle\Event\ElasticaRequestExceptionEvent;
@@ -40,7 +39,7 @@ class ClientTest extends TestCase
             ->method('logQuery')
             ->with(
                 'foo',
-                Request::GET,
+                'GET',
                 $this->isType('array'),
                 $this->logicalOr(
                     $this->isType('float'),
@@ -59,7 +58,7 @@ class ClientTest extends TestCase
         $client = $this->getClient($logger, $response);
 
         $response = $client->sendRequest(new \GuzzleHttp\Psr7\Request(
-            Request::GET,
+            'GET',
             'https://some.tld/foo'
         ));
 
@@ -84,10 +83,10 @@ class ClientTest extends TestCase
                     }
 
                     $this->assertSame('event', $o->getPath());
-                    $this->assertSame(Request::GET, $o->getMethod());
+                    $this->assertSame('GET', $o->getMethod());
                     $this->assertSame(['some' => 'data'], $o->getData());
                     $this->assertSame(['query' => 'data'], $o->getQuery());
-                    $this->assertSame(Request::DEFAULT_CONTENT_TYPE, $o->getContentType());
+                    $this->assertSame('application/json', $o->getContentType());
                 } elseif (1 === $counter) {
                     if (!$o instanceof PostElasticaRequestEvent) {
                         return false;
@@ -106,10 +105,10 @@ class ClientTest extends TestCase
                     parse_str($request->getUri()->getQuery(), $query);
 
                     $this->assertSame('event', $path);
-                    $this->assertSame(Request::GET, $method);
+                    $this->assertSame('GET', $method);
                     $this->assertSame(['some' => 'data'], $data);
                     $this->assertSame(['query' => 'data'], $query);
-                    $this->assertSame(Request::DEFAULT_CONTENT_TYPE, $request->getHeaderLine('Content-Type'));
+                    $this->assertSame('application/json', $request->getHeaderLine('Content-Type'));
 
                     $this->assertInstanceOf(Response::class, $o->getResponse());
                 }
@@ -128,7 +127,7 @@ class ClientTest extends TestCase
         $client->setEventDispatcher($dispatcher);
 
         $client->sendRequest(new \GuzzleHttp\Psr7\Request(
-            Request::GET,
+            'GET',
             'https://some.tld/event?'.http_build_query(['query' => 'data']),
             ['Content-Type' => 'application/json'],
             json_encode(['some' => 'data'], \JSON_THROW_ON_ERROR)
@@ -163,10 +162,10 @@ class ClientTest extends TestCase
                     }
 
                     $this->assertSame('event', $o->getPath());
-                    $this->assertSame(Request::GET, $o->getMethod());
+                    $this->assertSame('GET', $o->getMethod());
                     $this->assertSame(['some' => 'data'], $o->getData());
                     $this->assertSame(['query' => 'data'], $o->getQuery());
-                    $this->assertSame(Request::DEFAULT_CONTENT_TYPE, $o->getContentType());
+                    $this->assertSame('application/json', $o->getContentType());
                 } elseif (1 === $counter) {
                     if (!$o instanceof ElasticaRequestExceptionEvent) {
                         return false;
@@ -185,10 +184,10 @@ class ClientTest extends TestCase
                     parse_str($request->getUri()->getQuery(), $query);
 
                     $this->assertSame('event', $path);
-                    $this->assertSame(Request::GET, $method);
+                    $this->assertSame('GET', $method);
                     $this->assertSame(['some' => 'data'], $data);
                     $this->assertSame(['query' => 'data'], $query);
-                    $this->assertSame(Request::DEFAULT_CONTENT_TYPE, $request->getHeaderLine('Content-Type'));
+                    $this->assertSame('application/json', $request->getHeaderLine('Content-Type'));
 
                     $this->assertInstanceOf(ElasticsearchException::class, $o->getException());
                 }
@@ -200,7 +199,7 @@ class ClientTest extends TestCase
         $client->setEventDispatcher($dispatcher);
         $this->expectException(ClientException::class);
         $client->sendRequest(new \GuzzleHttp\Psr7\Request(
-            Request::GET,
+            'GET',
             'https://some.tld/event?'.http_build_query(['query' => 'data']),
             ['Content-Type' => 'application/json'],
             json_encode(['some' => 'data'], \JSON_THROW_ON_ERROR)
@@ -223,7 +222,7 @@ class ClientTest extends TestCase
         $this->expectException(ClientException::class);
         $this->expectExceptionMessage($desiredMessage);
         $client->sendRequest(new \GuzzleHttp\Psr7\Request(
-            Request::GET,
+            'GET',
             'https://some.tld/foo'
         ));
     }

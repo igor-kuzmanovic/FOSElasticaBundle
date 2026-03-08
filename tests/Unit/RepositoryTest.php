@@ -13,6 +13,7 @@ namespace FOS\ElasticaBundle\Tests\Unit;
 
 use FOS\ElasticaBundle\Finder\TransformedFinder;
 use FOS\ElasticaBundle\Repository;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -77,7 +78,12 @@ class RepositoryTest extends TestCase
         $repository->findHybrid($testQuery);
     }
 
-    private function mockTransformedFinder($name, $arguments)
+    /**
+     * @param array<int, mixed> $arguments
+     *
+     * @return TransformedFinder<object>&MockObject
+     */
+    private function mockTransformedFinder(string $name, array $arguments): TransformedFinder
     {
         $finderMock = $this->createMock(TransformedFinder::class);
         $finderMock->expects($this->once())

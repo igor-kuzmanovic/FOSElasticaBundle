@@ -83,8 +83,12 @@ class AbstractElasticaToModelTransformerTest extends TestCase
         $this->assertSame(Foo::class, $transformer->getObjectClass());
     }
 
+    /**
+     * @param list<Result> $elasticaResults
+     * @param list<Foo>    $doctrineObjects
+     */
     #[\PHPUnit\Framework\Attributes\DataProvider('resultsWithMatchingObjects')]
-    public function testObjectsAreTransformedByFindingThemByTheirIdentifiers($elasticaResults, $doctrineObjects): void
+    public function testObjectsAreTransformedByFindingThemByTheirIdentifiers(array $elasticaResults, array $doctrineObjects): void
     {
         $transformer = $this->createMockTransformer();
 
@@ -100,10 +104,14 @@ class AbstractElasticaToModelTransformerTest extends TestCase
         $this->assertSame($doctrineObjects, $transformedObjects);
     }
 
+    /**
+     * @param list<Result> $elasticaResults
+     * @param list<Foo>    $doctrineObjects
+     */
     #[\PHPUnit\Framework\Attributes\DataProvider('resultsWithMatchingObjects')]
     public function testAnExceptionIsThrownWhenTheNumberOfFoundObjectsIsLessThanTheNumberOfResults(
-        $elasticaResults,
-        $doctrineObjects,
+        array $elasticaResults,
+        array $doctrineObjects,
     ): void {
         $transformer = $this->createMockTransformer();
 
@@ -120,10 +128,14 @@ class AbstractElasticaToModelTransformerTest extends TestCase
         $transformer->transform($elasticaResults);
     }
 
+    /**
+     * @param list<Result> $elasticaResults
+     * @param list<Foo>    $doctrineObjects
+     */
     #[\PHPUnit\Framework\Attributes\DataProvider('resultsWithMatchingObjects')]
     public function testAnExceptionIsNotThrownWhenTheNumberOfFoundObjectsIsLessThanTheNumberOfResultsIfOptionSet(
-        $elasticaResults,
-        $doctrineObjects,
+        array $elasticaResults,
+        array $doctrineObjects,
     ): void {
         $transformer = $this->createMockTransformer(['ignore_missing' => true]);
 
@@ -139,8 +151,12 @@ class AbstractElasticaToModelTransformerTest extends TestCase
         $this->assertSame([], $results);
     }
 
+    /**
+     * @param list<Result> $elasticaResults
+     * @param list<Foo>    $doctrineObjects
+     */
     #[\PHPUnit\Framework\Attributes\DataProvider('resultsWithMatchingObjects')]
-    public function testHighlightsAreSetOnTransformedObjects($elasticaResults, $doctrineObjects): void
+    public function testHighlightsAreSetOnTransformedObjects(array $elasticaResults, array $doctrineObjects): void
     {
         $transformer = $this->createMockTransformer();
 
@@ -159,8 +175,12 @@ class AbstractElasticaToModelTransformerTest extends TestCase
         }
     }
 
+    /**
+     * @param list<Result> $elasticaResults
+     * @param list<Foo>    $doctrineObjects
+     */
     #[\PHPUnit\Framework\Attributes\DataProvider('resultsWithMatchingObjects')]
-    public function testResultsAreSortedByIdentifier($elasticaResults, $doctrineObjects): void
+    public function testResultsAreSortedByIdentifier(array $elasticaResults, array $doctrineObjects): void
     {
         rsort($doctrineObjects);
 
@@ -180,8 +200,12 @@ class AbstractElasticaToModelTransformerTest extends TestCase
         $this->assertSame($doctrineObjects[0], $results[2]);
     }
 
+    /**
+     * @param list<Result> $elasticaResults
+     * @param list<Foo>    $doctrineObjects
+     */
     #[\PHPUnit\Framework\Attributes\DataProvider('resultsWithMatchingObjects')]
-    public function testHybridTransformReturnsDecoratedResults($elasticaResults, $doctrineObjects): void
+    public function testHybridTransformReturnsDecoratedResults(array $elasticaResults, array $doctrineObjects): void
     {
         $transformer = $this->createMockTransformer();
 
@@ -197,13 +221,17 @@ class AbstractElasticaToModelTransformerTest extends TestCase
         $this->assertNotEmpty($results);
 
         foreach ($results as $key => $result) {
+            // @phpstan-ignore method.alreadyNarrowedType (Test validates hybrid result type)
             $this->assertInstanceOf(HybridResult::class, $result);
             $this->assertSame($elasticaResults[$key], $result->getResult());
             $this->assertSame($doctrineObjects[$key], $result->getTransformed());
         }
     }
 
-    public static function resultsWithMatchingObjects()
+    /**
+     * @return array<array{list<Result>, list<Foo>}>
+     */
+    public static function resultsWithMatchingObjects(): array
     {
         $elasticaResults = $doctrineObjects = [];
         for ($i = 1; $i < 4; ++$i) {
@@ -222,7 +250,10 @@ class AbstractElasticaToModelTransformerTest extends TestCase
         $this->assertSame('id', $transformer->getIdentifierField());
     }
 
-    private function createMockPropertyAccessor()
+    /**
+     * @return PropertyAccessorInterface&\PHPUnit\Framework\MockObject\MockObject
+     */
+    private function createMockPropertyAccessor(): PropertyAccessorInterface
     {
         $callback = static fn ($object, $identifier) => $object->{$identifier};
 
@@ -238,9 +269,11 @@ class AbstractElasticaToModelTransformerTest extends TestCase
     }
 
     /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|AbstractElasticaToModelTransformer
+     * @param array<string, mixed> $options
+     *
+     * @return AbstractElasticaToModelTransformer<Foo>&\PHPUnit\Framework\MockObject\MockObject
      */
-    private function createMockTransformer($options = [])
+    private function createMockTransformer(array $options = []): AbstractElasticaToModelTransformer
     {
         $objectClass = Foo::class;
         $propertyAccessor = $this->createMockPropertyAccessor();
@@ -259,9 +292,12 @@ class AbstractElasticaToModelTransformerTest extends TestCase
 class Foo implements HighlightableModelInterface
 {
     public mixed $id;
+    /**
+     * @var list<array<mixed>>|null
+     */
     public ?array $highlights = null;
 
-    public function __construct($id)
+    public function __construct(mixed $id)
     {
         $this->id = $id;
     }
@@ -271,6 +307,9 @@ class Foo implements HighlightableModelInterface
         return $this->id;
     }
 
+    /**
+     * @param list<array<mixed>> $highlights
+     */
     public function setElasticHighlights(array $highlights): void
     {
         $this->highlights = $highlights;

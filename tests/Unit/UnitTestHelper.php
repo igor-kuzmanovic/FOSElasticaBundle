@@ -27,7 +27,7 @@ class UnitTestHelper extends TestCase
      * @param object $object   instance in which protected value is being modified
      * @param string $property property on instance being modified
      */
-    protected function getProtectedProperty($object, string $property)
+    protected function getProtectedProperty(object $object, string $property): mixed
     {
         $reflection = new \ReflectionClass($object);
         $reflectionProperty = $reflection->getProperty($property);
@@ -35,7 +35,10 @@ class UnitTestHelper extends TestCase
         return $reflectionProperty->getValue($object);
     }
 
-    protected function mockElasticaToModelTransformer()
+    /**
+     * @return ElasticaToModelTransformerInterface<object>&\PHPUnit\Framework\MockObject\MockObject
+     */
+    protected function mockElasticaToModelTransformer(): ElasticaToModelTransformerInterface
     {
         return $this
             ->getMockBuilder(ElasticaToModelTransformerInterface::class)
@@ -43,7 +46,10 @@ class UnitTestHelper extends TestCase
         ;
     }
 
-    protected function mockSearchable()
+    /**
+     * @return SearchableInterface&\PHPUnit\Framework\MockObject\MockObject
+     */
+    protected function mockSearchable(): SearchableInterface
     {
         return $this
             ->getMockBuilder(SearchableInterface::class)
@@ -51,7 +57,10 @@ class UnitTestHelper extends TestCase
         ;
     }
 
-    protected function mockResultSet()
+    /**
+     * @return ResultSet&\PHPUnit\Framework\MockObject\MockObject
+     */
+    protected function mockResultSet(): ResultSet
     {
         return $this
             ->getMockBuilder(ResultSet::class)

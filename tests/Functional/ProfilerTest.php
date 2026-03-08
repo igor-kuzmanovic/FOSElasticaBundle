@@ -14,7 +14,6 @@ namespace FOS\ElasticaBundle\Tests\Functional;
 use FOS\ElasticaBundle\DataCollector\ElasticaDataCollector;
 use FOS\ElasticaBundle\Logger\ElasticaLogger;
 use Psr\Log\LoggerInterface;
-use Symfony\Bridge\Twig\Extension\CodeExtension;
 use Symfony\Bridge\Twig\Extension\HttpKernelExtension;
 use Symfony\Bridge\Twig\Extension\HttpKernelRuntime;
 use Symfony\Bridge\Twig\Extension\RoutingExtension;
@@ -54,10 +53,6 @@ class ProfilerTest extends WebTestCase
         $fragmentHandlerMock = $this->createMock(FragmentHandler::class);
         $loaderMock = $this->createMock(RuntimeLoaderInterface::class);
 
-        if (class_exists('Symfony\Bridge\Twig\Extension\CodeExtension')) {
-            $this->twig->addExtension(new CodeExtension('', '', ''));
-        }
-
         $this->twig->addExtension(new RoutingExtension($urlGeneratorMock));
         $this->twig->addExtension(new HttpKernelExtension());
 
@@ -68,8 +63,11 @@ class ProfilerTest extends WebTestCase
         $this->twig->addRuntimeLoader($loaderMock);
     }
 
+    /**
+     * @param array<string, mixed>|string $query
+     */
     #[\PHPUnit\Framework\Attributes\DataProvider('queryProvider')]
-    public function testRender($query): void
+    public function testRender(array|string $query): void
     {
         $connection = [
             'host' => 'localhost',
@@ -93,7 +91,10 @@ class ProfilerTest extends WebTestCase
         $this->assertStringContainsString('localhost:9200', $output);
     }
 
-    public static function queryProvider()
+    /**
+     * @return list<array{array<string, mixed>|string}>
+     */
+    public static function queryProvider(): array
     {
         return [
             [json_decode('{"query":{"match_all":{}}}', true)],

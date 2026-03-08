@@ -23,6 +23,7 @@ class FantaPaginatorAdapterTest extends TestCase
 {
     public function testGetNbResults(): void
     {
+        /** @var PaginatorAdapterInterface<mixed>&\PHPUnit\Framework\MockObject\MockObject $mock */
         $mock = $this->mockPaginatorAdapter();
         $mock
             ->expects($this->exactly(1))
@@ -35,6 +36,7 @@ class FantaPaginatorAdapterTest extends TestCase
 
     public function testGetAggregations(): void
     {
+        /** @var PaginatorAdapterInterface<mixed>&\PHPUnit\Framework\MockObject\MockObject $mock */
         $mock = $this->mockPaginatorAdapter();
         $mock
             ->expects($this->exactly(1))
@@ -47,6 +49,7 @@ class FantaPaginatorAdapterTest extends TestCase
 
     public function testGetSuggests(): void
     {
+        /** @var PaginatorAdapterInterface<mixed>&\PHPUnit\Framework\MockObject\MockObject $mock */
         $mock = $this->mockPaginatorAdapter();
         $mock
             ->expects($this->exactly(1))
@@ -62,6 +65,7 @@ class FantaPaginatorAdapterTest extends TestCase
         $results = [];
         $resultsMock = $this->mockPartialResults($results);
 
+        /** @var PaginatorAdapterInterface<mixed>&\PHPUnit\Framework\MockObject\MockObject $mock */
         $mock = $this->mockPaginatorAdapter();
         $mock
             ->expects($this->exactly(1))
@@ -75,6 +79,7 @@ class FantaPaginatorAdapterTest extends TestCase
 
     public function testGetMaxScore(): void
     {
+        /** @var PaginatorAdapterInterface<mixed>&\PHPUnit\Framework\MockObject\MockObject $mock */
         $mock = $this->mockPaginatorAdapter();
         $mock
             ->expects($this->exactly(1))
@@ -85,7 +90,12 @@ class FantaPaginatorAdapterTest extends TestCase
         $this->assertSame(123.0, $adapter->getMaxScore());
     }
 
-    private function mockPartialResults($results)
+    /**
+     * @param list<mixed> $results
+     *
+     * @return PartialResultsInterface<mixed>
+     */
+    private function mockPartialResults(array $results): PartialResultsInterface
     {
         $mock = $this
             ->getMockBuilder(PartialResultsInterface::class)
@@ -100,7 +110,10 @@ class FantaPaginatorAdapterTest extends TestCase
         return $mock;
     }
 
-    private function mockPaginatorAdapter()
+    /**
+     * @return PaginatorAdapterInterface<mixed>
+     */
+    private function mockPaginatorAdapter(): PaginatorAdapterInterface
     {
         return $this
             ->getMockBuilder(PaginatorAdapterInterface::class)

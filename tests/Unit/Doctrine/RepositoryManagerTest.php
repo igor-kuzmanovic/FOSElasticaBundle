@@ -54,6 +54,7 @@ class RepositoryManagerTest extends TestCase
 
         // @link https://github.com/doctrine/persistence/pull/204
         if (method_exists(ManagerRegistry::class, 'getAliasNamespace')) {
+            // @phpstan-ignore phpunit.mockMethod (method exists only on newer doctrine/persistence versions and is guarded by method_exists)
             $registryMock->method('getAliasNamespace')
                 ->with($this->equalTo('FOSElasticaBundle'))
                 ->willReturn((new \ReflectionClass(NamespacedEntity::class))->getNamespaceName())
@@ -67,6 +68,7 @@ class RepositoryManagerTest extends TestCase
 
         $manager = new RepositoryManager($registryMock, $mainManager);
         $manager->addEntity(NamespacedEntity::class, 'index');
+        // @phpstan-ignore argument.type (test intentionally validates Doctrine alias notation support in repository lookup)
         $repository = $manager->getRepository('FOSElasticaBundle:NamespacedEntity');
         $this->assertInstanceOf(Repository::class, $repository);
     }

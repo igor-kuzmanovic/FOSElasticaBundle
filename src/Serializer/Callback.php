@@ -85,8 +85,10 @@ class Callback
             }
         }
 
-        if ($this->version) {
-            $context->setVersion($this->version);
+        if ($context instanceof SerializationContext) {
+            if ($this->version) {
+                $context->setVersion($this->version);
+            }
         }
 
         if ($context instanceof SerializationContext) {

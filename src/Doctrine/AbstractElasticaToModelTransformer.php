@@ -21,9 +21,9 @@ use FOS\ElasticaBundle\Transformer\HighlightableModelInterface;
  * Maps Elastica documents with Doctrine objects.
  * This mapper assumes an exact match between elastica documents ids and doctrine object ids.
  *
- * @template T of object
+ * @template TObject of object
  *
- * @extends BaseTransformer<T>
+ * @extends BaseTransformer<TObject>
  */
 abstract class AbstractElasticaToModelTransformer extends BaseTransformer
 {
@@ -48,7 +48,7 @@ abstract class AbstractElasticaToModelTransformer extends BaseTransformer
         /**
          * Class of the model to map to the elastica documents.
          *
-         * @var class-string<T>
+         * @var class-string<TObject>
          */
         protected string $objectClass,
         array $options = [],
@@ -59,7 +59,7 @@ abstract class AbstractElasticaToModelTransformer extends BaseTransformer
     /**
      * Returns the object class that is used for conversion.
      *
-     * @return class-string<T>
+     * @return class-string<TObject>
      */
     public function getObjectClass(): string
     {
@@ -70,13 +70,16 @@ abstract class AbstractElasticaToModelTransformer extends BaseTransformer
      * Transforms an array of elastica objects into an array of
      * model objects fetched from the doctrine repository.
      *
-     * @param list<Result> $elasticaObjects of elastica objects
+     * @param Result[] $elasticaObjects of elastica objects
      *
      * @throws \RuntimeException
      */
     public function transform(array $elasticaObjects): array
     {
-        $ids = $highlights = [];
+        /** @var list<string> $ids */
+        $ids = [];
+        /** @var array<string, array<string, string>> $highlights */
+        $highlights = [];
         foreach ($elasticaObjects as $elasticaObject) {
             $ids[] = $elasticaObject->getId();
             $highlights[$elasticaObject->getId()] = $elasticaObject->getHighlights();
@@ -120,7 +123,7 @@ abstract class AbstractElasticaToModelTransformer extends BaseTransformer
     }
 
     /**
-     * @return list<HybridResult<T>>
+     * @return list<HybridResult<TObject>>
      */
     public function hybridTransform(array $elasticaObjects): array
     {
@@ -155,7 +158,7 @@ abstract class AbstractElasticaToModelTransformer extends BaseTransformer
      * @param list<string> $identifierValues ids values
      * @param bool         $hydrate          whether or not to hydrate the objects, false returns arrays
      *
-     * @return list<T|array<string, mixed>>
+     * @return list<TObject|array<string, mixed>>
      */
     abstract protected function findByIdentifiers(array $identifierValues, bool $hydrate): array;
 }

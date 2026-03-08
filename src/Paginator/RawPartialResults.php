@@ -11,22 +11,24 @@
 
 namespace FOS\ElasticaBundle\Paginator;
 
-use Elastica\Result;
-
 /**
  * Raw partial results transforms to a simple array.
  *
- * @template TRaw of array<string, mixed>
- *
- * @extends AbstractPartialResults<TRaw>
+ * @extends AbstractPartialResults<array<string, mixed>>
  */
 class RawPartialResults extends AbstractPartialResults
 {
     /**
-     * @return list<TRaw>
+     * @return array<string, mixed>[]
      */
     public function toArray(): array
     {
-        return array_map(static fn (Result $result): array => $result->getSource(), $this->resultSet->getResults());
+        /** @var list<array<string, mixed>> $results */
+        $results = [];
+        foreach ($this->resultSet->getResults() as $result) {
+            $results[] = $result->getSource();
+        }
+
+        return $results;
     }
 }

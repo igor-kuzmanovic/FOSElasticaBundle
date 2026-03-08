@@ -20,7 +20,6 @@ use Pagerfanta\Pagerfanta;
  * @phpstan-import-type TOptions from FinderInterface
  *
  * @template TObject of object
- * @template TRaw of array<string, mixed>
  *
  * @extends FinderInterface<TObject>
  *
@@ -65,7 +64,7 @@ interface PaginatedFinderInterface extends FinderInterface
      * @param TQuery   $query
      * @param TOptions $options
      *
-     * @return PaginatorAdapterInterface<TRaw>
+     * @return PaginatorAdapterInterface<array<string, mixed>>
      */
     public function createRawPaginatorAdapter(mixed $query, array $options = []): PaginatorAdapterInterface;
 }

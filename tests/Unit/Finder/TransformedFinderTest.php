@@ -126,7 +126,10 @@ class TransformedFinderTest extends TestCase
         $this->assertInstanceOf(HybridPaginatorAdapter::class, $finder->createHybridPaginatorAdapter(''));
     }
 
-    private function createMockTransformer($transformMethod)
+    /**
+     * @return ElasticaToModelTransformerInterface<object>
+     */
+    private function createMockTransformer(string $transformMethod): ElasticaToModelTransformerInterface
     {
         $transformer = $this->createMock(ElasticaToModelTransformerInterface::class);
 
@@ -139,7 +142,12 @@ class TransformedFinderTest extends TestCase
         return $transformer;
     }
 
-    private function createMockFinderForSearch($transformer, $query, $limit)
+    /**
+     * @param ElasticaToModelTransformerInterface<object> $transformer
+     *
+     * @return TransformedFinder<object>
+     */
+    private function createMockFinderForSearch(ElasticaToModelTransformerInterface $transformer, mixed $query, ?int $limit): TransformedFinder
     {
         $searchable = $this->createMock(SearchableInterface::class);
 
@@ -159,7 +167,7 @@ class TransformedFinderTest extends TestCase
         return $finder;
     }
 
-    private function createMockResultSet()
+    private function createMockResultSet(): ResultSet
     {
         $resultSet = $this->createPartialMock(ResultSet::class, ['getResults']);
 

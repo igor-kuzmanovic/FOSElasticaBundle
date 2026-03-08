@@ -30,7 +30,7 @@ class PagerProviderRegistry
      *
      * Providers will be indexed by "index" strings in the returned array.
      *
-     * @return list<PagerProviderInterface<object>>
+     * @return array<string, PagerProviderInterface<object>>
      */
     public function getProviders(): array
     {

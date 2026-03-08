@@ -14,9 +14,15 @@ namespace FOS\ElasticaBundle\Tests\Unit\Mocks;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 
+/**
+ * @extends EntityRepository<object>
+ */
 class DoctrineORMCustomRepositoryMock extends EntityRepository
 {
-    public function createCustomQueryBuilder(): mixed {}
+    public function createCustomQueryBuilder(): mixed
+    {
+        return null;
+    }
 
     public function customQueryBuilderCreator(string $alias): QueryBuilder
     {

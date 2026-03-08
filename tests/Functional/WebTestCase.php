@@ -50,6 +50,9 @@ class WebTestCase extends BaseKernelTestCase
         $fs->remove($dir);
     }
 
+    /**
+     * @param array<string, mixed> $options
+     */
     protected static function createKernel(array $options = []): KernelInterface
     {
         $class = self::getKernelClass();

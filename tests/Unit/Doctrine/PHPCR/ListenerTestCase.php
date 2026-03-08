@@ -25,22 +25,34 @@ class ListenerTestCase extends AbstractListenerTestCase
         }
     }
 
-    protected function getClassMetadataClass()
+    /**
+     * @return class-string
+     */
+    protected function getClassMetadataClass(): string
     {
         return \Doctrine\ODM\PHPCR\Mapping\ClassMetadata::class;
     }
 
-    protected function getLifecycleEventArgsClass()
+    /**
+     * @return class-string
+     */
+    protected function getLifecycleEventArgsClass(): string
     {
         return \Doctrine\Persistence\Event\LifecycleEventArgs::class;
     }
 
-    protected function getListenerClass()
+    /**
+     * @return class-string
+     */
+    protected function getListenerClass(): string
     {
         return \FOS\ElasticaBundle\Doctrine\Listener::class;
     }
 
-    protected function getObjectManagerClass()
+    /**
+     * @return class-string
+     */
+    protected function getObjectManagerClass(): string
     {
         return \Doctrine\ODM\PHPCR\DocumentManager::class;
     }

@@ -26,7 +26,7 @@ class RepositoryManager implements RepositoryManagerInterface
     /** @var array<class-string<object>, string> */
     protected array $entities = [];
 
-    /** @var array<string, Repository<object, array<string, mixed>>> */
+    /** @var array<string, Repository<object>> */
     protected array $repositories = [];
 
     public function __construct(
@@ -57,7 +57,7 @@ class RepositoryManager implements RepositoryManagerInterface
      *
      * @param class-string<object> $entityName
      *
-     * @return Repository<object, array<string, mixed>>
+     * @return Repository<object>
      */
     public function getRepository(string $entityName): Repository
     {

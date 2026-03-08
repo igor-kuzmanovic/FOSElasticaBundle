@@ -37,6 +37,9 @@ class AliasProcessorTest extends TestCase
         $this->processor = new AliasProcessor();
     }
 
+    /**
+     * @param array<string, mixed> $configArray
+     */
     #[\PHPUnit\Framework\Attributes\DataProvider('getSetRootNameData')]
     public function testSetRootName(array $configArray, string $resultStartsWith): void
     {
@@ -50,17 +53,20 @@ class AliasProcessorTest extends TestCase
         $this->processor->setRootName($indexConfig, $index);
     }
 
+    /**
+     * @return array<int, array{0: array<string, mixed>, 1: string}>
+     */
     public static function getSetRootNameData()
     {
         return [
-            [['name' => 'name', 'config' => [], 'mapping' => [], 'model' => null], 'name_'],
-            [['elasticsearch_name' => 'notname', 'name' => 'name', 'config' => [], 'mapping' => [], 'model' => null], 'notname_'],
+            [['name' => 'name', 'config' => [], 'mapping' => []], 'name_'],
+            [['elasticsearch_name' => 'notname', 'name' => 'name', 'config' => [], 'mapping' => []], 'notname_'],
         ];
     }
 
     public function testSwitchAliasNoAliasSet(): void
     {
-        $indexConfig = new IndexConfig(['name' => 'name', 'config' => [], 'mapping' => [], 'model' => null]);
+        $indexConfig = new IndexConfig(['name' => 'name', 'config' => [], 'mapping' => []]);
         $index = $this->getIndexMock('unique_name');
         $indices = $this->getIndicesMock($this->getClientMock($index));
 
@@ -96,7 +102,7 @@ class AliasProcessorTest extends TestCase
 
     public function testSwitchAliasExistingAliasSet(): void
     {
-        $indexConfig = new IndexConfig(['name' => 'name', 'config' => [], 'mapping' => [], 'model' => null]);
+        $indexConfig = new IndexConfig(['name' => 'name', 'config' => [], 'mapping' => []]);
         $index = $this->getIndexMock('unique_name');
         $indices = $this->getIndicesMock($this->getClientMock($index));
 
@@ -134,7 +140,7 @@ class AliasProcessorTest extends TestCase
 
     public function testSwitchAliasThrowsWhenMoreThanOneExists(): void
     {
-        $indexConfig = new IndexConfig(['name' => 'name', 'config' => [], 'mapping' => [], 'model' => null]);
+        $indexConfig = new IndexConfig(['name' => 'name', 'config' => [], 'mapping' => []]);
         $index = $this->getIndexMock('unique_name');
         $indices = $this->getIndicesMock($this->getClientMock($index));
 
@@ -169,7 +175,7 @@ class AliasProcessorTest extends TestCase
 
     public function testSwitchAliasThrowsWhenAliasIsAnIndex(): void
     {
-        $indexConfig = new IndexConfig(['name' => 'name', 'config' => [], 'mapping' => [], 'model' => null]);
+        $indexConfig = new IndexConfig(['name' => 'name', 'config' => [], 'mapping' => []]);
         $index = $this->getIndexMock('unique_name');
         $indices = $this->getIndicesMock($this->getClientMock($index));
 
@@ -203,7 +209,7 @@ class AliasProcessorTest extends TestCase
 
     public function testSwitchAliasDeletesIndexCollisionIfForced(): void
     {
-        $indexConfig = new IndexConfig(['name' => 'name', 'config' => [], 'mapping' => [], 'model' => null]);
+        $indexConfig = new IndexConfig(['name' => 'name', 'config' => [], 'mapping' => []]);
         $index = $this->getIndexMock('unique_name');
         $indices = $this->getIndicesMock($this->getClientMock($index));
 
@@ -242,7 +248,7 @@ class AliasProcessorTest extends TestCase
 
     public function testSwitchAliasCloseOldIndex(): void
     {
-        $indexConfig = new IndexConfig(['name' => 'name', 'config' => [], 'mapping' => [], 'model' => null]);
+        $indexConfig = new IndexConfig(['name' => 'name', 'config' => [], 'mapping' => []]);
         $index = $this->getIndexMock('unique_name');
         $indices = $this->getIndicesMock($this->getClientMock($index));
 
@@ -280,7 +286,7 @@ class AliasProcessorTest extends TestCase
 
     public function testSwitchAliasCleansUpOnRenameFailure(): void
     {
-        $indexConfig = new IndexConfig(['name' => 'name', 'config' => [], 'mapping' => [], 'model' => null]);
+        $indexConfig = new IndexConfig(['name' => 'name', 'config' => [], 'mapping' => []]);
         $index = $this->getIndexMock('unique_name');
         $indices = $this->getIndicesMock($this->getClientMock($index));
 

@@ -38,6 +38,8 @@ class FilterObjectsListenerTest extends TestCase
 
     public function testCouldBeConstructedWithIndexableAsFirstArgument(): void
     {
+        $this->expectNotToPerformAssertions();
+
         new FilterObjectsListener($this->createIndexableMock());
     }
 
@@ -160,25 +162,25 @@ class FilterObjectsListenerTest extends TestCase
     }
 
     /**
-     * @return ObjectPersisterInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @return ObjectPersisterInterface<object>|\PHPUnit\Framework\MockObject\MockObject
      */
-    private function createObjectPersisterMock()
+    private function createObjectPersisterMock(): ObjectPersisterInterface
     {
         return $this->createMock(ObjectPersisterInterface::class);
     }
 
     /**
-     * @return PagerInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @return PagerInterface<object>|\PHPUnit\Framework\MockObject\MockObject
      */
-    private function createPagerMock()
+    private function createPagerMock(): PagerInterface
     {
         return $this->createMock(PagerInterface::class);
     }
 
     /**
-     * @return IndexableInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @return IndexableInterface<object>|\PHPUnit\Framework\MockObject\MockObject
      */
-    private function createIndexableMock()
+    private function createIndexableMock(): IndexableInterface
     {
         return $this->createMock(IndexableInterface::class);
     }

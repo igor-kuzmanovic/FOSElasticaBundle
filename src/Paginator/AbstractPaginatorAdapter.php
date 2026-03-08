@@ -25,7 +25,7 @@ use Elastica\SearchableInterface;
 abstract class AbstractPaginatorAdapter implements PaginatorAdapterInterface
 {
     /**
-     * @var ?int the number of hits
+     * @var ?int<0, max> the number of hits
      */
     private ?int $totalHits = null;
 
@@ -59,7 +59,7 @@ abstract class AbstractPaginatorAdapter implements PaginatorAdapterInterface
      * `hits.total` value from the search results instead of just returning
      * the requested size.
      *
-     * @return int The number of results
+     * @return int<0, max> The number of results
      */
     public function getTotalHits(bool $genuineTotal = false): int
     {
@@ -117,6 +117,9 @@ abstract class AbstractPaginatorAdapter implements PaginatorAdapterInterface
 
     /**
      * Returns the paginated results.
+     *
+     * @param int<0, max> $offset
+     * @param int<0, max> $itemCountPerPage
      *
      * @throws \InvalidArgumentException
      */

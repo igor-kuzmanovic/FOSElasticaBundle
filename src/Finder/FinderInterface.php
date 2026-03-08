@@ -31,9 +31,9 @@ interface FinderInterface
     /**
      * Searches for query results within a given limit.
      *
-     * @param TQuery   $query   Can be a string, an array or an \Elastica\Query object
-     * @param int|null $limit   How many results to get
-     * @param TOptions $options
+     * @param TQuery           $query   Can be a string, an array or an \Elastica\Query object
+     * @param int<0, max>|null $limit   How many results to get
+     * @param TOptions         $options
      *
      * @return array<TObject> results
      */

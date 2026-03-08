@@ -19,7 +19,7 @@ interface PartialResultsInterface
     /**
      * Returns the paginated results.
      *
-     * @return list<TResult>
+     * @return TResult[]
      */
     public function toArray(): array;
 

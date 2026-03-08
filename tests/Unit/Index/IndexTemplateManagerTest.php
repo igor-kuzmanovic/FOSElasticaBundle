@@ -25,11 +25,11 @@ class IndexTemplateManagerTest extends TestCase
     /**
      * Test get index template.
      *
-     * @param string      $name
-     * @param string|null $expectedException
+     * @param array<string, IndexTemplate>  $templates
+     * @param class-string<\Throwable>|null $expectedException
      */
     #[\PHPUnit\Framework\Attributes\DataProvider('provideTestGetIndexTemplate')]
-    public function testGetIndexTemplate(array $templates, $name, $expectedTemplate, $expectedException = null): void
+    public function testGetIndexTemplate(array $templates, string $name, ?IndexTemplate $expectedTemplate, ?string $expectedException = null): void
     {
         if (null !== $expectedException) {
             $this->expectException($expectedException);
@@ -38,13 +38,21 @@ class IndexTemplateManagerTest extends TestCase
         $this->assertSame($expectedTemplate, $templateManager->getIndexTemplate($name));
     }
 
-    public static function provideTestGetIndexTemplate()
+    /**
+     * @return array<string, array{
+     *     templates: array<string, IndexTemplate>,
+     *     name: string,
+     *     expectedTemplate: IndexTemplate|null,
+     *     expectedException?: class-string<\Throwable>
+     * }>
+     */
+    public static function provideTestGetIndexTemplate(): array
     {
         return [
             'empty templates' => [
                 'templates' => [],
                 'name' => 'any template',
-                'expectedTemplate' => [],
+                'expectedTemplate' => null,
                 'expectedException' => \InvalidArgumentException::class,
             ],
             'expected template found' => [

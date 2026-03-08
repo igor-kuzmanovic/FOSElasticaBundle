@@ -33,6 +33,7 @@ final class AsyncPagerPersister implements PagerPersisterInterface
 
     /**
      * @param PagerInterface<object> $pager
+     * @param TPagerPersisterOptions $options
      */
     public function insert(PagerInterface $pager, array $options = []): void
     {

@@ -23,21 +23,23 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 class POPO3
 {
-    public $id = 123;
-    public $name = 'someName';
-    public $float = 7.2;
-    public $bool = true;
-    public $falseBool = false;
-    public $date;
-    public $duration;
-    public $nullValue;
-    public $file;
-    public $fileContents;
+    public int $id = 123;
+    public string $name = 'someName';
+    public float $float = 7.2;
+    public bool $bool = true;
+    public bool $falseBool = false;
+    public \DateTime $date;
+    public \DateInterval $duration;
+    public mixed $nullValue = null;
+    public \SplFileInfo $file;
+    public string $fileContents;
 
     /**
      * test non-accessible private property.
+     *
+     * @phpstan-ignore property.onlyWritten (test fixture for private property access)
      */
-    private $desc = 'desc';
+    private string $desc = 'desc';
 
     public function __construct()
     {
@@ -47,17 +49,20 @@ class POPO3
         $this->fileContents = file_get_contents(__DIR__.'/fixtures/attachment.odt');
     }
 
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
-    public function getIterator()
+    /**
+     * @return \ArrayIterator<int, string>
+     */
+    public function getIterator(): \ArrayIterator
     {
         $iterator = new \ArrayIterator();
         $iterator->append('value1');
@@ -65,7 +70,10 @@ class POPO3
         return $iterator;
     }
 
-    public function getArray()
+    /**
+     * @return array<string, string>
+     */
+    public function getArray(): array
     {
         return [
             'key1' => 'value1',
@@ -73,7 +81,10 @@ class POPO3
         ];
     }
 
-    public function getMultiArray()
+    /**
+     * @return array<string, mixed>
+     */
+    public function getMultiArray(): array
     {
         return [
             'key1' => 'value1',
@@ -81,47 +92,50 @@ class POPO3
         ];
     }
 
-    public function getBool()
+    public function getBool(): bool
     {
         return $this->bool;
     }
 
-    public function getFalseBool()
+    public function getFalseBool(): bool
     {
         return $this->falseBool;
     }
 
-    public function getFloat()
+    public function getFloat(): float
     {
         return $this->float;
     }
 
-    public function getDate()
+    public function getDate(): \DateTime
     {
         return $this->date;
     }
 
-    public function getDuration()
+    public function getDuration(): \DateInterval
     {
         return $this->duration;
     }
 
-    public function getNullValue()
+    public function getNullValue(): mixed
     {
         return $this->nullValue;
     }
 
-    public function getFile()
+    public function getFile(): \SplFileInfo
     {
         return $this->file;
     }
 
-    public function getFileContents()
+    public function getFileContents(): string
     {
         return $this->fileContents;
     }
 
-    public function getSub()
+    /**
+     * @return list<object>
+     */
+    public function getSub(): array
     {
         return [
             (object) ['foo' => 'foo', 'bar' => 'foo', 'id' => 1],
@@ -129,32 +143,41 @@ class POPO3
         ];
     }
 
-    public function getObj()
+    /**
+     * @return array<string, mixed>
+     */
+    public function getObj(): array
     {
         return ['foo' => 'foo', 'bar' => 'foo', 'id' => 1];
     }
 
-    public function getNestedObject()
+    /**
+     * @return array<string, object>
+     */
+    public function getNestedObject(): array
     {
         return ['key1' => (object) ['id' => 1, 'key1sub1' => 'value1sub1', 'key1sub2' => 'value1sub2']];
     }
 
-    public function getUpper()
+    public function getUpper(): object
     {
         return (object) ['id' => 'parent', 'name' => 'a random name'];
     }
 
-    public function getUpperAlias()
+    public function getUpperAlias(): object
     {
         return $this->getUpper();
     }
 
-    public function getObjWithoutIdentifier()
+    public function getObjWithoutIdentifier(): object
     {
         return (object) ['foo' => 'foo', 'bar' => 'foo'];
     }
 
-    public function getSubWithoutIdentifier()
+    /**
+     * @return list<object>
+     */
+    public function getSubWithoutIdentifier(): array
     {
         return [
             (object) ['foo' => 'foo', 'bar' => 'foo'],
@@ -165,9 +188,9 @@ class POPO3
 
 class CastableObject
 {
-    public $foo;
+    public mixed $foo = null;
 
-    public function __toString()
+    public function __toString(): string
     {
         return $this->foo;
     }
@@ -546,18 +569,19 @@ class ModelToElasticaAutoTransformerTest extends TestCase
         $object->string = $stringEnum = FieldEnumString::FOO;
 
         $transformer = $this->getTransformer();
-        $document = $transformer->transform($object, ['int' => 'int', 'string' => 'string']);
+        $document = $transformer->transform($object, [
+            'int' => [],
+            'string' => [],
+        ]);
 
         $this->assertSame($intEnum->value, $document->get('int'));
         $this->assertSame($stringEnum->value, $document->get('string'));
     }
 
     /**
-     * @param EventDispatcherInterface|null $dispatcher
-     *
-     * @return ModelToElasticaAutoTransformer
+     * @return ModelToElasticaAutoTransformer<object>
      */
-    private function getTransformer($dispatcher = null)
+    private function getTransformer(?EventDispatcherInterface $dispatcher = null): ModelToElasticaAutoTransformer
     {
         $transformer = new ModelToElasticaAutoTransformer([], $dispatcher);
         $transformer->setPropertyAccessor(PropertyAccess::createPropertyAccessor());

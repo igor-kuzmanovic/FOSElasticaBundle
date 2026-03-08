@@ -295,7 +295,7 @@ class RegisterListenersServiceTest extends TestCase
     }
 
     /**
-     * @return MockObject|PagerInterface
+     * @return MockObject&PagerInterface<object>
      */
     private function createPagerMock(): MockObject
     {
@@ -303,7 +303,7 @@ class RegisterListenersServiceTest extends TestCase
     }
 
     /**
-     * @return MockObject|ObjectPersisterInterface
+     * @return MockObject&ObjectPersisterInterface<object>
      */
     private function createObjectPersisterMock(): MockObject
     {

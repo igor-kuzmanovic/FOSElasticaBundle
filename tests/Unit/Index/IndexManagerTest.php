@@ -20,6 +20,9 @@ use PHPUnit\Framework\TestCase;
  */
 class IndexManagerTest extends TestCase
 {
+    /**
+     * @var array<string, Index>
+     */
     private $indexes = [];
 
     /**

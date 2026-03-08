@@ -18,18 +18,15 @@ use PHPUnit\Framework\TestCase;
 
 class Entity
 {
-    public $identifier;
-    private $id;
+    public mixed $identifier = null;
+    private int $id;
 
-    /**
-     * @param int $id
-     */
-    public function __construct($id)
+    public function __construct(int $id)
     {
         $this->id = $id;
     }
 
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
@@ -37,9 +34,9 @@ class Entity
 
 class ConditionalUpdateEntity extends Entity
 {
-    private $shouldBeUpdated;
+    private bool $shouldBeUpdated;
 
-    public function __construct($id, $shouldBeUpdated)
+    public function __construct(int $id, bool $shouldBeUpdated)
     {
         parent::__construct($id);
         $this->shouldBeUpdated = $shouldBeUpdated;
@@ -272,8 +269,10 @@ abstract class AbstractListenerTestCase extends TestCase
     public function testConditionalUpdateObjectInsertedOnPersistWhenShouldBeUpdatedIsTrue(): void
     {
         $entity = new ConditionalUpdateEntity(1, true);
+        // @phpstan-ignore argument.type (ConditionalUpdateEntity extends Entity)
         $persister = $this->getMockPersister($entity, 'index');
         $eventArgs = $this->createLifecycleEventArgs($entity, $this->getMockObjectManager());
+        // @phpstan-ignore argument.type (ConditionalUpdateEntity extends Entity)
         $indexable = $this->getMockIndexable('index', $entity, true);
 
         $listener = $this->createListener($persister, $indexable, ['indexName' => 'index']);
@@ -292,8 +291,10 @@ abstract class AbstractListenerTestCase extends TestCase
     public function testConditionalUpdateObjectNotInsertedOnPersistWhenShouldBeUpdatedIsFalse(): void
     {
         $entity = new ConditionalUpdateEntity(1, false);
+        // @phpstan-ignore argument.type (ConditionalUpdateEntity extends Entity)
         $persister = $this->getMockPersister($entity, 'index');
         $eventArgs = $this->createLifecycleEventArgs($entity, $this->getMockObjectManager());
+        // @phpstan-ignore argument.type (ConditionalUpdateEntity extends Entity)
         $indexable = $this->getMockIndexable('index', $entity, true);
 
         $listener = $this->createListener($persister, $indexable, ['indexName' => 'index']);
@@ -311,8 +312,10 @@ abstract class AbstractListenerTestCase extends TestCase
     public function testConditionalUpdateObjectReplacedOnUpdateWhenShouldBeUpdatedIsTrue(): void
     {
         $entity = new ConditionalUpdateEntity(1, true);
+        // @phpstan-ignore argument.type (ConditionalUpdateEntity extends Entity)
         $persister = $this->getMockPersister($entity, 'index');
         $eventArgs = $this->createLifecycleEventArgs($entity, $this->getMockObjectManager());
+        // @phpstan-ignore argument.type (ConditionalUpdateEntity extends Entity)
         $indexable = $this->getMockIndexable('index', $entity, true);
 
         $listener = $this->createListener($persister, $indexable, ['indexName' => 'index']);
@@ -334,8 +337,10 @@ abstract class AbstractListenerTestCase extends TestCase
     public function testConditionalUpdateObjectNotReplacedOnUpdateWhenShouldBeUpdatedIsFalse(): void
     {
         $entity = new ConditionalUpdateEntity(1, false);
+        // @phpstan-ignore argument.type (ConditionalUpdateEntity extends Entity)
         $persister = $this->getMockPersister($entity, 'index');
         $eventArgs = $this->createLifecycleEventArgs($entity, $this->getMockObjectManager());
+        // @phpstan-ignore argument.type (ConditionalUpdateEntity extends Entity)
         $indexable = $this->getMockIndexable('index', $entity, true);
 
         $listener = $this->createListener($persister, $indexable, ['indexName' => 'index']);
@@ -353,45 +358,60 @@ abstract class AbstractListenerTestCase extends TestCase
         $listener->postFlush($eventArgs);
     }
 
-    abstract protected function getLifecycleEventArgsClass();
-
-    abstract protected function getListenerClass();
+    /**
+     * @return class-string
+     */
+    abstract protected function getLifecycleEventArgsClass(): string;
 
     /**
-     * @return string
+     * @return class-string
      */
-    abstract protected function getObjectManagerClass();
+    abstract protected function getListenerClass(): string;
 
     /**
-     * @return string
+     * @return class-string
      */
-    abstract protected function getClassMetadataClass();
+    abstract protected function getObjectManagerClass(): string;
 
-    private function createLifecycleEventArgs()
+    /**
+     * @return class-string
+     */
+    abstract protected function getClassMetadataClass(): string;
+
+    private function createLifecycleEventArgs(): object
     {
         $refl = new \ReflectionClass($this->getLifecycleEventArgsClass());
 
         return $refl->newInstanceArgs(\func_get_args());
     }
 
-    private function createListener()
+    private function createListener(): object
     {
         $refl = new \ReflectionClass($this->getListenerClass());
 
         return $refl->newInstanceArgs(\func_get_args());
     }
 
-    private function getMockClassMetadata()
+    /**
+     * @return object&\PHPUnit\Framework\MockObject\MockObject
+     */
+    private function getMockClassMetadata(): object
     {
         return $this->createMock($this->getClassMetadataClass());
     }
 
-    private function getMockObjectManager()
+    /**
+     * @return object&\PHPUnit\Framework\MockObject\MockObject
+     */
+    private function getMockObjectManager(): object
     {
         return $this->createMock($this->getObjectManagerClass());
     }
 
-    private function getMockPersister(Entity $object, $indexName)
+    /**
+     * @return ObjectPersister<Entity>&\PHPUnit\Framework\MockObject\MockObject
+     */
+    private function getMockPersister(Entity $object, mixed $indexName): ObjectPersister
     {
         $mock = $this->createMock(ObjectPersister::class);
 
@@ -410,7 +430,10 @@ abstract class AbstractListenerTestCase extends TestCase
         return $mock;
     }
 
-    private function getMockIndexable($indexName, ?Entity $object = null, $return = null)
+    /**
+     * @return IndexableInterface<Entity>&\PHPUnit\Framework\MockObject\MockObject
+     */
+    private function getMockIndexable(mixed $indexName, ?Entity $object = null, mixed $return = null): IndexableInterface
     {
         $mock = $this->createMock(IndexableInterface::class);
 

@@ -16,9 +16,9 @@ use Elastica\Document;
 /**
  * Creates an Elastica document with the ID of the Doctrine object as Elastica document ID.
  *
- * @template T of object
+ * @template TObject of object
  *
- * @extends ModelToElasticaAutoTransformer<T>
+ * @extends ModelToElasticaAutoTransformer<TObject>
  *
  * @phpstan-import-type TFields from ModelToElasticaTransformerInterface
  */
@@ -27,7 +27,7 @@ class ModelToElasticaIdentifierTransformer extends ModelToElasticaAutoTransforme
     /**
      * Creates an elastica document with the id of the doctrine object as id.
      *
-     * @param T       $object
+     * @param TObject $object
      * @param TFields $fields
      */
     public function transform(object $object, array $fields): Document

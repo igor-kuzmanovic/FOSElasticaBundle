@@ -29,6 +29,7 @@ class PopulateListenerTest extends TestCase
         $stub = $this->mockResetter(1, $indexName, $deleteOption);
         $listener = new PopulateListener($stub);
 
+        // @phpstan-ignore argument.type (test data uses partial options shape)
         $event = new PostIndexPopulateEvent($indexName, true, ['delete' => $deleteOption]);
         $listener->onPostIndexPopulate($event);
     }
@@ -41,11 +42,15 @@ class PopulateListenerTest extends TestCase
         $stub = $this->mockResetter(0, $indexName, $deleteOption);
         $listener = new PopulateListener($stub);
 
+        // @phpstan-ignore argument.type (test data uses partial options shape)
         $event = new PostIndexPopulateEvent($indexName, false, ['delete' => $deleteOption]);
         $listener->onPostIndexPopulate($event);
     }
 
-    private function mockResetter($numberOfCalls, $indexName, $deleteOption)
+    /**
+     * @return Resetter&\PHPUnit\Framework\MockObject\MockObject
+     */
+    private function mockResetter(int $numberOfCalls, string $indexName, bool $deleteOption): Resetter
     {
         $stub = $this
             ->getMockBuilder(Resetter::class)

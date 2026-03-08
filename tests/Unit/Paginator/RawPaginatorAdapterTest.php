@@ -72,7 +72,7 @@ class RawPaginatorAdapterTest extends UnitTestHelper
         $this->assertSame($query, $adapter->getQuery());
     }
 
-    protected function mockResultSet()
+    protected function mockResultSet(): ResultSet
     {
         $methods = ['getTotalHits', 'getAggregations', 'getSuggests', 'getMaxScore'];
 
@@ -84,7 +84,7 @@ class RawPaginatorAdapterTest extends UnitTestHelper
         ;
     }
 
-    private function createAdapterWithSearch($methodName, $value)
+    private function createAdapterWithSearch(string $methodName, mixed $value): RawPaginatorAdapter
     {
         $resultSet = $this->mockResultSet();
         $resultSet
@@ -106,7 +106,7 @@ class RawPaginatorAdapterTest extends UnitTestHelper
         return new RawPaginatorAdapter($searchable, $query, $options);
     }
 
-    private function createAdapterWithCount($totalHits, $querySize = null)
+    private function createAdapterWithCount(int $totalHits, ?int $querySize = null): RawPaginatorAdapter
     {
         $query = new Query();
         if ($querySize) {

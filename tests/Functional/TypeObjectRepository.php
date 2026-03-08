@@ -13,4 +13,7 @@ namespace FOS\ElasticaBundle\Tests\Functional;
 
 use FOS\ElasticaBundle\Repository;
 
+/**
+ * @extends Repository<TypeObject>
+ */
 class TypeObjectRepository extends Repository {}

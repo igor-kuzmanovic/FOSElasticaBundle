@@ -38,7 +38,10 @@ class ElasticaToModelTransformerTest extends TestCase
      */
     protected $repository;
 
-    protected $objectClass = 'stdClass';
+    /**
+     * @var class-string
+     */
+    protected string $objectClass = 'stdClass';
 
     protected function setUp(): void
     {

@@ -6,4 +6,14 @@ parameters:
     reportUnmatchedIgnoredErrors: true
     paths:
         - src
+        - tests
     ignoreErrors:
+        -
+            message: '#Match expression does not handle remaining values#'
+            path: tests
+        -
+            message: '#Call to method PHPUnit\\Framework\\Assert::assertInstanceOf\(\) with .* will always evaluate to true#'
+            path: tests
+        -
+            message: '#Call to new .* on a separate line has no effect#'
+            path: tests
