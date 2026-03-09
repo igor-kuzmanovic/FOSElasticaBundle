@@ -13,13 +13,10 @@ namespace FOS\ElasticaBundle\Persister;
 
 use Symfony\Component\DependencyInjection\ServiceLocator;
 
-/**
- * @template TObject of object = object
- */
 class PersisterRegistry
 {
     /**
-     * @param ServiceLocator<ObjectPersisterInterface<TObject>> $persisters
+     * @param ServiceLocator<ObjectPersisterInterface<object>> $persisters
      */
     public function __construct(
         private readonly ServiceLocator $persisters,
@@ -28,7 +25,7 @@ class PersisterRegistry
     /**
      * Gets the persister for an index.
      *
-     * @return ObjectPersisterInterface<TObject>
+     * @return ObjectPersisterInterface<object>
      *
      * @throws \InvalidArgumentException if no persister was registered for the index
      */
