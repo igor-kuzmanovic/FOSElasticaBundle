@@ -117,7 +117,7 @@ jobs:
           - '7.4.*'
           - '8.0.*'
         elasticsearch:
-          - '8.19.12'
+          - '9.3.1'
         dependencies:
           - 'highest'
         exclude:
@@ -128,7 +128,7 @@ jobs:
         include:
           - php: '8.2'
             symfony: '7.4.*'
-            elasticsearch: '8.19.12'
+            elasticsearch: '9.3.1'
             dependencies: 'lowest'
       fail-fast: false
 

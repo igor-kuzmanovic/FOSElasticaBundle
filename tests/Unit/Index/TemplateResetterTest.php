@@ -70,7 +70,7 @@ final class TemplateResetterTest extends TestCase
     {
         // assemble
         $names = ['first_template'];
-        $mapping = ['properties' => []];
+        $mapping = ['index_patterns' => ['first_template_*'], 'template' => ['mappings' => ['properties' => []]]];
         $this->configManager
             ->method('getIndexNames')
             ->willReturn($names)
@@ -113,7 +113,7 @@ final class TemplateResetterTest extends TestCase
         $templateName = 'index_template';
         $indexPatterns = ['first_template_index'];
         $names = [$templateName];
-        $mapping = ['properties' => []];
+        $mapping = ['index_patterns' => $indexPatterns, 'template' => ['mappings' => ['properties' => []]]];
         $this->configManager
             ->method('getIndexNames')
             ->willReturn($names)
@@ -179,7 +179,7 @@ final class TemplateResetterTest extends TestCase
     {
         // assemble
         $name = 'first_template';
-        $mapping = ['properties' => []];
+        $mapping = ['index_patterns' => ['first_template_*'], 'template' => ['mappings' => ['properties' => []]]];
         $this->configManager
             ->method('getIndexConfiguration')
             ->with('first_template')
@@ -217,7 +217,7 @@ final class TemplateResetterTest extends TestCase
         // assemble
         $templateName = 'index_template';
         $indexPatterns = ['first_template_index'];
-        $mapping = ['properties' => []];
+        $mapping = ['index_patterns' => $indexPatterns, 'template' => ['mappings' => ['properties' => []]]];
         $indexTemplateConfig = $this->createMock(IndexTemplateConfig::class);
         $this->configManager
             ->method('getIndexConfiguration')

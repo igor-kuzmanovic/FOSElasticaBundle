@@ -126,7 +126,7 @@ final class ResetTemplatesCommandTest extends WebTestCase
 
     private function clearTemplates(): void
     {
-        $this->elasticClient->indices()->deleteTemplate(['name' => '*']);
+        $this->elasticClient->indices()->deleteIndexTemplate(['name' => 'index_template_*']);
     }
 
     /**
@@ -134,8 +134,8 @@ final class ResetTemplatesCommandTest extends WebTestCase
      */
     private function fetchAllTemplates(): array
     {
-        $reponse = $this->elasticClient->indices()->getTemplate();
+        $data = $this->elasticClient->toElasticaResponse($this->elasticClient->indices()->getIndexTemplate())->getData();
 
-        return $this->elasticClient->toElasticaResponse($reponse)->getData();
+        return array_column($data['index_templates'] ?? [], 'index_template', 'name');
     }
 }

@@ -1,9 +1,9 @@
 Index templates
 ================
 
-Index templates allow you to define templates that will automatically be applied when new indices are created 
-(see more in [official documentation](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/indices-templates.html)).
-Index Templates widely is used to create historically indexes:
+Index templates allow you to define templates that will automatically be applied when new indices are created
+(see more in [official documentation](https://www.elastic.co/docs/manage-data/data-store/templates)).
+Index templates widely is used to create historical indexes:
 
 * storing logs (Kibana) to prevent index growing because of incorrectly mapped fields
 * metrics (Marvel) to archive or delete old information
@@ -22,11 +22,9 @@ fos_elastica:
             settings:
                 number_of_shards: 1
                 number_of_replicas: 0
-            types:
+            properties:
                 auto_suggest:
-                    mappings:
-                        <field name>:  <params>
-                         ...
+                    type: text
 ```
 
 Index template is similar to index configuration and has the same fields like `settings`, `client`, etc. with additional fields:
@@ -37,7 +35,7 @@ Index template is similar to index configuration and has the same fields like `s
 To apply templates changes, you should run `fos:elastica:reset-templates` command:
 
 * `--index` - index template name to reset. If no index template name specified than all templates will be reset
-* `--force-delete` - will delete all indexes that match index templates patterns. Aware that pattern may match various indexes. Note that in order to use this feature in Elasticsearch 8+ you *MUST* set the configuration option `action.destructive_requires_name` to `false`.
+* `--force-delete` - will delete all indexes that match index templates patterns. Aware that pattern may match various indexes. Note that in order to use this feature in Elasticsearch 9 you *MUST* set the configuration option `action.destructive_requires_name` to `false`.
 
 You must run the following command to sync templates configuration on ES server with YAML configurations:
 ```bash
