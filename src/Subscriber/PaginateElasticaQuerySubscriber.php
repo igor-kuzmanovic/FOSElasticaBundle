@@ -140,7 +140,17 @@ class PaginateElasticaQuerySubscriber implements EventSubscriberInterface
     private function getFromRequest(?string $key): mixed
     {
         if (null !== $key && null !== $request = $this->getRequest()) {
-            return $request->get($key);
+            if ($request->attributes->has($key)) {
+                return $request->attributes->get($key);
+            }
+
+            if ($request->query->has($key)) {
+                return $request->query->get($key);
+            }
+
+            if ($request->request->has($key)) {
+                return $request->request->get($key);
+            }
         }
 
         return null;

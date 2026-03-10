@@ -16,15 +16,24 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 return static function (ContainerConfigurator $container): void {
     $container->import(__DIR__.'/./../config/config.php');
 
+    $doctrineOrmConfig = [
+        'auto_generate_proxy_classes' => false,
+        'auto_mapping' => false,
+        'controller_resolver' => [
+            'auto_mapping' => false,
+        ],
+    ];
+
+    if (\PHP_VERSION_ID >= 80400 && \Symfony\Component\HttpKernel\Kernel::VERSION_ID >= 80000) {
+        $doctrineOrmConfig['enable_native_lazy_objects'] = true;
+    }
+
     $container->extension('doctrine', [
         'dbal' => [
             'path' => '%kernel.cache_dir%/db.sqlite',
             'charset' => 'UTF8',
         ],
-        'orm' => [
-            'auto_generate_proxy_classes' => false,
-            'auto_mapping' => false,
-        ],
+        'orm' => $doctrineOrmConfig,
     ]);
 
     $container->services()

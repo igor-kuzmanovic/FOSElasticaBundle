@@ -17,6 +17,9 @@ return static function (ContainerConfigurator $container): void {
     $container->extension('framework', [
         'test' => true,
         'secret' => 'secret',
+        'property_info' => [
+            'with_constructor_extractor' => true,
+        ],
     ]);
 
     $container->services()
