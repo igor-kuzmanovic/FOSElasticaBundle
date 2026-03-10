@@ -42,13 +42,11 @@
         "symfony/stopwatch": "^7.4 || ^8.0"
     },
     "require-dev": {
-        "doctrine/doctrine-bundle": "^2.18",
+        "doctrine/doctrine-bundle": "^2.18 || ^3.2",
         "doctrine/mongodb-odm": "^2.16",
         "doctrine/orm": "^3.6",
-        "doctrine/phpcr-odm": "^2.1",
         "ergebnis/composer-normalize": "^2.50",
         "guzzlehttp/guzzle": "^7.10",
-        "jackalope/jackalope-doctrine-dbal": "^2.0",
         "jms/serializer": "^3.32",
         "jms/serializer-bundle": "^5.5",
         "knplabs/knp-components": "^5.2",

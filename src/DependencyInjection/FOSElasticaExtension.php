@@ -18,6 +18,7 @@ use FOS\ElasticaBundle\Elastica\NodePool\RoundRobinNoResurrect;
 use FOS\ElasticaBundle\Elastica\NodePool\RoundRobinResurrect;
 use FOS\ElasticaBundle\Finder\TransformedFinder;
 use FOS\ElasticaBundle\Manager\RepositoryManagerInterface;
+use Symfony\Component\Config\Definition\ConfigurationInterface;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ChildDefinition;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
@@ -135,10 +136,8 @@ class FOSElasticaExtension extends Extension
 
     /**
      * @param array<mixed> $config
-     *
-     * @return Configuration
      */
-    public function getConfiguration(array $config, ContainerBuilder $container)
+    public function getConfiguration(array $config, ContainerBuilder $container): ?ConfigurationInterface
     {
         return new Configuration((bool) $container->getParameter('kernel.debug'));
     }
@@ -589,7 +588,6 @@ class FOSElasticaExtension extends Extension
         switch ($driver) {
             case 'orm':
             case 'mongodb':
-            case 'phpcr':
                 $providerDef = new ChildDefinition('fos_elastica.pager_provider.prototype.'.$driver);
                 $providerDef->replaceArgument(2, $indexConfig['model']);
                 $providerDef->replaceArgument(3, $baseConfig);
@@ -638,9 +636,6 @@ class FOSElasticaExtension extends Extension
             case 'orm':
                 $tagName = 'doctrine.event_listener';
                 break;
-            case 'phpcr':
-                $tagName = 'doctrine_phpcr.event_listener';
-                break;
             case 'mongodb':
                 $tagName = 'doctrine_mongodb.odm.event_listener';
                 break;
@@ -682,7 +677,6 @@ class FOSElasticaExtension extends Extension
     {
         $eventsClass = match ($indexConfig['driver']) {
             'orm' => \Doctrine\ORM\Events::class,
-            'phpcr' => \Doctrine\ODM\PHPCR\Event::class,
             'mongodb' => \Doctrine\ODM\MongoDB\Events::class,
             default => throw new \InvalidArgumentException(\sprintf('Cannot determine events for driver "%s"', $indexConfig['driver'])),
         };

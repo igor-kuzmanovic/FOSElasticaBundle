@@ -97,12 +97,6 @@ parameters:
 			path: src/DependencyInjection/Configuration.php
 
 		-
-			message: '#^Call to an undefined method Doctrine\\Persistence\\ObjectRepository\<TObject of object\>\:\:findMany\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: src/Doctrine/PHPCR/ElasticaToModelTransformer.php
-
-		-
 			message: '#^Parameter \#1 \$params of method Elastic\\Elasticsearch\\Endpoints\\Indices\:\:close\(\) expects array\{index\: list, timeout\: Elastic\\Elasticsearch\\Endpoints\\time, master_timeout\: Elastic\\Elasticsearch\\Endpoints\\time, ignore_unavailable\: bool, allow_no_indices\: bool, expand_wildcards\: Elastic\\Elasticsearch\\Endpoints\\enum, wait_for_active_shards\: string, pretty\: bool, \.\.\.\}, array\{index\: string\} given\.$#'
 			identifier: argument.type
 			count: 1

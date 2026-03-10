@@ -20,7 +20,7 @@ fos_elastica:
                 provider: ~
 ```
 
-There are other providers Doctrine MongoDB, Doctrine PHPCR available.
+There are other providers Doctrine MongoDB available.
 
 
 Provider options

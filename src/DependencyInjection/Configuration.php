@@ -19,7 +19,7 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 class Configuration implements ConfigurationInterface
 {
-    private const SUPPORTED_DRIVERS = ['orm', 'mongodb', 'phpcr'];
+    private const SUPPORTED_DRIVERS = ['orm', 'mongodb'];
 
     public function __construct(
         /**

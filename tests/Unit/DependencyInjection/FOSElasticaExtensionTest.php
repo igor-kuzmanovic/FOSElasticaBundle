@@ -17,7 +17,6 @@ use Elastic\Elasticsearch\Transport\RequestOptions;
 use FOS\ElasticaBundle\DependencyInjection\FOSElasticaExtension;
 use FOS\ElasticaBundle\Doctrine\MongoDBPagerProvider;
 use FOS\ElasticaBundle\Doctrine\ORMPagerProvider;
-use FOS\ElasticaBundle\Doctrine\PHPCRPagerProvider;
 use FOS\ElasticaBundle\Doctrine\RegisterListenersService;
 use FOS\ElasticaBundle\Persister\InPlacePagerPersister;
 use FOS\ElasticaBundle\Persister\Listener\FilterObjectsListener;
@@ -202,71 +201,6 @@ final class FOSElasticaExtensionTest extends TestCase
         $this->assertSame(
             MongoDBPagerProvider::class,
             $container->getDefinition('fos_elastica.pager_provider.prototype.mongodb')->getClass()
-        );
-    }
-
-    public function testShouldRegisterDoctrinePHPCRPagerProviderIfEnabled(): void
-    {
-        if (!class_exists(\Doctrine\ODM\PHPCR\DocumentManager::class)) {
-            $this->markTestSkipped('Doctrine PHPCR is not present');
-        }
-
-        $container = new ContainerBuilder();
-        $container->setParameter('kernel.debug', true);
-
-        $extension = new FOSElasticaExtension();
-        $extension->load(
-            [
-                'fos_elastica' => [
-                    'clients' => [
-                        'default' => ['hosts' => ['a_host:a_port']],
-                    ],
-                    'indexes' => [
-                        'acme_index' => [
-                            'persistence' => [
-                                'driver' => 'phpcr',
-                                'model' => 'theModelClass',
-                                'provider' => null,
-                                'listener' => null,
-                                'finder' => null,
-                            ],
-                            'properties' => ['text' => null],
-                        ],
-                    ],
-                ],
-            ],
-            $container
-        );
-
-        $this->assertTrue($container->hasDefinition('fos_elastica.pager_provider.acme_index'));
-
-        $definition = $container->getDefinition('fos_elastica.pager_provider.acme_index');
-        $this->assertInstanceOf(ChildDefinition::class, $definition);
-        $this->assertSame('fos_elastica.pager_provider.prototype.phpcr', $definition->getParent());
-        $this->assertSame('theModelClass', $definition->getArgument(2));
-        $this->assertSame(
-            [
-                'batch_size' => 100,
-                'clear_object_manager' => true,
-                'debug_logging' => true,
-                'query_builder_method' => 'createQueryBuilder',
-            ],
-            $definition->getArgument(3)
-        );
-
-        $this->assertSame(
-            [
-                'fos_elastica.pager_provider' => [
-                    ['index' => 'acme_index'],
-                ],
-            ],
-            $definition->getTags()
-        );
-
-        $this->assertTrue($container->hasDefinition('fos_elastica.pager_provider.prototype.phpcr'));
-        $this->assertSame(
-            PHPCRPagerProvider::class,
-            $container->getDefinition('fos_elastica.pager_provider.prototype.phpcr')->getClass()
         );
     }
 

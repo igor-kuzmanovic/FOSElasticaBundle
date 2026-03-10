@@ -266,36 +266,6 @@ final class RegisterListenersServiceTest extends TestCase
         ]);
     }
 
-    public function testShouldIgnoreDebugLoggingOptionForPHPCRManager(): void
-    {
-        if (!interface_exists(\Doctrine\ODM\PHPCR\DocumentManagerInterface::class)) {
-            $this->markTestSkipped('Doctrine PHPCR is not present');
-        }
-
-        $dispatcher = $this->createDispatcherMock();
-        $dispatcher
-            ->expects($this->never())
-            ->method('addListener')
-        ;
-
-        $service = new RegisterListenersService($dispatcher);
-
-        $manager = $this->createStub(\Doctrine\ODM\PHPCR\DocumentManagerInterface::class);
-
-        $pager = $this->createPagerMock();
-
-        $service->register($manager, $pager, [
-            'clear_object_manager' => false,
-            'sleep' => 0,
-        ]);
-
-        $service->register($manager, $pager, [
-            'clear_object_manager' => false,
-            'sleep' => 0,
-            'debug_logging' => false,
-        ]);
-    }
-
     /**
      * @return MockObject&PagerInterface<object>
      */

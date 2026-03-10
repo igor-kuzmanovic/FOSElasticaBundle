@@ -288,7 +288,7 @@ fos_elastica:
     indexes:
         user:
             persistence:
-                driver: orm #the driver can be orm, mongodb or phpcr
+                driver: orm #the driver can be orm or mongodb
                 model: Application\UserBundle\Entity\User
                 listener: ~ # by default, listens to "insert", "update" and "delete"
 ```

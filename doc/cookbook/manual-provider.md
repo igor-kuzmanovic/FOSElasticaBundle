@@ -37,7 +37,6 @@ class UserPagerProvider implements PagerProviderInterface
 There are some examples:
 
 * [ORMPagerProvider](../../src/Doctrine/ORMPagerProvider.php)
-* [PHPCRPagerProvider](../../src/Doctrine/PHPCRPagerProvider.php)
 * [MongoDBPagerProvider](../../src/Doctrine/MongoDBPagerProvider.php)
 
 [Back to index](../index.md)

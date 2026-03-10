@@ -106,7 +106,7 @@ fos_elastica:
     indexes:
         user:
             persistence:
-                # the driver can be orm, mongodb or phpcr
+                # the driver can be orm or mongodb
                 driver: orm
                 model: Acme\ApplicationBundle\Entity\User
                 provider: ~
