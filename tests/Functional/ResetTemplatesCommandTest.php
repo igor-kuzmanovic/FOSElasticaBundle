@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace FOS\ElasticaBundle\Tests\Functional;
 
+use Elastic\Elasticsearch\Exception\ClientResponseException;
 use FOS\ElasticaBundle\Elastica\Client;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -126,7 +127,13 @@ final class ResetTemplatesCommandTest extends WebTestCase
 
     private function clearTemplates(): void
     {
-        $this->elasticClient->indices()->deleteIndexTemplate(['name' => 'index_template_*']);
+        try {
+            $this->elasticClient->indices()->deleteIndexTemplate(['name' => 'index_template_*']);
+        } catch (ClientResponseException $e) {
+            if (404 !== $e->getCode()) {
+                throw $e;
+            }
+        }
     }
 
     /**
