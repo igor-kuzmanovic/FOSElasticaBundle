@@ -50,7 +50,7 @@ final class FOSElasticaExtensionTest extends TestCase
         $this->assertFalse($containerBuilder->hasDefinition('fos_elastica.object_persister.test_index'));
     }
 
-    public function testYamlConfiguration(): void
+    public function testPhpConfiguration(): void
     {
         $containerBuilder = new ContainerBuilder();
         $containerBuilder->registerExtension($extension = new FOSElasticaExtension());
