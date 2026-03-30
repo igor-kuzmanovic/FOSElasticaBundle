@@ -22,6 +22,7 @@ return (new PhpCsFixer\Config())
         'native_constant_invocation' => true,
         'native_function_invocation' => [
             'include' => ['@all'],
+            'exclude' => ['service', 'abstract_arg', 'param', 'tagged_locator', 'tagged_iterator', 'inline_service', 'env'],
         ],
         'no_alias_functions' => true,
         'nullable_type_declaration_for_default_null_value' => true,

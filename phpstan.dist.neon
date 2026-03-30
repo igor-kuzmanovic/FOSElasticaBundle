@@ -33,3 +33,6 @@ parameters:
           path: src/Finder/PaginatedHybridFinderInterface.php
         - message: '/PHPDoc tag @return contains generic type Pagerfanta\\PagerfantaInterface<Elastica\\Result> but interface Pagerfanta\\PagerfantaInterface is not generic/'
           path: src/Finder/PaginatedRawFinderInterface.php
+        # Symfony 7.4+ added generic type annotations to Config component classes
+        - message: '/Call to method \w+\(\) on an unknown class Symfony\\Component\\Config\\Definition\\Builder\\\w+<.*>/'
+          path: src/DependencyInjection/Configuration.php

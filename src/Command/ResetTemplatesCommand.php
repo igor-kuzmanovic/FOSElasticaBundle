@@ -34,10 +34,7 @@ final class ResetTemplatesCommand extends Command
         $this->resetter = $resetter;
     }
 
-    /**
-     * @return void
-     */
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setName('fos:elastica:reset-templates')
