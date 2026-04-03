@@ -100,7 +100,7 @@ return static function (ContainerConfigurator $container): void {
             'third_index' => [
                 'index_name' => 'foselastica_orm_test_third_%kernel.environment%',
                 'indexable_callback' => [
-                    service('indexable_service'),
+                    '@indexable_service',
                     'isIndexable',
                 ],
                 'persistence' => [
